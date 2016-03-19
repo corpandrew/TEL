@@ -16,5 +16,7 @@
     <string name="navigation_ten">Additional Solutions</string>
 
     <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+
     <string name="loading_text">Practical solutions to problems of poverty. No internet required.</string>
 </resources>
