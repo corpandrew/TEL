@@ -1,5 +1,6 @@
 package corp.andrew.tel;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -9,6 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,6 +36,26 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        final List<ListItem> solutionList = new ArrayList<>();
+        ListItem coolbot = new ListItem("Coolbot","Store It Cold, LLC", R.drawable.coolbot,false);
+        for(int i = 0; i <= 9; i++){
+            solutionList.add(coolbot);
+        }
+
+        ListItemAdapter listItemAdapter = new ListItemAdapter(this, 0, solutionList);
+
+        final ListView listView = (ListView) findViewById(R.id.ListView);
+        listView.setAdapter(listItemAdapter);
+
+        // When the list is clicked
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(),"Clicked it!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
