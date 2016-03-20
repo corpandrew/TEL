@@ -13,6 +13,7 @@ public class ListItem extends Activity {
     private boolean isFavorite;
 
     public ListItem(String solutionName, String solutionCompany, int imageName, boolean isFavorite) {
+        this.solutionName = solutionName;
         this.solutionCompany = solutionCompany;
         this.imageId = imageName;
         this.isFavorite = isFavorite;
