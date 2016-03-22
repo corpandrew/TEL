@@ -20,7 +20,6 @@ public class ListItemAdapter extends ArrayAdapter<ListItem> {
 
     private LayoutInflater inflater;
     int i = 0;
-    boolean favorite = false;
 
     public ListItemAdapter(Context context, int resourceId, List<ListItem> list) {
         super(context,resourceId,list);
@@ -42,20 +41,19 @@ public class ListItemAdapter extends ArrayAdapter<ListItem> {
         solutionPicture.setImageResource(item.getImageId());
 
         final ImageView favoritePicture = (ImageView) view.findViewById(R.id.favoritePicture);
-        favoritePicture.setImageResource(R.drawable.ic_favorite_border_black_24px);
-        favorite = false;
-        item.setIsFavorite(false);
+        if(!item.isFavorite())
+            favoritePicture.setImageResource(R.drawable.ic_favorite_border_black_24px);
+        else
+            favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
 
         favoritePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!favorite){
+                if(!item.isFavorite()){
                     favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
-                    favorite = true;
                     item.setIsFavorite(true);
                 } else {
                     favoritePicture.setImageResource(R.drawable.ic_favorite_border_black_24px);
-                    favorite = false;
                     item.setIsFavorite(false);
                 }
             }
@@ -64,6 +62,7 @@ public class ListItemAdapter extends ArrayAdapter<ListItem> {
         if(i % 2 == 0){
             view.setBackgroundColor(parent.getResources().getColor(R.color.grey));
         }
+
         i++;
 
         return view;

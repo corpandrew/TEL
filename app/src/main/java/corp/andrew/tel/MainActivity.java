@@ -1,6 +1,5 @@
 package corp.andrew.tel;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,8 +17,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import json.Parsing;
+import json.Solution;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    List<Solution> allSolutions;
+    List<ListItem> alllistItemSolutions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +42,22 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        final List<ListItem> solutionList = new ArrayList<>();
-        ListItem coolbot = new ListItem("Coolbot","Store It Cold, LLC", R.drawable.coolbot,false);
-        for(int i = 0; i <= 9; i++){
-            solutionList.add(coolbot);
+        Parsing parsing = new Parsing();
+
+        allSolutions = parsing.parseJson(this);
+
+        List<ListItem> solutions = new ArrayList<>();
+        long startTime = System.nanoTime();
+        //final List<Solution> solutionList = parsing.parseJson(this);
+
+        for(Solution s : allSolutions){
+            ListItem item = new ListItem(s.getName(),s.getContactName(),R.drawable.coolbot,false);
+            solutions.add(item);
         }
 
-        ListItemAdapter listItemAdapter = new ListItemAdapter(this, 0, solutionList);
+        alllistItemSolutions = solutions;
+
+        ListItemAdapter listItemAdapter = new ListItemAdapter(this, 0, solutions);
 
         final ListView listView = (ListView) findViewById(R.id.ListView);
         listView.setAdapter(listItemAdapter);
@@ -52,9 +66,15 @@ public class MainActivity extends AppCompatActivity
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(),"Clicked it!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Clicked it! ID = " + allSolutions.get(position).getReferenceId() , Toast.LENGTH_SHORT).show();
             }
         });
+
+        long endTime = System.nanoTime();
+
+        long timeTaken = (endTime - startTime);
+        double seconds = (double) timeTaken / 1000000000.0;
+        Toast.makeText(this, "It took: " + seconds, Toast.LENGTH_LONG).show();
 
     }
 
@@ -96,28 +116,30 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        Sorting sorting = new Sorting(allSolutions);
         int id = item.getItemId();
+        final ListView listView = (ListView) findViewById(R.id.ListView);
 
         if (id == R.id.nav_all_solutions) {
-
+            listView.setAdapter(new ListItemAdapter(this,0,alllistItemSolutions));
         } else if (id == R.id.nav_favorites) {
-
+            listView.setAdapter(sorting.getFavoritesList(this));
         } else if (id == R.id.nav_settings) {
-
+            //setContentView(R.layout.settings_layout);
         } else if (id == R.id.nav_agriculture_tools) {
-
+            listView.setAdapter(sorting.getSolutionList("agriculture,tools", this));
         } else if (id == R.id.nav_energy_cooking) {
-
+            listView.setAdapter(sorting.getSolutionList("energy,cooking", this));
         } else if (id == R.id.nav_health_medical) {
-
+            listView.setAdapter(sorting.getSolutionList("health,medical", this));
         } else if (id == R.id.nav_education_connectivity) {
-
+            listView.setAdapter(sorting.getSolutionList("education", this));
         } else if (id == R.id.nav_housing_transport) {
-
+            listView.setAdapter(sorting.getSolutionList("housing", this));
         } else if (id == R.id.nav_water_sanitation) {
-
+            listView.setAdapter(sorting.getSolutionList("water", this));
         } else if (id == R.id.nav_additional) {
-
+            listView.setAdapter(sorting.getSolutionList("other", this));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
