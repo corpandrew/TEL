@@ -4,12 +4,15 @@ package json;
  * Created by corpa on 3/21/2016.
  */
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Solution {
+public class Solution extends Activity{
 
     private int referenceId;
+    private int imageId;
 
     private String hdr;
     private String txt;
@@ -46,7 +49,7 @@ public class Solution {
 
     private boolean isFavorite;
 
-    public Solution(String hdr, String txt, String id, String name, List<String> category, List<String> tags, String image, String created, String template, String href, String histDevHdr, String histDevTxt, String histDevHref, String availabilityHdr, String availabilityTxt, String availabilityHref, String specificationsHdr, String specificationsTxt, String specificationsHref, String additionalinfoHdr, String additionalinfoTxt, String additionalinfoHref, String contactHdr, String contactTxt, String contactHref, String contactName, String contactUrl, int referenceId) {
+    public Solution(String hdr, String txt, String id, String name, List<String> category, List<String> tags, String image, String created, String template, String href, String histDevHdr, String histDevTxt, String histDevHref, String availabilityHdr, String availabilityTxt, String availabilityHref, String specificationsHdr, String specificationsTxt, String specificationsHref, String additionalinfoHdr, String additionalinfoTxt, String additionalinfoHref, String contactHdr, String contactTxt, String contactHref, String contactName, String contactUrl, int referenceId, int imageId) {
         this.hdr = hdr;
         this.txt = txt;
         this.id = id;
@@ -75,6 +78,7 @@ public class Solution {
         this.contactName = contactName;
         this.contactUrl = contactUrl;
         this.referenceId = referenceId;
+        this.imageId = imageId;
     }
 
 
@@ -196,5 +200,9 @@ public class Solution {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public int getImageId(){
+        return imageId;
     }
 }

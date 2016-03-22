@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import corp.andrew.tel.R;
+
 /**
  * Created by corpa on 3/21/2016.
  */
@@ -169,7 +171,7 @@ public class Parsing {
                     contact_url_value = contact.getString("url");
                 String contact_href_value = contact.getString("_href");
 
-                Solution solution = new Solution(_hdr_value,_txt_value,id_value,name_value,categories,tags,image_value,created_value,template_value,_href_value,historyanddevelopment_hdr_value,historyanddevelopment_txt_value,historyanddevelopment_href_value,availability_hdr_value,availability_txt_value,availability_href_value,specifications_hdr_value,specifications_txt_value,specifications_href_value,additionalinformation_hdr_value,additionalinformation_txt_value,additionalinformation_href_value,contact_hdr_value,contact_txt_value,contact_href_value,contact_name_value, contact_url_value,i);
+                Solution solution = new Solution(_hdr_value,_txt_value,id_value,name_value,categories,tags,image_value,created_value,template_value,_href_value,historyanddevelopment_hdr_value,historyanddevelopment_txt_value,historyanddevelopment_href_value,availability_hdr_value,availability_txt_value,availability_href_value,specifications_hdr_value,specifications_txt_value,specifications_href_value,additionalinformation_hdr_value,additionalinformation_txt_value,additionalinformation_href_value,contact_hdr_value,contact_txt_value,contact_href_value,contact_name_value, contact_url_value,i, R.drawable.coolbot);//TODO CHANGE 1 TO IMAGEID
                 solutionList.add(solution);
             }
             
@@ -180,5 +182,9 @@ public class Parsing {
         return solutionList;
     }
 
+    private int findImageId(String image, Context context){
+        String imageFormatted = image.replace("/ast/","");
+        return context.getResources().getIdentifier(imageFormatted.toString(),"drawable",context.getPackageName());
+    }
 
 }

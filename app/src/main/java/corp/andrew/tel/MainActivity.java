@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import json.Parsing;
@@ -24,10 +23,10 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     List<Solution> allSolutions;
-    List<ListItem> alllistItemSolutions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        long startTime = System.nanoTime();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -45,19 +44,9 @@ public class MainActivity extends AppCompatActivity
         Parsing parsing = new Parsing();
 
         allSolutions = parsing.parseJson(this);
-
-        List<ListItem> solutions = new ArrayList<>();
-        long startTime = System.nanoTime();
         //final List<Solution> solutionList = parsing.parseJson(this);
 
-        for(Solution s : allSolutions){
-            ListItem item = new ListItem(s.getName(),s.getContactName(),R.drawable.coolbot,false);
-            solutions.add(item);
-        }
-
-        alllistItemSolutions = solutions;
-
-        ListItemAdapter listItemAdapter = new ListItemAdapter(this, 0, solutions);
+        ListItemAdapter listItemAdapter = new ListItemAdapter(this, 0, allSolutions);
 
         final ListView listView = (ListView) findViewById(R.id.ListView);
         listView.setAdapter(listItemAdapter);
@@ -66,7 +55,7 @@ public class MainActivity extends AppCompatActivity
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(),"Clicked it! ID = " + allSolutions.get(position).getReferenceId() , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Name = " + allSolutions.get(position).getName() , Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -121,7 +110,7 @@ public class MainActivity extends AppCompatActivity
         final ListView listView = (ListView) findViewById(R.id.ListView);
 
         if (id == R.id.nav_all_solutions) {
-            listView.setAdapter(new ListItemAdapter(this,0,alllistItemSolutions));
+            listView.setAdapter(new ListItemAdapter(this,0,allSolutions));
         } else if (id == R.id.nav_favorites) {
             listView.setAdapter(sorting.getFavoritesList(this));
         } else if (id == R.id.nav_settings) {
@@ -141,6 +130,14 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_additional) {
             listView.setAdapter(sorting.getSolutionList("other", this));
         }
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Solution s = (Solution) listView.getItemAtPosition(position);
+                Toast.makeText(getApplicationContext(),"Name = " + s.getName(), Toast.LENGTH_SHORT).show();//TODO FIX THIS
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
