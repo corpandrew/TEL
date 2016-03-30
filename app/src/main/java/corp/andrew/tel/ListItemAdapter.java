@@ -29,21 +29,23 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        final Solution item = (Solution) getItem(position);
+        final Solution viewSolution = getItem(position);
 
         View view = inflater.inflate(R.layout.list_item,null);
 
         TextView solutionName = (TextView)view.findViewById(R.id.solutionName);
-        solutionName.setText(item.getName());
+        solutionName.setTextColor(parent.getResources().getColor(R.color.black));
+        solutionName.setText(viewSolution.getName());
 
         TextView solutionCompany = (TextView) view.findViewById(R.id.solutionCompany);
-        solutionCompany.setText(item.getContactName());
+        solutionCompany.setTextColor(parent.getResources().getColor(R.color.black));
+        solutionCompany.setText(viewSolution.getContactName());
 
         ImageView solutionPicture = (ImageView) view.findViewById(R.id.solutionPicture);
-        solutionPicture.setImageResource(R.drawable.coolbot);//item.getImageId());
+        solutionPicture.setImageResource(viewSolution.getImageId());
 
         final ImageView favoritePicture = (ImageView) view.findViewById(R.id.favoritePicture);
-        if(!item.getIsFavorite())
+        if(!viewSolution.getIsFavorite())
             favoritePicture.setImageResource(R.drawable.ic_favorite_border_black_24px);
         else
             favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
@@ -51,12 +53,12 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
         favoritePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!item.getIsFavorite()){
+                if(!viewSolution.getIsFavorite()){
                     favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
-                    item.setFavorite(true);
+                    viewSolution.setFavorite(true);
                 } else {
                     favoritePicture.setImageResource(R.drawable.ic_favorite_border_black_24px);
-                    item.setFavorite(false);
+                    viewSolution.setFavorite(false);
                 }
             }
         });
@@ -64,6 +66,7 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
         if(i % 2 == 0){
             view.setBackgroundColor(parent.getResources().getColor(R.color.grey));
         }
+
 
         i++;
 

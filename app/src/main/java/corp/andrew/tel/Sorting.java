@@ -44,4 +44,20 @@ public class Sorting {
         return new ListItemAdapter(context, 0, newSolutionList);
     }
 
+    public ListItemAdapter getSearchedEntries(Context context, String text) {
+        List<Solution> newSolutionsList = new ArrayList<>();
+        String solutionName = null;
+        String companyName = null;
+        for(Solution s: allsolutionList) {
+            solutionName = s.getName().toLowerCase();
+            if(s.getContactName() != null)
+                companyName = s.getContactName().toLowerCase();
+            else
+                companyName = "";
+            if(solutionName.contains(text.toLowerCase()) || companyName.contains(text.toLowerCase()))
+                newSolutionsList.add(s);
+        }
+        return new ListItemAdapter(context,0,newSolutionsList);
+    }
+
 }

@@ -6,10 +6,11 @@ package json;
 
 import android.app.Activity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Solution extends Activity{
+public class Solution extends Activity implements Serializable{
 
     private int referenceId;
     private int imageId;

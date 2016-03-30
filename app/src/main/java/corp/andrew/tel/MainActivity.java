@@ -1,5 +1,9 @@
 package corp.andrew.tel;
 
+import android.app.Activity;
+import android.content.Context;
+import android.support.v7.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -7,11 +11,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -22,7 +31,19 @@ import json.Solution;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    List<Solution> allSolutions;
+    private List<Solution> allSolutions;
+
+    private MenuItem mSearchAction;
+    private boolean isSearchOpened = false;
+    private EditText editSearch;
+    private ListView listView;
+    private ListItemAdapter listItemAdapter;
+
+    public MainActivity mainActivityReference;
+
+    public MainActivity(){
+        mainActivityReference = this;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,28 +55,35 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Parsing parsing = new Parsing();
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.green));
+
+        Parsing parsing = new Parsing(this);
 
         allSolutions = parsing.parseJson(this);
         //final List<Solution> solutionList = parsing.parseJson(this);
 
-        ListItemAdapter listItemAdapter = new ListItemAdapter(this, 0, allSolutions);
+        listItemAdapter = new ListItemAdapter(this, 0, allSolutions);
 
-        final ListView listView = (ListView) findViewById(R.id.ListView);
+        listView = (ListView) findViewById(R.id.ListView);
         listView.setAdapter(listItemAdapter);
 
         // When the list is clicked
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(),"Name = " + allSolutions.get(position).getName() , Toast.LENGTH_SHORT).show();
+                Solution s = (Solution) listView.getItemAtPosition(position);
+                Toast.makeText(getApplicationContext(), "Name = " + allSolutions.get(position).getName(), Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(view.getContext(), SolutionActivity.class);
+                i.putExtra("solution", s);
+                i.putExtra("positon", position);
+                startActivity(i);
             }
         });
 
@@ -70,8 +98,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (isSearchOpened) {
+            handleMenuSearch();
         } else {
             super.onBackPressed();
         }
@@ -94,7 +125,8 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        } else if (id == R.id.action_search){
+        } else if (id == R.id.action_search) {
+            handleMenuSearch();
             return true;
         }
 
@@ -110,7 +142,7 @@ public class MainActivity extends AppCompatActivity
         final ListView listView = (ListView) findViewById(R.id.ListView);
 
         if (id == R.id.nav_all_solutions) {
-            listView.setAdapter(new ListItemAdapter(this,0,allSolutions));
+            listView.setAdapter(new ListItemAdapter(this, 0, allSolutions));
         } else if (id == R.id.nav_favorites) {
             listView.setAdapter(sorting.getFavoritesList(this));
         } else if (id == R.id.nav_settings) {
@@ -135,12 +167,108 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Solution s = (Solution) listView.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(),"Name = " + s.getName(), Toast.LENGTH_SHORT).show();//TODO FIX THIS
+                Toast.makeText(getApplicationContext(), "Name = " + s.getName(), Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(view.getContext(), SolutionActivity.class);
+                i.putExtra("solution", s);
+                startActivity(i);
             }
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        mSearchAction = menu.findItem(R.id.action_search);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    protected void handleMenuSearch() {
+        final ActionBar actionBar = getSupportActionBar();
+
+        if (isSearchOpened) {
+            if(actionBar != null) {
+                actionBar.setDisplayShowCustomEnabled(false);
+                actionBar.setDisplayShowTitleEnabled(true);
+            }
+
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(editSearch.getWindowToken(), 0);
+
+            mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_action_search));
+
+            isSearchOpened = false;
+        } else {
+            if(actionBar != null) {
+                actionBar.setDisplayShowCustomEnabled(true);
+                actionBar.setCustomView(R.layout.search_bar);
+                actionBar.setDisplayShowTitleEnabled(false);
+
+
+                editSearch = (EditText) actionBar.getCustomView().findViewById(R.id.editSearch);
+            }
+
+            editSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                        doSearch(v);
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
+            editSearch.requestFocus();
+
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(editSearch, InputMethodManager.SHOW_IMPLICIT);
+
+                mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_action_search));
+
+            isSearchOpened = true;
+        }
+    }
+
+    private void doSearch(TextView v) {
+
+        String text = v.getText().toString();
+
+        Sorting sorting = new Sorting(allSolutions);
+
+        final ListView listView = (ListView) findViewById(R.id.ListView);
+        listView.setAdapter(sorting.getSearchedEntries(getApplicationContext(), text));
+
+        // When the list is clicked
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Solution s = (Solution) listView.getItemAtPosition(position);
+                Toast.makeText(getApplicationContext(), "Name = " + allSolutions.get(position).getName(), Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(view.getContext(), SolutionActivity.class);
+                i.putExtra("solution", s);
+                startActivity(i);
+            }
+        });
+
+    }
+
+    public ListItemAdapter getListItemAdapter() {
+        return listItemAdapter;
+    }
+
+    public void setListItemAdapter(ListItemAdapter listItemAdapter){
+        this.listItemAdapter = listItemAdapter;
+    }
+
+    public MainActivity getMainActivityReference() {
+        return mainActivityReference;
+    }
+
+    public List<Solution> getAllSolutions() {
+        return allSolutions;
     }
 }
