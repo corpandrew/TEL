@@ -31,11 +31,9 @@ import corp.andrew.tel.R;
 public class Parsing {
 
     private Activity activity;
-    private ListItemAdapter listItemAdapter;
 
-    public Parsing(Activity activity, ListItemAdapter listItemAdapter){
+    public Parsing(Activity activity){
         this.activity = activity;
-        this.listItemAdapter = listItemAdapter;
 
         ConnectivityManager connManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -207,7 +205,7 @@ public class Parsing {
                     contact_url_value = contact.getString("url");
                 String contact_href_value = contact.getString("_href");
 
-                Solution solution = new Solution(_hdr_value,_txt_value,id_value,name_value,categories,tags,image_value,created_value,template_value,_href_value,historyanddevelopment_hdr_value,historyanddevelopment_txt_value,historyanddevelopment_href_value,availability_hdr_value,availability_txt_value,availability_href_value,specifications_hdr_value,specifications_txt_value,specifications_href_value,additionalinformation_hdr_value,additionalinformation_txt_value,additionalinformation_href_value,contact_hdr_value,contact_txt_value,contact_href_value,contact_name_value, contact_url_value,i, R.drawable.coolbot,listItemAdapter);//findImageId(image_value,activity));//TODO CHANGE 1 TO IMAGEID
+                Solution solution = new Solution(_hdr_value,_txt_value,id_value,name_value,categories,tags,image_value,created_value,template_value,_href_value,historyanddevelopment_hdr_value,historyanddevelopment_txt_value,historyanddevelopment_href_value,availability_hdr_value,availability_txt_value,availability_href_value,specifications_hdr_value,specifications_txt_value,specifications_href_value,additionalinformation_hdr_value,additionalinformation_txt_value,additionalinformation_href_value,contact_hdr_value,contact_txt_value,contact_href_value,contact_name_value, contact_url_value,i, R.drawable.coolbot);//findImageId(image_value,activity));//TODO CHANGE 1 TO IMAGEID
                 solutionList.add(solution);
             }
             

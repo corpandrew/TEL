@@ -209,7 +209,4 @@ public class Solution extends Activity implements Serializable{
         return imageId;
     }
 
-    public ListItemAdapter getListItemAdapter() {
-        return listItemAdapter;
-    }
 }
