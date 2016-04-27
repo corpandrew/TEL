@@ -48,13 +48,16 @@ public class Sorting {
         List<Solution> newSolutionsList = new ArrayList<>();
         String solutionName = null;
         String companyName = null;
+        String solutionText = null;
         for(Solution s: allsolutionList) {
             solutionName = s.getName().toLowerCase();
             if(s.getContactName() != null)
                 companyName = s.getContactName().toLowerCase();
             else
                 companyName = "";
-            if(solutionName.contains(text.toLowerCase()) || companyName.contains(text.toLowerCase()))
+            solutionText = s.getTxt();
+
+            if(solutionName.contains(text.toLowerCase()) || companyName.contains(text.toLowerCase()) || solutionText.contains(text))
                 newSolutionsList.add(s);
         }
         return new ListItemAdapter(context,0,newSolutionsList);

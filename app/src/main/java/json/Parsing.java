@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -16,11 +17,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import corp.andrew.tel.ListItemAdapter;
 import corp.andrew.tel.R;
 
 /**
@@ -29,18 +31,17 @@ import corp.andrew.tel.R;
 public class Parsing {
 
     private Activity activity;
+    private ListItemAdapter listItemAdapter;
 
-    public Parsing(Activity activity){
+    public Parsing(Activity activity, ListItemAdapter listItemAdapter){
         this.activity = activity;
+        this.listItemAdapter = listItemAdapter;
 
         ConnectivityManager connManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-        if (mWifi.isConnected()) {
-            Download("http://www.techxlab.org/pages.json",activity);
-        } else {
-            //hope the file is already on the computer
-        }
+        download("http://www.techxlab.org/pages.json",activity);
+        loadJSONFromAsset(activity);
     }
 
     public Activity getActivity() {
@@ -51,13 +52,23 @@ public class Parsing {
         this.activity = activity;
     }
 
-    public void Download(String url, Activity activity) {
+    public void download(String url, Activity activity) {
+        boolean deleted = false;
         DownloadManager dm = (DownloadManager) activity.getSystemService(Context.DOWNLOAD_SERVICE);
         ContextWrapper cw = new ContextWrapper(activity);
         File file = new File(cw.getFilesDir().getAbsolutePath() + "/jsonData.json");
 
-        if(file.exists()) {
-            file.delete();
+        for(File f: cw.getFilesDir().listFiles()){
+            Toast.makeText(activity, f.getName(), Toast.LENGTH_SHORT).show();
+            if(f.getName().equals("jsonData.json")){
+                deleted = f.delete();
+            }
+        }
+
+        if(deleted){
+            Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getActivity(), "Not Deleted", Toast.LENGTH_SHORT).show();
         }
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
@@ -69,11 +80,14 @@ public class Parsing {
     private String loadJSONFromAsset(Activity activity) {
 
         String json = null;
+        String file = "pages.json";
+        ContextWrapper cw = new ContextWrapper(activity);
 
         try {
-            final File file = new File("/storage/emulated/0/Android/data/corp.andrew.tel/files/Download/jsonData.json");
+            //final File file = new File(cw.getFilesDir().getAbsolutePath() + "/jsonData.json");//TODO CHANGED THIS
 
-            FileInputStream is = new FileInputStream (file);
+//            FileInputStream is = new FileInputStream (file);
+            InputStream is = activity.getAssets().open(file);
             Log.v("Testing", "File opened");
             int size = is.available();
             byte[] buffer = new byte[size];
@@ -193,7 +207,7 @@ public class Parsing {
                     contact_url_value = contact.getString("url");
                 String contact_href_value = contact.getString("_href");
 
-                Solution solution = new Solution(_hdr_value,_txt_value,id_value,name_value,categories,tags,image_value,created_value,template_value,_href_value,historyanddevelopment_hdr_value,historyanddevelopment_txt_value,historyanddevelopment_href_value,availability_hdr_value,availability_txt_value,availability_href_value,specifications_hdr_value,specifications_txt_value,specifications_href_value,additionalinformation_hdr_value,additionalinformation_txt_value,additionalinformation_href_value,contact_hdr_value,contact_txt_value,contact_href_value,contact_name_value, contact_url_value,i, R.drawable.coolbot);//findImageId(image_value,activity));//TODO CHANGE 1 TO IMAGEID
+                Solution solution = new Solution(_hdr_value,_txt_value,id_value,name_value,categories,tags,image_value,created_value,template_value,_href_value,historyanddevelopment_hdr_value,historyanddevelopment_txt_value,historyanddevelopment_href_value,availability_hdr_value,availability_txt_value,availability_href_value,specifications_hdr_value,specifications_txt_value,specifications_href_value,additionalinformation_hdr_value,additionalinformation_txt_value,additionalinformation_href_value,contact_hdr_value,contact_txt_value,contact_href_value,contact_name_value, contact_url_value,i, R.drawable.coolbot,listItemAdapter);//findImageId(image_value,activity));//TODO CHANGE 1 TO IMAGEID
                 solutionList.add(solution);
             }
             
@@ -205,8 +219,9 @@ public class Parsing {
     }
 
     private int findImageId(String image, Context context){
-        String imageFormatted = image.replace("/ast/","");
-        return context.getResources().getIdentifier("tel-" + imageFormatted.toString(),"drawable",context.getPackageName());
+        AssetManager assetManager = context.getAssets();
+        String imageFormatted = image.replace("/ast/","");//.replace("-", "_");
+        return context.getResources().getIdentifier("tel_" + imageFormatted.toString(),"drawable",context.getPackageName());
     }
 
 

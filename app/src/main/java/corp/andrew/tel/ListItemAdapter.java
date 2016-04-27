@@ -67,7 +67,6 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
             view.setBackgroundColor(parent.getResources().getColor(R.color.grey));
         }
 
-
         i++;
 
         return view;

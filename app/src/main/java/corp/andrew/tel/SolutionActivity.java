@@ -33,10 +33,13 @@ public class SolutionActivity extends Activity {
         final TextView additionalInformationText = (TextView) findViewById(R.id.addtionalInformationText);
         final TextView contactText = (TextView) findViewById(R.id.contactText);
 
-        solutionImage.setImageResource(R.drawable.coolbot);
+        ListItemAdapter listItemAdapter = solutionIntoClass.getListItemAdapter();
 
-        if(!solutionIntoClass.getIsFavorite())
+        solutionImage.setImageResource(R.drawable.coolbot);//solutionIntoClass.getImageId());//R.drawable.coolbot);
+
+        if(!listItemAdapter.get.getIsFavorite()) {
             favoritePicture.setImageResource(R.drawable.ic_favorite_border_black_24px);
+        }
         else
             favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
 

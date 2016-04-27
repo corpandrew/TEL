@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import corp.andrew.tel.ListItemAdapter;
+
 public class Solution extends Activity implements Serializable{
 
     private int referenceId;
@@ -205,5 +207,9 @@ public class Solution extends Activity implements Serializable{
 
     public int getImageId(){
         return imageId;
+    }
+
+    public ListItemAdapter getListItemAdapter() {
+        return listItemAdapter;
     }
 }

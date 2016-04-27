@@ -1,6 +1,5 @@
 package corp.andrew.tel;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.app.ActionBar;
 import android.content.Intent;
@@ -62,7 +61,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        getWindow().setNavigationBarColor(getResources().getColor(R.color.green));
+//        getWindow().setNavigationBarColor(getResources().getColor(R.color.green));
 
         Parsing parsing = new Parsing(this);
 
@@ -124,6 +123,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            setContentView(R.layout.settings_layout);
             return true;
         } else if (id == R.id.action_search) {
             handleMenuSearch();
