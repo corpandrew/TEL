@@ -1,7 +1,7 @@
 package corp.andrew.tel;
 
 import android.content.Context;
-import android.media.Image;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,23 +9,24 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import json.Solution;
 
 /**
- * Created by corpa on 3/19/2016.
+ * Created by corpa on Aug 19, 2016
  */
 
 public class ListItemAdapter extends ArrayAdapter<Solution> {
 
-    private LayoutInflater inflater;
     int i = 0;
+    private LayoutInflater inflater;
+    private SharedPreferences prefs;
 
-    public ListItemAdapter(Context context, int resourceId, List<Solution> list) {
+    public ListItemAdapter(Context context, int resourceId, List<Solution> list, SharedPreferences prefs) {
         super(context,resourceId,list);
-        inflater = (LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.prefs = prefs;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -45,20 +46,22 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
         solutionPicture.setImageResource(viewSolution.getImageId());
 
         final ImageView favoritePicture = (ImageView) view.findViewById(R.id.favoritePicture);
-        if(!viewSolution.getIsFavorite())
+
+        if (!prefs.getBoolean(viewSolution.getName(), false)) {
             favoritePicture.setImageResource(R.drawable.ic_favorite_border_black_24px);
-        else
+        } else {
             favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
+        }
 
         favoritePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!viewSolution.getIsFavorite()){
+                if (!prefs.getBoolean(viewSolution.getName(), false)) {
                     favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
-                    viewSolution.setFavorite(true);
+                    changeFavorite(viewSolution.getName(), true);
                 } else {
                     favoritePicture.setImageResource(R.drawable.ic_favorite_border_black_24px);
-                    viewSolution.setFavorite(false);
+                    changeFavorite(viewSolution.getName(), false);
                 }
             }
         });
@@ -72,4 +75,11 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
         return view;
     }
 
+
+    private void changeFavorite(String name, boolean favorite) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(name, favorite);
+        // Commit the edits!
+        editor.apply();
+    }
 }

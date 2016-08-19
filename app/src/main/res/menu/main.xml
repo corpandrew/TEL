@@ -7,7 +7,9 @@
         android:title="@string/action_search"
         app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_sync"
+        android:icon="@drawable/ic_sync_white_24px"
+        android:title="@string/action_sync"
+        app:showAsAction="ifRoom" />
 </menu>

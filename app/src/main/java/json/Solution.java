@@ -1,7 +1,7 @@
 package json;
 
 /**
- * Created by corpa on 3/21/2016.
+ * Created by corpa on Aug 19, 2016
  */
 
 import android.app.Activity;
@@ -9,8 +9,6 @@ import android.app.Activity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import corp.andrew.tel.ListItemAdapter;
 
 public class Solution extends Activity implements Serializable{
 
@@ -21,7 +19,7 @@ public class Solution extends Activity implements Serializable{
     private String txt;
     private String id;
     private String name;
-    private List<String> category = new ArrayList<String>();
+    private List<String> category = new ArrayList<>();
     private List<String> tags;
     private String image;
     private String created;
@@ -208,5 +206,4 @@ public class Solution extends Activity implements Serializable{
     public int getImageId(){
         return imageId;
     }
-
 }

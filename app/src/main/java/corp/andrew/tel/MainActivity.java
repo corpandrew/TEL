@@ -1,12 +1,19 @@
 package corp.andrew.tel;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.ActionBar;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -30,45 +37,72 @@ import json.Solution;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private List<Solution> allSolutions;
-
+    // Storage Permissions variables
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+    public List<Solution> allSolutions;
+    public SharedPreferences favoriteSharedPrefs;
     private MenuItem mSearchAction;
     private boolean isSearchOpened = false;
     private EditText editSearch;
     private ListView listView;
     private ListItemAdapter listItemAdapter;
 
-    public MainActivity mainActivityReference;
+    //persmission method.
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have read or write permission
+        int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
 
-    public MainActivity(){
-        mainActivityReference = this;
+        if (writePermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
+
+    public SharedPreferences getFavoriteSharedPrefs() {
+        return favoriteSharedPrefs;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        long startTime = System.nanoTime();
+        long startTime = System.nanoTime(); // For logging the time it takes to create the
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        verifyStoragePermissions(this);
+
+        favoriteSharedPrefs = getSharedPreferences("favoritesFile", 0);
+
+        setContentView(R.layout.activity_main); // set the layout to activity_main.xml
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);//Top bar with the settings and search
+        //setSupportActionBar(toolbar);//TODO FIX THIS
+
+        Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_sync_white_24px);
+        toolbar.setOverflowIcon(drawable);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        getWindow().setNavigationBarColor(getResources().getColor(R.color.green));
-
-        Parsing parsing = new Parsing(this);
+        Parsing parsing = new Parsing(this);// creates the parsing object
 
         allSolutions = parsing.parseJson(this);
-        //final List<Solution> solutionList = parsing.parseJson(this);
 
-        listItemAdapter = new ListItemAdapter(this, 0, allSolutions);
+        listItemAdapter = new ListItemAdapter(this, 0, allSolutions, favoriteSharedPrefs);
 
         listView = (ListView) findViewById(R.id.ListView);
         listView.setAdapter(listItemAdapter);
@@ -122,13 +156,16 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            setContentView(R.layout.settings_layout);
+        if (id == R.id.action_sync) {
+            checkForUpdates();
             return true;
         } else if (id == R.id.action_search) {
             handleMenuSearch();
             return true;
-        }
+        } /*else if (id == R.id.action_filter) {
+            handleFilter();
+            return true;
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -137,16 +174,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        Sorting sorting = new Sorting(allSolutions);
+        Sorting sorting = new Sorting(allSolutions, favoriteSharedPrefs);
         int id = item.getItemId();
         final ListView listView = (ListView) findViewById(R.id.ListView);
 
         if (id == R.id.nav_all_solutions) {
-            listView.setAdapter(new ListItemAdapter(this, 0, allSolutions));
+            listView.setAdapter(new ListItemAdapter(this, 0, allSolutions, favoriteSharedPrefs));
         } else if (id == R.id.nav_favorites) {
             listView.setAdapter(sorting.getFavoritesList(this));
-        } else if (id == R.id.nav_settings) {
-            //setContentView(R.layout.settings_layout);
         } else if (id == R.id.nav_agriculture_tools) {
             listView.setAdapter(sorting.getSolutionList("agriculture,tools", this));
         } else if (id == R.id.nav_energy_cooking) {
@@ -237,7 +272,7 @@ public class MainActivity extends AppCompatActivity
 
         String text = v.getText().toString();
 
-        Sorting sorting = new Sorting(allSolutions);
+        Sorting sorting = new Sorting(allSolutions, favoriteSharedPrefs);
 
         final ListView listView = (ListView) findViewById(R.id.ListView);
         listView.setAdapter(sorting.getSearchedEntries(getApplicationContext(), text));
@@ -256,6 +291,22 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void checkForUpdates() {
+//        if(version != getVersion()){
+//            download();
+//            //create new popup box that says "The Database has been updated,\n Would you like to download the most recent?" with buttons yes or no
+//            //if hits yes then download if no then break.
+//
+//        } TODO
+    }
+
+    private void handleFilter() {
+        Sorting sorting = new Sorting(allSolutions, favoriteSharedPrefs);
+        Intent i = new Intent(this.getApplicationContext(), FilterActivity.class);
+        i.putExtra("sorting", sorting);
+        startActivity(i);
+    }
+
     public ListItemAdapter getListItemAdapter() {
         return listItemAdapter;
     }
@@ -264,11 +315,8 @@ public class MainActivity extends AppCompatActivity
         this.listItemAdapter = listItemAdapter;
     }
 
-    public MainActivity getMainActivityReference() {
-        return mainActivityReference;
-    }
-
     public List<Solution> getAllSolutions() {
         return allSolutions;
     }
+
 }

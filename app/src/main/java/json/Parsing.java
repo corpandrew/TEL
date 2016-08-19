@@ -1,91 +1,46 @@
 package json;
 
 import android.app.Activity;
-import android.app.DownloadManager;
 import android.content.Context;
-import android.content.ContextWrapper;
-import android.content.res.AssetManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import corp.andrew.tel.ListItemAdapter;
+import corp.andrew.tel.MainActivity;
 import corp.andrew.tel.R;
 
 /**
- * Created by corpa on 3/21/2016.
+ * Created by corpa on Aug 19, 2016
  */
 public class Parsing {
 
-    private Activity activity;
+    private static final String downloadString = "http://www.techxlab.org/pages.json";
+    private MainActivity activity;
+    private String version = "file.json";
 
-    public Parsing(Activity activity){
+    public Parsing(MainActivity activity) {
         this.activity = activity;
-
-        ConnectivityManager connManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-        download("http://www.techxlab.org/pages.json",activity);
         loadJSONFromAsset(activity);
-    }
-
-    public Activity getActivity() {
-        return activity;
-    }
-
-    public void setActivity(Activity activity) {
-        this.activity = activity;
-    }
-
-    public void download(String url, Activity activity) {
-        boolean deleted = false;
-        DownloadManager dm = (DownloadManager) activity.getSystemService(Context.DOWNLOAD_SERVICE);
-        ContextWrapper cw = new ContextWrapper(activity);
-        File file = new File(cw.getFilesDir().getAbsolutePath() + "/jsonData.json");
-
-        for(File f: cw.getFilesDir().listFiles()){
-            Toast.makeText(activity, f.getName(), Toast.LENGTH_SHORT).show();
-            if(f.getName().equals("jsonData.json")){
-                deleted = f.delete();
-            }
-        }
-
-        if(deleted){
-            Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getActivity(), "Not Deleted", Toast.LENGTH_SHORT).show();
-        }
-
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        request.setDescription("Tel Json Data").setTitle("jsonData.json");
-        request.setDestinationInExternalFilesDir(activity, Environment.DIRECTORY_DOWNLOADS, "jsonData.json");
-        long enqueue = dm.enqueue(request);
     }
 
     private String loadJSONFromAsset(Activity activity) {
 
-        String json = null;
-        String file = "pages.json";
-        ContextWrapper cw = new ContextWrapper(activity);
+        String json;
+        final File file = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + "/" + version);
 
         try {
-            //final File file = new File(cw.getFilesDir().getAbsolutePath() + "/jsonData.json");//TODO CHANGED THIS
+            FileInputStream is = new FileInputStream(file);
 
-//            FileInputStream is = new FileInputStream (file);
-            InputStream is = activity.getAssets().open(file);
             Log.v("Testing", "File opened");
             int size = is.available();
             byte[] buffer = new byte[size];
@@ -104,11 +59,12 @@ public class Parsing {
 
         List<Solution> solutionList = new ArrayList<>();
 
-        try{
+        try {
             JSONObject obj = new JSONObject(loadJSONFromAsset(activity));
             JSONArray solutionsArray = obj.getJSONArray("Solutions");
-            
-            for(int i = 0; i < solutionsArray.length(); i++){
+
+            for (int i = 0; i < solutionsArray.length(); i++) {
+                System.out.println(i);
                 JSONObject jo_inside = solutionsArray.getJSONObject(i);
 
                 String _hdr_value = jo_inside.getString("_hdr");
@@ -123,9 +79,7 @@ public class Parsing {
                 if (category_value.contains("[")) {
                     category_value = category_value.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\"", "");
                     String[] cats = category_value.split(",");
-                    for (String s : cats) {
-                        categories.add(s);
-                    }
+                    Collections.addAll(categories, cats);
                 } else {
                     categories.add(category_value);
                 }
@@ -140,12 +94,12 @@ public class Parsing {
                 if (tags_value.contains("[")) {
                     tags_value = tags_value.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\"", "");
                     String[] tagsSplit = tags_value.split(",");
-                    for(String s : tagsSplit){
-                        tags.add(s);
-                    }
+                    Collections.addAll(tags, tagsSplit);
                 }
-
-                String image_value = jo_inside.getString("image");
+                String image_value = null;
+                if (jo_inside.has("image")) {
+                    image_value = jo_inside.getString("image");
+                }
                 String created_value = jo_inside.getString("created");
                 String template_value = jo_inside.getString("template");
                 String _href_value = jo_inside.getString("_href");
@@ -199,16 +153,15 @@ public class Parsing {
 
                 String contact_hdr_value = contact.getString("_hdr");
                 String contact_txt_value = contact.getString("_txt");
-                if(contact.has("name"))
+                if (contact.has("name"))
                     contact_name_value = contact.getString("name");
-                if(contact.has("url"))
+                if (contact.has("url"))
                     contact_url_value = contact.getString("url");
                 String contact_href_value = contact.getString("_href");
 
-                Solution solution = new Solution(_hdr_value,_txt_value,id_value,name_value,categories,tags,image_value,created_value,template_value,_href_value,historyanddevelopment_hdr_value,historyanddevelopment_txt_value,historyanddevelopment_href_value,availability_hdr_value,availability_txt_value,availability_href_value,specifications_hdr_value,specifications_txt_value,specifications_href_value,additionalinformation_hdr_value,additionalinformation_txt_value,additionalinformation_href_value,contact_hdr_value,contact_txt_value,contact_href_value,contact_name_value, contact_url_value,i, R.drawable.coolbot);//findImageId(image_value,activity));//TODO CHANGE 1 TO IMAGEID
+                Solution solution = new Solution(_hdr_value, _txt_value, id_value, name_value, categories, tags, image_value, created_value, template_value, _href_value, historyanddevelopment_hdr_value, historyanddevelopment_txt_value, historyanddevelopment_href_value, availability_hdr_value, availability_txt_value, availability_href_value, specifications_hdr_value, specifications_txt_value, specifications_href_value, additionalinformation_hdr_value, additionalinformation_txt_value, additionalinformation_href_value, contact_hdr_value, contact_txt_value, contact_href_value, contact_name_value, contact_url_value, i, R.drawable.coolbot);//findImageId(image_value,activity));//TODO CHANGE 1 TO IMAGEID
                 solutionList.add(solution);
             }
-            
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
@@ -216,12 +169,13 @@ public class Parsing {
         return solutionList;
     }
 
-    private int findImageId(String image, Context context){
-        AssetManager assetManager = context.getAssets();
-        String imageFormatted = image.replace("/ast/","");//.replace("-", "_");
-        return context.getResources().getIdentifier("tel_" + imageFormatted.toString(),"drawable",context.getPackageName());
+    private int findImageId(String image, Context context) {
+        String imageFormatted = image.replace("/ast/", "");//.replace("-", "_");
+        return context.getResources().getIdentifier("tel_" + imageFormatted, "drawable", context.getPackageName());
     }
 
-
+    public String getVersion() {
+        return version;
+    }
 
 }

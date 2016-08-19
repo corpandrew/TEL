@@ -1,6 +1,7 @@
 package corp.andrew.tel;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,14 +10,18 @@ import android.widget.TextView;
 import json.Solution;
 
 /**
- * Created by corpa on 3/22/2016.
+ * Created by corpa on Aug 19, 2016
  */
 
 public class SolutionActivity extends Activity {
 
+    SharedPreferences sharedPreferences;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sharedPreferences = getSharedPreferences("favoritesFile", 0);
 
         final Solution solutionIntoClass = (Solution) getIntent().getExtras().getSerializable("solution");
 
@@ -33,25 +38,26 @@ public class SolutionActivity extends Activity {
         final TextView additionalInformationText = (TextView) findViewById(R.id.addtionalInformationText);
         final TextView contactText = (TextView) findViewById(R.id.contactText);
 
-        solutionImage.setImageResource(R.drawable.coolbot);//solutionIntoClass.getImageId());//R.drawable.coolbot);
+        solutionImage.setImageResource(R.drawable.coolbot);
 
-        if(solutionIntoClass.getIsFavorite()) {
-            favoritePicture.setImageResource(R.drawable.ic_favorite_border_black_24px);
-        }
-        else
+        //sets the picture of the favorite when you open the solution,.
+        assert solutionIntoClass != null;
+        if (sharedPreferences.getBoolean(solutionIntoClass.getName(), false)) {
             favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
+        } else
+            favoritePicture.setImageResource(R.drawable.ic_favorite_border_black_24px);
 
+        //clicking the favorites button does this
         favoritePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!solutionIntoClass.getIsFavorite()) {
+                if (!sharedPreferences.getBoolean(solutionIntoClass.getName(), false)) {
                     favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
-                    solutionIntoClass.setFavorite(true);//TODO TEST THIS, works just doesnt reload the items in the listadapter
+                    changeFavorite(solutionIntoClass.getName(), true);//TODO TEST THIS, works just doesnt reload the items in the listadapter
                 } else {
                     favoritePicture.setImageResource(R.drawable.ic_favorite_border_black_24px);
-                    solutionIntoClass.setFavorite(false);//TODO TEST THIS
+                    changeFavorite(solutionIntoClass.getName(), false);//TODO TEST THIS
                 }
-                //Toast.makeText(getApplicationContext(),"Favorite?: " + solutionIntoClass.getIsFavorite(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -64,6 +70,13 @@ public class SolutionActivity extends Activity {
         additionalInformationText.setText(solutionIntoClass.getAdditionalinfoTxt());
         contactText.setText(solutionIntoClass.getContactTxt());
 
+    }
+
+    private void changeFavorite(String name, boolean favorite) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(name, favorite);
+        // Commit the edits!
+        editor.apply();
     }
 
 }
