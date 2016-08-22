@@ -13,7 +13,8 @@ import java.util.List;
 public class Solution extends Activity implements Serializable{
 
     private int referenceId;
-    private int imageId;
+
+    private String pathToImage;
 
     private String hdr;
     private String txt;
@@ -24,6 +25,7 @@ public class Solution extends Activity implements Serializable{
     private String image;
     private String created;
     private String template;
+    private List<String> publish;
     private String href;
 
     private String histDevHdr;
@@ -50,7 +52,7 @@ public class Solution extends Activity implements Serializable{
 
     private boolean isFavorite;
 
-    public Solution(String hdr, String txt, String id, String name, List<String> category, List<String> tags, String image, String created, String template, String href, String histDevHdr, String histDevTxt, String histDevHref, String availabilityHdr, String availabilityTxt, String availabilityHref, String specificationsHdr, String specificationsTxt, String specificationsHref, String additionalinfoHdr, String additionalinfoTxt, String additionalinfoHref, String contactHdr, String contactTxt, String contactHref, String contactName, String contactUrl, int referenceId, int imageId) {
+    public Solution(String hdr, String txt, String id, String name, List<String> category, List<String> tags, String image, String created, List<String> publish, String template, String href, String histDevHdr, String histDevTxt, String histDevHref, String availabilityHdr, String availabilityTxt, String availabilityHref, String specificationsHdr, String specificationsTxt, String specificationsHref, String additionalinfoHdr, String additionalinfoTxt, String additionalinfoHref, String contactHdr, String contactTxt, String contactHref, String contactName, String contactUrl, int referenceId, String pathToImage) {
         this.hdr = hdr;
         this.txt = txt;
         this.id = id;
@@ -59,6 +61,7 @@ public class Solution extends Activity implements Serializable{
         this.tags = tags;
         this.image = image;
         this.created = created;
+        this.publish = publish;
         this.template = template;
         this.href = href;
         this.histDevHdr = histDevHdr;
@@ -79,7 +82,7 @@ public class Solution extends Activity implements Serializable{
         this.contactName = contactName;
         this.contactUrl = contactUrl;
         this.referenceId = referenceId;
-        this.imageId = imageId;
+        this.pathToImage = pathToImage;
     }
 
 
@@ -203,7 +206,12 @@ public class Solution extends Activity implements Serializable{
         isFavorite = favorite;
     }
 
-    public int getImageId(){
-        return imageId;
+    public String getPathToImage() {
+        return pathToImage;
     }
+
+    public List<String> getPublish() {
+        return publish;
+    }
+
 }

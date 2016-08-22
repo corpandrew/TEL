@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context="activities.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -26,6 +26,13 @@
         android:id="@+id/ListView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:fadeScrollbars="false"
+        android:fastScrollAlwaysVisible="true"
+        android:fastScrollEnabled="false"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarSize="0dip"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
     </ListView>
 

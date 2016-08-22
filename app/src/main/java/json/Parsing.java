@@ -1,7 +1,7 @@
 package json;
 
 import android.app.Activity;
-import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.Environment;
 import android.util.Log;
 
@@ -12,12 +12,12 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import corp.andrew.tel.MainActivity;
-import corp.andrew.tel.R;
+import activities.MainActivity;
 
 /**
  * Created by corpa on Aug 19, 2016
@@ -25,8 +25,9 @@ import corp.andrew.tel.R;
 public class Parsing {
 
     private static final String downloadString = "http://www.techxlab.org/pages.json";
-    private MainActivity activity;
     private String version = "file.json";
+
+    private MainActivity activity;
 
     public Parsing(MainActivity activity) {
         this.activity = activity;
@@ -64,7 +65,6 @@ public class Parsing {
             JSONArray solutionsArray = obj.getJSONArray("Solutions");
 
             for (int i = 0; i < solutionsArray.length(); i++) {
-                System.out.println(i);
                 JSONObject jo_inside = solutionsArray.getJSONObject(i);
 
                 String _hdr_value = jo_inside.getString("_hdr");
@@ -102,6 +102,19 @@ public class Parsing {
                 }
                 String created_value = jo_inside.getString("created");
                 String template_value = jo_inside.getString("template");
+
+                String publish_value = "";
+
+                List<String> publish = new ArrayList<>();
+
+                if (jo_inside.has("publish"))
+                    publish_value = jo_inside.getString("publish");
+
+                if (jo_inside.has("publish")) {
+                    publish_value = publish_value.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\"", "");
+                    String[] publishSplit = publish_value.split(",");
+                    Collections.addAll(publish, publishSplit);
+                }
                 String _href_value = jo_inside.getString("_href");
 
                 String historyanddevelopment_hdr_value = null;
@@ -159,8 +172,10 @@ public class Parsing {
                     contact_url_value = contact.getString("url");
                 String contact_href_value = contact.getString("_href");
 
-                Solution solution = new Solution(_hdr_value, _txt_value, id_value, name_value, categories, tags, image_value, created_value, template_value, _href_value, historyanddevelopment_hdr_value, historyanddevelopment_txt_value, historyanddevelopment_href_value, availability_hdr_value, availability_txt_value, availability_href_value, specifications_hdr_value, specifications_txt_value, specifications_href_value, additionalinformation_hdr_value, additionalinformation_txt_value, additionalinformation_href_value, contact_hdr_value, contact_txt_value, contact_href_value, contact_name_value, contact_url_value, i, R.drawable.coolbot);//findImageId(image_value,activity));//TODO CHANGE 1 TO IMAGEID
-                solutionList.add(solution);
+                Solution solution = new Solution(_hdr_value, _txt_value, id_value, name_value, categories, tags, image_value, created_value, publish, template_value, _href_value, historyanddevelopment_hdr_value, historyanddevelopment_txt_value, historyanddevelopment_href_value, availability_hdr_value, availability_txt_value, availability_href_value, specifications_hdr_value, specifications_txt_value, specifications_href_value, additionalinformation_hdr_value, additionalinformation_txt_value, additionalinformation_href_value, contact_hdr_value, contact_txt_value, contact_href_value, contact_name_value, contact_url_value, i, pathToDrawable(image_value));
+
+                if (solution.getPublish().contains("tel"))
+                    solutionList.add(solution);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -169,9 +184,48 @@ public class Parsing {
         return solutionList;
     }
 
-    private int findImageId(String image, Context context) {
-        String imageFormatted = image.replace("/ast/", "");//.replace("-", "_");
-        return context.getResources().getIdentifier("tel_" + imageFormatted, "drawable", context.getPackageName());
+    private String pathToDrawable(String imageId) {
+
+        if (imageId != null) {
+            imageId = imageId.replace("tel-", "");
+            imageId = "images/" + imageId + ".jpg";
+            if (assetExists(imageId)) {
+                return imageId;
+            } else {
+                imageId = imageId.replace(".jpg", ".jpeg");
+                if (assetExists(imageId)) {
+                    return imageId;
+                }
+                imageId = imageId.replace(".jpeg", ".png");
+                if (assetExists(imageId)) {
+                    return imageId;
+                }
+            }
+        } else {
+            return "images/e41sag8-coolbot-image-v2.jpg";
+        }
+        return "images/e41sag8-coolbot-image-v2.jpg";
+    }
+
+    private boolean assetExists(String pathInAssetsDir) {
+        AssetManager assetManager = activity.getBaseContext().getResources().getAssets();
+        InputStream inputStream = null;
+        try {
+            inputStream = assetManager.open(pathInAssetsDir);
+            if (null != inputStream) {
+                return true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (inputStream != null)
+                    inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 
     public String getVersion() {

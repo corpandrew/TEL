@@ -1,6 +1,7 @@
 package corp.andrew.tel;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
@@ -13,6 +14,9 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+import activities.LoadScreenActivity;
+import activities.MainActivity;
+
 /**
  * Created by corpa on Aug 19, 2016
  */
@@ -20,10 +24,12 @@ public class DownloadFileTask extends AsyncTask<String, Integer, String> {
 
     LoadScreenActivity activity;
     ProgressBar progressBar;
+    SharedPreferences sharedPreferences;
 
     public DownloadFileTask(LoadScreenActivity activity, ProgressBar progressBar) {
         this.activity = activity;
         this.progressBar = progressBar;
+        sharedPreferences = activity.getSharedPreferences("favoritesFile", 0);
     }
 
     @Override
@@ -80,6 +86,7 @@ public class DownloadFileTask extends AsyncTask<String, Integer, String> {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
         System.out.println("Downloaded");
+        sharedPreferences.edit().putBoolean("firstRun", false).apply();
 
         Intent intent = new Intent(activity, MainActivity.class);
         activity.startActivity(intent);
