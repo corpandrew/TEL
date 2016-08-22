@@ -1,4 +1,4 @@
-package corp.andrew.tel;
+package activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 
 import java.util.ArrayList;
+
+import corp.andrew.tel.R;
+import corp.andrew.tel.Sorting;
 
 /**
  * Created by corpa on Aug 19, 2016

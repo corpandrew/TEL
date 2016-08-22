@@ -206,4 +206,5 @@ public class Solution extends Activity implements Serializable{
     public int getImageId(){
         return imageId;
     }
+
 }

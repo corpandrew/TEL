@@ -14,27 +14,29 @@ import java.util.List;
 import json.Solution;
 
 /**
- * Created by corpa on Aug 19, 2016
+ * Created by corpa on Aug 21, 2016
  */
 
 public class ListItemAdapter extends ArrayAdapter<Solution> {
 
     int i = 0;
+    SharedPreferences.Editor editor;
     private LayoutInflater inflater;
     private SharedPreferences prefs;
 
     public ListItemAdapter(Context context, int resourceId, List<Solution> list, SharedPreferences prefs) {
-        super(context,resourceId,list);
+        super(context, resourceId, list);
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.prefs = prefs;
+        editor = prefs.edit();
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
         final Solution viewSolution = getItem(position);
 
-        View view = inflater.inflate(R.layout.list_item,null);
+        View view = inflater.inflate(R.layout.list_item, null);
 
-        TextView solutionName = (TextView)view.findViewById(R.id.solutionName);
+        TextView solutionName = (TextView) view.findViewById(R.id.solutionName);
         solutionName.setTextColor(parent.getResources().getColor(R.color.black));
         solutionName.setText(viewSolution.getName());
 
@@ -58,15 +60,15 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
             public void onClick(View v) {
                 if (!prefs.getBoolean(viewSolution.getName(), false)) {
                     favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
-                    changeFavorite(viewSolution.getName(), true);
+                    addFavorite(viewSolution.getName(), true);
                 } else {
                     favoritePicture.setImageResource(R.drawable.ic_favorite_border_black_24px);
-                    changeFavorite(viewSolution.getName(), false);
+                    addFavorite(viewSolution.getName(), false);
                 }
             }
         });
 
-        if(i % 2 == 0){
+        if (i % 2 == 0) {
             view.setBackgroundColor(parent.getResources().getColor(R.color.grey));
         }
 
@@ -76,10 +78,9 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
     }
 
 
-    private void changeFavorite(String name, boolean favorite) {
-        SharedPreferences.Editor editor = prefs.edit();
+    private void addFavorite(String name, boolean favorite) {
         editor.putBoolean(name, favorite);
-        // Commit the edits!
         editor.apply();
     }
+
 }

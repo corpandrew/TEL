@@ -1,4 +1,4 @@
-package corp.andrew.tel;
+package activities;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import corp.andrew.tel.R;
 import json.Solution;
 
 /**
@@ -16,6 +17,8 @@ import json.Solution;
 public class SolutionActivity extends Activity {
 
     SharedPreferences sharedPreferences;
+    ImageView favoritePicture;
+    Solution solutionIntoClass;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -23,12 +26,12 @@ public class SolutionActivity extends Activity {
 
         sharedPreferences = getSharedPreferences("favoritesFile", 0);
 
-        final Solution solutionIntoClass = (Solution) getIntent().getExtras().getSerializable("solution");
+        solutionIntoClass = (Solution) getIntent().getExtras().getSerializable("solution");
 
         setContentView(R.layout.solution_main);
 
         final ImageView solutionImage = (ImageView) findViewById(R.id.solutionImage);
-        final ImageView favoritePicture = (ImageView) findViewById(R.id.favoritePicture);
+        favoritePicture = (ImageView) findViewById(R.id.favoritePicture);
         final TextView solutionName = (TextView) findViewById(R.id.solutionName);
         final TextView solutionCompany = (TextView) findViewById(R.id.solutionCompany);
         final TextView txt = (TextView) findViewById(R.id.txt);
@@ -38,10 +41,11 @@ public class SolutionActivity extends Activity {
         final TextView additionalInformationText = (TextView) findViewById(R.id.addtionalInformationText);
         final TextView contactText = (TextView) findViewById(R.id.contactText);
 
+        assert solutionIntoClass != null;
+
         solutionImage.setImageResource(R.drawable.coolbot);
 
         //sets the picture of the favorite when you open the solution,.
-        assert solutionIntoClass != null;
         if (sharedPreferences.getBoolean(solutionIntoClass.getName(), false)) {
             favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
         } else
@@ -52,11 +56,9 @@ public class SolutionActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (!sharedPreferences.getBoolean(solutionIntoClass.getName(), false)) {
-                    favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
-                    changeFavorite(solutionIntoClass.getName(), true);//TODO TEST THIS, works just doesnt reload the items in the listadapter
+                    changeFavorite(solutionIntoClass.getName(), false);
                 } else {
-                    favoritePicture.setImageResource(R.drawable.ic_favorite_border_black_24px);
-                    changeFavorite(solutionIntoClass.getName(), false);//TODO TEST THIS
+                    changeFavorite(solutionIntoClass.getName(), true);
                 }
             }
         });
@@ -69,14 +71,32 @@ public class SolutionActivity extends Activity {
         specificationsText.setText(solutionIntoClass.getSpecificationsTxt());
         additionalInformationText.setText(solutionIntoClass.getAdditionalinfoTxt());
         contactText.setText(solutionIntoClass.getContactTxt());
+    }
+
+    private void changeFavorite(final String name, boolean favorite) {
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        if (!sharedPreferences.getBoolean(solutionIntoClass.getName(), false)) {//if false set true
+            favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
+        } else {
+            favoritePicture.setImageResource(R.drawable.ic_favorite_border_black_24px);
+        }
+
+        System.out.println("Before Favorite: " + solutionIntoClass.getIsFavorite());
+
+        solutionIntoClass.setFavorite(!favorite);
+        editor.putBoolean(name, !favorite);
+        // Commit the edits!
+        editor.apply();
+
+        System.out.println("After Favorite: " + solutionIntoClass.getIsFavorite());
 
     }
 
-    private void changeFavorite(String name, boolean favorite) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(name, favorite);
-        // Commit the edits!
-        editor.apply();
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
 }

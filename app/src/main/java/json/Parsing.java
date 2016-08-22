@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import corp.andrew.tel.MainActivity;
+import activities.MainActivity;
 import corp.andrew.tel.R;
 
 /**
@@ -25,11 +25,9 @@ import corp.andrew.tel.R;
 public class Parsing {
 
     private static final String downloadString = "http://www.techxlab.org/pages.json";
-    private MainActivity activity;
     private String version = "file.json";
 
     public Parsing(MainActivity activity) {
-        this.activity = activity;
         loadJSONFromAsset(activity);
     }
 
@@ -64,7 +62,6 @@ public class Parsing {
             JSONArray solutionsArray = obj.getJSONArray("Solutions");
 
             for (int i = 0; i < solutionsArray.length(); i++) {
-                System.out.println(i);
                 JSONObject jo_inside = solutionsArray.getJSONObject(i);
 
                 String _hdr_value = jo_inside.getString("_hdr");

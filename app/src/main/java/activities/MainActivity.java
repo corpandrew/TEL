@@ -1,4 +1,4 @@
-package corp.andrew.tel;
+package activities;
 
 import android.Manifest;
 import android.app.Activity;
@@ -31,6 +31,10 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import corp.andrew.tel.ListItemAdapter;
+import corp.andrew.tel.R;
+import corp.andrew.tel.Sorting;
+import corp.andrew.tel.SyncDialogFragment;
 import json.Parsing;
 import json.Solution;
 
@@ -39,6 +43,7 @@ public class MainActivity extends AppCompatActivity
 
     // Storage Permissions variables
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    static MainActivity activity;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -75,6 +80,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         long startTime = System.nanoTime(); // For logging the time it takes to create the
 
+        activity = this;
         super.onCreate(savedInstanceState);
 
         verifyStoragePermissions(this);
@@ -83,8 +89,11 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main); // set the layout to activity_main.xml
 
+        if (getSupportActionBar() != null)
+            getSupportActionBar().hide();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);//Top bar with the settings and search
-        //setSupportActionBar(toolbar);//TODO FIX THIS
+        setSupportActionBar(toolbar);
 
         Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_sync_white_24px);
         toolbar.setOverflowIcon(drawable);
@@ -106,7 +115,7 @@ public class MainActivity extends AppCompatActivity
 
         listView = (ListView) findViewById(R.id.ListView);
         listView.setAdapter(listItemAdapter);
-
+        final MainActivity instance = this;
         // When the list is clicked
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -115,7 +124,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), "Name = " + allSolutions.get(position).getName(), Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(view.getContext(), SolutionActivity.class);
                 i.putExtra("solution", s);
-                i.putExtra("positon", position);
+                i.putExtra("position", position);
                 startActivity(i);
             }
         });
@@ -136,9 +145,13 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else if (isSearchOpened) {
             handleMenuSearch();
-        } else {
-            super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        listView.setAdapter(new ListItemAdapter(getApplicationContext(), 0, allSolutions, favoriteSharedPrefs));
     }
 
     @Override
@@ -224,7 +237,7 @@ public class MainActivity extends AppCompatActivity
         final ActionBar actionBar = getSupportActionBar();
 
         if (isSearchOpened) {
-            if(actionBar != null) {
+            if (actionBar != null) {
                 actionBar.setDisplayShowCustomEnabled(false);
                 actionBar.setDisplayShowTitleEnabled(true);
             }
@@ -236,7 +249,7 @@ public class MainActivity extends AppCompatActivity
 
             isSearchOpened = false;
         } else {
-            if(actionBar != null) {
+            if (actionBar != null) {
                 actionBar.setDisplayShowCustomEnabled(true);
                 actionBar.setCustomView(R.layout.search_bar);
                 actionBar.setDisplayShowTitleEnabled(false);
@@ -262,7 +275,7 @@ public class MainActivity extends AppCompatActivity
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(editSearch, InputMethodManager.SHOW_IMPLICIT);
 
-                mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_action_search));
+            mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_action_search));
 
             isSearchOpened = true;
         }
@@ -292,12 +305,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void checkForUpdates() {
-//        if(version != getVersion()){
-//            download();
-//            //create new popup box that says "The Database has been updated,\n Would you like to download the most recent?" with buttons yes or no
-//            //if hits yes then download if no then break.
-//
-//        } TODO
+        new SyncDialogFragment().show(getFragmentManager(), "");
     }
 
     private void handleFilter() {
@@ -309,10 +317,6 @@ public class MainActivity extends AppCompatActivity
 
     public ListItemAdapter getListItemAdapter() {
         return listItemAdapter;
-    }
-
-    public void setListItemAdapter(ListItemAdapter listItemAdapter){
-        this.listItemAdapter = listItemAdapter;
     }
 
     public List<Solution> getAllSolutions() {
