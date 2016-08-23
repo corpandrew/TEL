@@ -25,12 +25,14 @@ import activities.MainActivity;
 public class Parsing {
 
     private static final String downloadString = "http://www.techxlab.org/pages.json";
+    InputStream inputStream = null;
     private String version = "file.json";
-
     private MainActivity activity;
+    private AssetManager assetManager;
 
     public Parsing(MainActivity activity) {
         this.activity = activity;
+        assetManager = activity.getBaseContext().getResources().getAssets();
         loadJSONFromAsset(activity);
     }
 
@@ -185,31 +187,14 @@ public class Parsing {
     }
 
     private String pathToDrawable(String imageId) {
-
-        if (imageId != null) {
-            imageId = imageId.replace("tel-", "");
-            imageId = "images/" + imageId + ".jpg";
-            if (assetExists(imageId)) {
-                return imageId;
-            } else {
-                imageId = imageId.replace(".jpg", ".jpeg");
-                if (assetExists(imageId)) {
-                    return imageId;
-                }
-                imageId = imageId.replace(".jpeg", ".png");
-                if (assetExists(imageId)) {
-                    return imageId;
-                }
-            }
+        if ((imageId != null) && assetExists(imageId)) {
+            return imageId;
         } else {
-            return "images/e41sag8-coolbot-image-v2.jpg";
+            return "ast/e41sag8-coolbot-image-v2.jpg";
         }
-        return "images/e41sag8-coolbot-image-v2.jpg";
     }
 
     private boolean assetExists(String pathInAssetsDir) {
-        AssetManager assetManager = activity.getBaseContext().getResources().getAssets();
-        InputStream inputStream = null;
         try {
             inputStream = assetManager.open(pathInAssetsDir);
             if (null != inputStream) {
