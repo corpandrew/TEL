@@ -74,10 +74,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public SharedPreferences getFavoriteSharedPrefs() {
-        return favoriteSharedPrefs;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         long startTime = System.nanoTime(); // For logging the time it takes to create the
@@ -111,13 +107,12 @@ public class MainActivity extends AppCompatActivity
 
         Parsing parsing = new Parsing(this);// creates the parsing object
 
-        allSolutions = parsing.parseJson(this);
+        allSolutions = parsing.parseJson();
 
         listItemAdapter = new ListItemAdapter(this, 0, allSolutions, favoriteSharedPrefs);
 
         listView = (ListView) findViewById(R.id.ListView);
         listView.setAdapter(listItemAdapter);
-        final MainActivity instance = this;
         // When the list is clicked
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -314,24 +309,5 @@ public class MainActivity extends AppCompatActivity
 
     private void checkForUpdates() {
         new SyncDialogFragment().show(getFragmentManager(), "");
-    }
-
-    private void handleFilter() {
-        Sorting sorting = new Sorting(allSolutions, favoriteSharedPrefs);
-        Intent i = new Intent(this.getApplicationContext(), FilterActivity.class);
-        i.putExtra("sorting", sorting);
-        startActivity(i);
-    }
-
-    public ListItemAdapter getListItemAdapter() {
-        return listItemAdapter;
-    }
-
-    public List<Solution> getAllSolutions() {
-        return allSolutions;
-    }
-
-    public ListView getListView() {
-        return listView;
     }
 }

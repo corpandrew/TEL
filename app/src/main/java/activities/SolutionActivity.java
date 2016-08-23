@@ -1,11 +1,15 @@
 package activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,13 +23,11 @@ import json.Solution;
  * Created by corpa on Aug 19, 2016
  */
 
-public class SolutionActivity extends Activity {
+public class SolutionActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     SharedPreferences sharedPreferences;
     ImageView favoritePicture;
     Solution solutionIntoClass;
-
-    private int position;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -35,9 +37,13 @@ public class SolutionActivity extends Activity {
 
         solutionIntoClass = (Solution) getIntent().getExtras().getSerializable("solution");
 
-        position = getIntent().getIntExtra("position", 0);
-
         setContentView(R.layout.solution_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);//Top bar with the settings and search
+        setSupportActionBar(toolbar);
+
+        Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_sync_white_24px);
+        toolbar.setOverflowIcon(drawable);
 
         final ImageView solutionImage = (ImageView) findViewById(R.id.solutionImage);
         favoritePicture = (ImageView) findViewById(R.id.favoritePicture);
@@ -50,7 +56,7 @@ public class SolutionActivity extends Activity {
         final TextView additionalInformationText = (TextView) findViewById(R.id.addtionalInformationText);
         final TextView contactText = (TextView) findViewById(R.id.contactText);
 
-        final ImageView emailCompanyButton = (ImageView) findViewById(R.id.emailCompanyView);
+        //final ImageView emailCompanyButton = (ImageView) findViewById(R.id.emailCompanyView);
 
         assert solutionIntoClass != null;
 
@@ -86,7 +92,7 @@ public class SolutionActivity extends Activity {
                 }
             }
         });
-
+/*
         if (solutionIntoClass.getContactTxt().contains("@")) {
             emailCompanyButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -103,7 +109,7 @@ public class SolutionActivity extends Activity {
             });
         } else {
             emailCompanyButton.setImageDrawable(null);
-        }
+        }*/
 
         solutionName.setText(solutionIntoClass.getName());
         solutionCompany.setText(solutionIntoClass.getContactName());
@@ -172,4 +178,8 @@ public class SolutionActivity extends Activity {
         }
     }
 
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        return false;
+    }
 }

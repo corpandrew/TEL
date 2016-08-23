@@ -26,7 +26,6 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
     private LayoutInflater inflater;
     private SharedPreferences prefs;
     private Context context;
-    private Thread getDrawableThread;
 
     public ListItemAdapter(Context context, int resourceId, List<Solution> list, SharedPreferences prefs) {
         super(context, resourceId, list);
@@ -34,7 +33,6 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
         this.context = context;
         this.prefs = prefs;
         editor = prefs.edit();
-        getDrawableThread = new Thread();
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {

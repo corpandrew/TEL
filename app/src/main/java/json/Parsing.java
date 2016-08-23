@@ -1,6 +1,5 @@
 package json;
 
-import android.app.Activity;
 import android.content.res.AssetManager;
 import android.os.Environment;
 import android.util.Log;
@@ -27,16 +26,13 @@ public class Parsing {
     private static final String downloadString = "http://www.techxlab.org/pages.json";
     InputStream inputStream = null;
     private String version = "file.json";
-    private MainActivity activity;
     private AssetManager assetManager;
 
     public Parsing(MainActivity activity) {
-        this.activity = activity;
         assetManager = activity.getBaseContext().getResources().getAssets();
-        loadJSONFromAsset(activity);
     }
 
-    private String loadJSONFromAsset(Activity activity) {
+    private String loadJSONFromAsset() {
 
         String json;
         final File file = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + "/" + version);
@@ -48,7 +44,7 @@ public class Parsing {
             int size = is.available();
             byte[] buffer = new byte[size];
 
-            is.read(buffer);
+            int read = is.read(buffer);
             is.close();
             json = new String(buffer, "UTF-8");
         } catch (IOException ex) {
@@ -58,12 +54,12 @@ public class Parsing {
         return json;
     }
 
-    public List<Solution> parseJson(Activity activity) {
+    public List<Solution> parseJson() {
 
         List<Solution> solutionList = new ArrayList<>();
 
         try {
-            JSONObject obj = new JSONObject(loadJSONFromAsset(activity));
+            JSONObject obj = new JSONObject(loadJSONFromAsset());
             JSONArray solutionsArray = obj.getJSONArray("Solutions");
 
             for (int i = 0; i < solutionsArray.length(); i++) {
