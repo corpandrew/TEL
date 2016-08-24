@@ -22,17 +22,20 @@ import activities.MainActivity;
  * Created by corpa on Aug 19, 2016
  */
 public class Parsing {
-
-    private static final String downloadString = "http://www.techxlab.org/pages.json";
     InputStream inputStream = null;
-    private String version = "file.json";
+    private String version = "file.json"; //TODO Get version from website
     private AssetManager assetManager;
 
     public Parsing(MainActivity activity) {
         assetManager = activity.getBaseContext().getResources().getAssets();
     }
 
-    private String loadJSONFromAsset() {
+    /**
+     * Reads in the jsonFile to a string
+     *
+     * @return the string of the json file
+     */
+    private String loadJSON() {
 
         String json;
         final File file = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + "/" + version);
@@ -54,12 +57,17 @@ public class Parsing {
         return json;
     }
 
+
+    /**
+     * Parses the jsonString to Usable Solutions.
+     * @return A list of all the solutions in the jsonFile
+     */
     public List<Solution> parseJson() {
 
         List<Solution> solutionList = new ArrayList<>();
 
         try {
-            JSONObject obj = new JSONObject(loadJSONFromAsset());
+            JSONObject obj = new JSONObject(loadJSON());
             JSONArray solutionsArray = obj.getJSONArray("Solutions");
 
             for (int i = 0; i < solutionsArray.length(); i++) {
@@ -182,14 +190,25 @@ public class Parsing {
         return solutionList;
     }
 
-    private String pathToDrawable(String imageId) {
-        if ((imageId != null) && assetExists(imageId)) {
-            return imageId;
+    /**
+     * Gets the imageFile path if it exists in assets, if it doesn't returns the Coolbot image
+     *
+     * @param imageFile
+     * @return imageFile or coolbot image
+     */
+    private String pathToDrawable(String imageFile) {
+        if ((imageFile != null) && assetExists(imageFile)) {
+            return imageFile;
         } else {
             return "ast/e41sag8-coolbot-image-v2.jpg";
         }
     }
 
+    /**
+     * Checks to see if the file is in the assets folder
+     * @param pathInAssetsDir
+     * @return true if exists else false
+     */
     private boolean assetExists(String pathInAssetsDir) {
         try {
             inputStream = assetManager.open(pathInAssetsDir);

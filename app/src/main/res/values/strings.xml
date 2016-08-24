@@ -20,6 +20,11 @@
     <string name="action_search">Search</string>
     <string name="action_filter">Filter</string>
 
+    <string name="action_back">Back</string>
+    <string name="action_email">Email</string>
+    <string name="action_call">Call</string>
+    <string name="action_website">Navigate</string>
+
     <string name="loading_text">Practical solutions to problems of poverty. No internet required.</string>
 
     <string name="update_database">Update Database</string>

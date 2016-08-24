@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="fill_horizontal">
+
+    <ImageView
+        android:id="@+id/action_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orderInCategory="0"
+        android:paddingLeft="5dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/ic_chevron_left_white_24px"
+        android:title="@string/action_back" />
+
+    <TextView
+        android:id="@+id/telTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/action_back"
+        android:layout_toRightOf="@+id/action_back"
+        android:minWidth="170dp"
+        android:text="@string/app_name"
+        android:textColor="#ffffff"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/action_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/telTextView"
+        android:layout_toRightOf="@+id/telTextView"
+        android:orderInCategory="10"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/ic_mail_outline_white_24px"
+        android:title="@string/action_email" />
+
+    <ImageView
+        android:id="@+id/action_call"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/action_email"
+        android:layout_toRightOf="@+id/action_email"
+        android:orderInCategory="20"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/ic_call_white_24px"
+        android:title="@string/action_call" />
+
+    <ImageView
+        android:id="@+id/action_website"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/action_call"
+        android:layout_toRightOf="@+id/action_call"
+        android:orderInCategory="30"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/ic_language_white_24px"
+        android:title="@string/action_website" />
+
+</RelativeLayout>
