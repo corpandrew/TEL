@@ -57,6 +57,27 @@ public class Parsing {
         return json;
     }
 
+    private String loadJSONJared() {
+
+        String json;
+
+        try {
+            InputStream is = assetManager.open("pages.json");
+
+            Log.v("Testing", "File opened");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+
+            int read = is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+
 
     /**
      * Parses the jsonString to Usable Solutions.
@@ -68,6 +89,7 @@ public class Parsing {
 
         try {
             JSONObject obj = new JSONObject(loadJSON());
+            //JSONObject obj = new JSONObject(loadJSONJared());
             JSONArray solutionsArray = obj.getJSONArray("Solutions");
 
             for (int i = 0; i < solutionsArray.length(); i++) {
