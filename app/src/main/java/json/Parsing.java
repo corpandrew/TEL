@@ -22,8 +22,6 @@ import activities.MainActivity;
  * Created by corpa on Aug 19, 2016
  */
 public class Parsing {
-
-    private static final String downloadString = "http://www.techxlab.org/pages.json";
     InputStream inputStream = null;
     private String version = "file.json";
     private AssetManager assetManager;

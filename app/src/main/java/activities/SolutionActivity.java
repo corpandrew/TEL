@@ -1,18 +1,22 @@
 package activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -38,12 +42,13 @@ public class SolutionActivity extends AppCompatActivity implements NavigationVie
         solutionIntoClass = (Solution) getIntent().getExtras().getSerializable("solution");
 
         setContentView(R.layout.solution_main);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);//Top bar with the settings and search
         setSupportActionBar(toolbar);
 
-        Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_sync_white_24px);
-        toolbar.setOverflowIcon(drawable);
+        showActionBar();
+
+//        Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_sync_white_24px);
+//        toolbar.setOverflowIcon(drawable);
 
         final ImageView solutionImage = (ImageView) findViewById(R.id.solutionImage);
         favoritePicture = (ImageView) findViewById(R.id.favoritePicture);
@@ -56,6 +61,11 @@ public class SolutionActivity extends AppCompatActivity implements NavigationVie
         final TextView additionalInformationText = (TextView) findViewById(R.id.addtionalInformationText);
         final TextView contactText = (TextView) findViewById(R.id.contactText);
 
+        final ImageView backActionImageView = (ImageView) findViewById(R.id.action_back);
+        final ImageView emailActionImageView = (ImageView) findViewById(R.id.action_email);
+        final ImageView callActionImageView = (ImageView) findViewById(R.id.action_call);
+        final ImageView websiteActionImageView = (ImageView) findViewById(R.id.action_website);
+
         //final ImageView emailCompanyButton = (ImageView) findViewById(R.id.emailCompanyView);
 
         assert solutionIntoClass != null;
@@ -66,20 +76,7 @@ public class SolutionActivity extends AppCompatActivity implements NavigationVie
         if (sharedPreferences.getBoolean(solutionIntoClass.getName(), false)) {
             favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
         } else
-            favoritePicture.setImageResource(R.drawable.ic_favorite_border_black_24px);
-
-        solutionImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String website = getWebsite(solutionIntoClass.getAdditionalinfoTxt());
-                if (!website.equals("")) {
-                    Intent emailIntent = new Intent(Intent.ACTION_VIEW); // it's not ACTION_SEND
-                    emailIntent.setData(Uri.parse(website)); // or just "mailto:" for blank
-                    emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
-                    startActivity(Intent.createChooser(emailIntent, "Send Email Using: "));
-                }
-            }
-        });
+            favoritePicture.setImageResource(R.drawable.ic_favorite_border_orange_24px);
 
         //clicking the favorites button does this
         favoritePicture.setOnClickListener(new View.OnClickListener() {
@@ -92,24 +89,61 @@ public class SolutionActivity extends AppCompatActivity implements NavigationVie
                 }
             }
         });
-/*
-        if (solutionIntoClass.getContactTxt().contains("@")) {
-            emailCompanyButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String email = getEmail(solutionIntoClass.getContactTxt());
-                    if (!email.equals("")) {
-                        Intent emailIntent = new Intent(Intent.ACTION_SENDTO); // it's not ACTION_SEND
-                        emailIntent.setType("text/plain");
-                        emailIntent.setData(Uri.parse("mailto:" + email)); // or just "mailto:" for blank
-                        emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
-                        startActivity(Intent.createChooser(emailIntent, "Send Email Using: "));
-                    }
+
+        backActionImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        emailActionImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = getEmail(solutionIntoClass.getContactTxt());
+                if (!email.equals("")) {
+                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO); // it's not ACTION_SEND
+                    emailIntent.setType("text/plain");
+                    emailIntent.setData(Uri.parse("mailto:" + email)); // or just "mailto:" for blank
+                    emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
+                    startActivity(Intent.createChooser(emailIntent, "Send Email Using: "));
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Email Available", Toast.LENGTH_SHORT).show();
                 }
-            });
-        } else {
-            emailCompanyButton.setImageDrawable(null);
-        }*/
+            }
+        });
+
+        callActionImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String phoneNumber = getPhoneNumber(solutionIntoClass.getContactTxt());
+                phoneNumber = "";
+                if (!phoneNumber.equals("")) {
+                    Intent phoneIntent = new Intent(Intent.ACTION_DIAL);
+                    phoneIntent.setData(Uri.parse("tel:" + phoneNumber));
+                    phoneIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(phoneIntent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Not yet Implemented", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        websiteActionImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String website = getWebsite(solutionIntoClass.getAdditionalinfoTxt());
+                if (!website.equals("")) {
+                    Intent emailIntent = new Intent(Intent.ACTION_VIEW); // it's not ACTION_SEND
+                    emailIntent.setData(Uri.parse(website)); // or just "mailto:" for blank
+                    emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
+                    startActivity(Intent.createChooser(emailIntent, "Send Email Using: "));
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Website Available", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         solutionName.setText(solutionIntoClass.getName());
         solutionCompany.setText(solutionIntoClass.getContactName());
@@ -128,7 +162,7 @@ public class SolutionActivity extends AppCompatActivity implements NavigationVie
         if (!sharedPreferences.getBoolean(solutionIntoClass.getName(), false)) {//if false set true
             favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
         } else {
-            favoritePicture.setImageResource(R.drawable.ic_favorite_border_black_24px);
+            favoritePicture.setImageResource(R.drawable.ic_favorite_border_orange_24px);
         }
 
         System.out.println("Before Favorite: " + solutionIntoClass.getIsFavorite());
@@ -181,5 +215,44 @@ public class SolutionActivity extends AppCompatActivity implements NavigationVie
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         return false;
+    }
+
+    private void showActionBar() {
+        LayoutInflater inflator = (LayoutInflater) this
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflator.inflate(R.layout.solution_activity_toolbar, null);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setCustomView(v);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_back) {
+            return true;
+        } else if (id == R.id.action_email) {
+            return true;
+        } else if (id == R.id.action_call) {
+            return true;
+        } else if (id == R.id.action_website) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

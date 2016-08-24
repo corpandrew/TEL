@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_back"
+        android:icon="@drawable/ic_chevron_left_white_24px"
+        android:orderInCategory="0"
+        android:title="@string/action_back"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_email"
+        android:icon="@drawable/ic_mail_outline_white_24px"
+        android:orderInCategory="10"
+        android:title="@string/action_email"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_call"
+        android:icon="@drawable/ic_call_white_24px"
+        android:orderInCategory="20"
+        android:title="@string/action_call"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_website"
+        android:icon="@drawable/ic_language_white_24px"
+        android:orderInCategory="30"
+        android:title="@string/action_website"
+        app:showAsAction="always" />
+
+</menu>

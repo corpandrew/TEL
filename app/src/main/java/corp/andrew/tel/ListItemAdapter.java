@@ -54,7 +54,7 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
         final ImageView favoritePicture = (ImageView) view.findViewById(R.id.favoritePicture);
 
         if (!prefs.getBoolean(viewSolution.getName(), false)) {
-            favoritePicture.setImageResource(R.drawable.ic_favorite_border_black_24px);
+            favoritePicture.setImageResource(R.drawable.ic_favorite_border_orange_24px);
         } else {
             favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
         }
@@ -66,7 +66,7 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
                     favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
                     addFavorite(viewSolution.getName(), true);
                 } else {
-                    favoritePicture.setImageResource(R.drawable.ic_favorite_border_black_24px);
+                    favoritePicture.setImageResource(R.drawable.ic_favorite_border_orange_24px);
                     addFavorite(viewSolution.getName(), false);
                 }
             }
