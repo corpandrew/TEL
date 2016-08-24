@@ -88,8 +88,8 @@ public class Parsing {
         List<Solution> solutionList = new ArrayList<>();
 
         try {
-            JSONObject obj = new JSONObject(loadJSON());
-            //JSONObject obj = new JSONObject(loadJSONJared());
+            //JSONObject obj = new JSONObject(loadJSON());
+            JSONObject obj = new JSONObject(loadJSONJared());
             JSONArray solutionsArray = obj.getJSONArray("Solutions");
 
             for (int i = 0; i < solutionsArray.length(); i++) {

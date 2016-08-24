@@ -42,46 +42,49 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="90dp"
                     android:layout_marginTop="20dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:gravity="bottom"
+                    android:layout_marginBottom="10dp">
 
                     <TextView
                         android:id="@+id/solutionName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/white"
-                        android:textSize="23sp"
+                        android:textSize="28dp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/solutionCompany"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
                         android:textColor="#e0e0e0"
-                        android:textSize="15dp" />
+                        android:textSize="18dp" />
                 </LinearLayout>
 
                 <ImageView
                     android:id="@+id/favoritePicture"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_width="62dp"
+                    android:layout_height="62dp"
+                    android:layout_gravity="bottom|right"
+                    android:layout_marginRight="10dp"
                     android:adjustViewBounds="false"
-                    android:contentDescription="@string/favorite_picture" />
+                    android:contentDescription="@string/favorite_picture"
+                    android:layout_marginBottom="11dp" />
 
             </FrameLayout>
 
             <LinearLayout
-                android:layout_width="342dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
 
                 <TextView
                     android:id="@+id/overviewandbenefits"
@@ -89,13 +92,15 @@
                     android:layout_height="wrap_content"
                     android:text="@string/solution_overview_amp_benefits"
                     android:textColor="@color/orange"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp" />
+                    android:textSize="14dp"
+                    android:layout_marginTop="5dp" />
 
                 <TextView
                     android:id="@+id/historyanddevelopment"
@@ -103,13 +108,15 @@
                     android:layout_height="wrap_content"
                     android:text="@string/history_amp_development"
                     android:textColor="@color/orange"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/histAndDevText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp" />
+                    android:textSize="14dp"
+                    android:layout_marginTop="5dp" />
 
                 <TextView
                     android:id="@+id/availability"
@@ -117,13 +124,15 @@
                     android:layout_height="wrap_content"
                     android:text="@string/availability"
                     android:textColor="@color/orange"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/availabilityText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp" />
+                    android:textSize="14dp"
+                    android:layout_marginTop="5dp" />
 
                 <TextView
                     android:id="@+id/specifications"
@@ -131,13 +140,15 @@
                     android:layout_height="wrap_content"
                     android:text="@string/specifications"
                     android:textColor="@color/orange"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/specificationsText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp" />
+                    android:textSize="14dp"
+                    android:layout_marginTop="5dp" />
 
                 <TextView
                     android:id="@+id/additionalinformation"
@@ -145,13 +156,15 @@
                     android:layout_height="wrap_content"
                     android:text="@string/additional_information"
                     android:textColor="@color/orange"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/addtionalInformationText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp" />
+                    android:textSize="14dp"
+                    android:layout_marginTop="5dp" />
 
                 <TextView
                     android:id="@+id/contact"
@@ -159,13 +172,15 @@
                     android:layout_height="wrap_content"
                     android:text="@string/contact"
                     android:textColor="@color/orange"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/contactText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp" />
+                    android:textSize="14sp"
+                    android:layout_marginTop="5dp" />
             </LinearLayout>
 
         </LinearLayout>
