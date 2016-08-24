@@ -66,8 +66,6 @@ public class SolutionActivity extends AppCompatActivity implements NavigationVie
         final ImageView callActionImageView = (ImageView) findViewById(R.id.action_call);
         final ImageView websiteActionImageView = (ImageView) findViewById(R.id.action_website);
 
-        //final ImageView emailCompanyButton = (ImageView) findViewById(R.id.emailCompanyView);
-
         assert solutionIntoClass != null;
 
         solutionImage.setImageDrawable(getDrawableImageFromPath(solutionIntoClass.getPathToImage()));
