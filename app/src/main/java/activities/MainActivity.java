@@ -32,7 +32,7 @@ import java.util.List;
 import corp.andrew.tel.ListItemAdapter;
 import corp.andrew.tel.R;
 import corp.andrew.tel.Sorting;
-import corp.andrew.tel.SyncDialogFragment;
+import Fragments.SyncDialogFragment;
 import json.Parsing;
 import json.Solution;
 

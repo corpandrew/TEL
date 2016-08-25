@@ -2,9 +2,14 @@ package activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -14,6 +19,7 @@ import android.widget.ProgressBar;
 
 import java.io.File;
 
+import Fragments.InternetDialogFragment;
 import corp.andrew.tel.DownloadFileTask;
 import corp.andrew.tel.R;
 
@@ -28,7 +34,8 @@ public class LoadScreenActivity extends AppCompatActivity {
     private static String[] PERMISSIONS = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CALL_PHONE
+            Manifest.permission.CALL_PHONE,
+            Manifest.permission.ACCESS_NETWORK_STATE
     };
 
     private String version = "file.json";
@@ -45,15 +52,15 @@ public class LoadScreenActivity extends AppCompatActivity {
             sync = bundle.getBoolean("sync");
         }
 
-        /*if(!sync) {
-            //if sync is false then we need to request permissions... only other way to get here
-            if(checkPermissions(this))
-                requestNeededPermissions(this);
+        if(!checkPermissions(this)){
+            requestNeededPermissions(this);
+            boolean hasWifi = checkWifiOnAndConnected();
         } else {
-            //start syncing the new page
-            startDownloadTask(sync,version);
-        }*/
-        startDownloadTask(sync, version);
+            if(checkWifiOnAndConnected())
+                startDownloadTask(sync,version);
+            else
+                new InternetDialogFragment().show(getFragmentManager(),"No Internet");
+        }
     }
 
     public boolean checkPermissions(Activity activity) {
@@ -67,7 +74,6 @@ public class LoadScreenActivity extends AppCompatActivity {
 
     /**
      * Requests the permissions needed from the user
-     *
      * @param activity
      */
     public void requestNeededPermissions(Activity activity) {
@@ -75,8 +81,9 @@ public class LoadScreenActivity extends AppCompatActivity {
         int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
         int callPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE);
+        int wifiPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_NETWORK_STATE);
 
-        if (writePermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED || callPermission != PackageManager.PERMISSION_GRANTED) {
+        if (writePermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED || callPermission != PackageManager.PERMISSION_GRANTED || wifiPermission != PackageManager.PERMISSION_GRANTED) {
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(
                     activity,
@@ -122,13 +129,30 @@ public class LoadScreenActivity extends AppCompatActivity {
             setContentView(R.layout.loading_screen);
 
             ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
-//TODO Check if connected to internet before attempting to download.
+            //TODO Check if connected to internet before attempting to download.
             DownloadFileTask downloadFileTask = new DownloadFileTask(this, progressBar);
             downloadFileTask.execute(version, downloadString);
         } else {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
+    }
+
+    private boolean checkWifiOnAndConnected() {
+        ConnectivityManager internetService = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = internetService.getActiveNetworkInfo();
+
+        if(networkInfo == null)
+            return false;
+
+        System.out.println("1: " + networkInfo.getDetailedState().toString());
+        System.out.println("2: " + networkInfo.getExtraInfo());
+        System.out.println("3: " + networkInfo.getTypeName());
+        System.out.println("4: " + networkInfo.getSubtypeName());
+        System.out.println("5: " + networkInfo.isAvailable());
+
+        return networkInfo.isConnected();
     }
 
 }

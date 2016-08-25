@@ -17,6 +17,8 @@
     <string name="navigation_ten">Additional Solutions</string>
 
     <string name="action_sync">Sync Json</string>
+    <string name="sync_json_question">Would you like to sync the json file?</string>
+
     <string name="action_search">Search</string>
     <string name="action_filter">Filter</string>
 
@@ -27,7 +29,6 @@
 
     <string name="loading_text">Practical solutions to problems of poverty. No internet required.</string>
 
-    <string name="update_database">Update Database</string>
     <string name="image_of_solution">image of solution</string>
     <string name="favorite_picture">favorite picture</string>
     <string name="solution_overview_amp_benefits"><![CDATA[Solution Overview & Benefits]]></string>
