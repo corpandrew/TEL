@@ -47,7 +47,7 @@ public class SolutionActivity extends AppCompatActivity implements NavigationVie
 
         showActionBar();
 
-        final ImageView solutionImage = (ImageView) findViewById(R.id.solutionImage);
+        final ImageView solutionImage = (ImageView) findViewById(R.id.solutionPicture);
         favoritePicture = (ImageView) findViewById(R.id.favoritePicture);
         final TextView solutionName = (TextView) findViewById(R.id.solutionName);
         final TextView solutionCompany = (TextView) findViewById(R.id.solutionCompany);

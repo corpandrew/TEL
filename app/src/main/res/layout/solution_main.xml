@@ -1,81 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical">-->
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+   <!-- <android.support.design.widget.CollapsingToolbarLayout
+        android:id="@+id/collapsing_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:titleTextColor="@color/white" />
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        app:contentScrim="?attr/colorPrimary"
+        app:expandedTitleMarginEnd="64dp"
+        app:expandedTitleMarginStart="48dp"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-    <ScrollView
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"></android.support.v7.widget.Toolbar>
+        <ImageView
+            android:id="@+id/solutionImage"
+            android:foreground="@drawable/gradient_shape"
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            app:layout_collapseMode="parallax"
+            android:minHeight="100dp"/>
+
+    </android.support.design.widget.CollapsingToolbarLayout>-->
+
+    <!--<com.emilsjolander.components.StickyScrollViewItems.StickyScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:nestedScrollingEnabled="false"
+        android:scrollY="220dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="#ffffff">
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/solutionImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:contentDescription="@string/image_of_solution" />
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false">
 
                 <ImageView
                     android:id="@+id/gradient"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="@string/image_of_solution"
-                    android:src="@drawable/gradient_shape" />
+                    android:src="@drawable/gradient_shape"/>
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="90dp"
-                    android:layout_marginTop="20dp"
-                    android:orientation="vertical"
-                    android:gravity="bottom"
-                    android:layout_marginBottom="10dp">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:tag="sticky-hastransparancy-nonconstant">
 
-                    <TextView
-                        android:id="@+id/solutionName"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/white"
-                        android:textSize="28dp"
-                        android:textStyle="bold" />
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="90dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:layout_marginBottom="10dp"
+                        android:layout_gravity="left|bottom"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/linearLayout2">
 
-                    <TextView
-                        android:id="@+id/solutionCompany"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#e0e0e0"
-                        android:textSize="18dp" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/solutionName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/white"
+                            android:textSize="28dp"
+                            android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/favoritePicture"
-                    android:layout_width="62dp"
-                    android:layout_height="62dp"
-                    android:layout_gravity="bottom|right"
-                    android:layout_marginRight="10dp"
-                    android:adjustViewBounds="false"
-                    android:contentDescription="@string/favorite_picture"
-                    android:layout_marginBottom="10dp" />
+                        <TextView
+                            android:id="@+id/solutionCompany"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#e0e0e0"
+                            android:textSize="18dp" />
 
-            </FrameLayout>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/favoritePicture"
+                        android:layout_width="62dp"
+                        android:layout_height="62dp"
+                        android:layout_gravity="bottom|right"
+                        android:layout_marginRight="8dp"
+                        android:adjustViewBounds="false"
+                        android:contentDescription="@string/favorite_picture"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
+
+                </RelativeLayout>
+
+            </FrameLayout>-->
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:fitsSystemWindows="true">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleMarginEnd="64dp">
+
+            <ImageView
+                android:id="@+id/solutionPicture"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:background="#ffffff"
+                android:fitsSystemWindows="true"
+                app:layout_collapseMode="parallax"
+                android:foreground="@drawable/gradient_shape" />
+
+            <ImageView
+                android:id="@+id/gradient"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:fitsSystemWindows="true"
+                app:layout_collapseMode="parallax"
+                android:src="@drawable/gradient_shape2"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_collapseMode="parallax"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:gravity="bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="left|bottom"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/linearLayout2">
+
+                <TextView
+                    android:id="@+id/solutionName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="28dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/solutionCompany"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#e0e0e0"
+                    android:textSize="18dp" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_collapseMode="pin" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <com.emilsjolander.components.StickyScrollViewItems.StickyScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -88,12 +209,16 @@
 
                 <TextView
                     android:id="@+id/overviewandbenefits"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/solution_overview_amp_benefits"
                     android:textColor="@color/orange"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:tag="sticky-hastransparancy-nonconstant"
+                    android:textStyle="bold"
+                    android:background="#ffffff"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginLeft="10dp" />
 
                 <TextView
                     android:id="@+id/txt"
@@ -104,13 +229,16 @@
 
                 <TextView
                     android:id="@+id/historyanddevelopment"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/history_amp_development"
                     android:textColor="@color/orange"
                     android:textSize="16sp"
+                    android:tag="sticky-hastransparancy-nonconstant"
                     android:textStyle="bold"
-                    android:gravity="top" />
+                    android:gravity="top"
+                    android:background="#ffffff"
+                    android:layout_marginLeft="10dp" />
 
                 <TextView
                     android:id="@+id/histAndDevText"
@@ -121,12 +249,15 @@
 
                 <TextView
                     android:id="@+id/availability"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/availability"
                     android:textColor="@color/orange"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:tag="sticky-hastransparancy-nonconstant"
+                    android:textStyle="bold"
+                    android:background="#ffffff"
+                    android:layout_marginLeft="10dp" />
 
                 <TextView
                     android:id="@+id/availabilityText"
@@ -137,12 +268,15 @@
 
                 <TextView
                     android:id="@+id/specifications"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/specifications"
                     android:textColor="@color/orange"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:tag="sticky-hastransparancy-nonconstant"
+                    android:textStyle="bold"
+                    android:background="#ffffff"
+                    android:layout_marginLeft="10dp" />
 
                 <TextView
                     android:id="@+id/specificationsText"
@@ -153,12 +287,15 @@
 
                 <TextView
                     android:id="@+id/additionalinformation"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/additional_information"
                     android:textColor="@color/orange"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:tag="sticky-hastransparancy-nonconstant"
+                    android:textStyle="bold"
+                    android:background="#ffffff"
+                    android:layout_marginLeft="10dp" />
 
                 <TextView
                     android:id="@+id/addtionalInformationText"
@@ -169,12 +306,15 @@
 
                 <TextView
                     android:id="@+id/contact"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/contact"
                     android:textColor="@color/orange"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:tag="sticky-hastransparancy-nonconstant"
+                    android:textStyle="bold"
+                    android:background="#ffffff"
+                    android:layout_marginLeft="10dp" />
 
                 <TextView
                     android:id="@+id/contactText"
@@ -183,7 +323,19 @@
                     android:textSize="14sp"
                     android:layout_marginTop="5dp" />
             </LinearLayout>
+    </com.emilsjolander.components.StickyScrollViewItems.StickyScrollView>
 
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:layout_anchor="@id/appbar"
+        app:layout_anchorGravity="bottom|right|end"
+        android:id="@+id/favoritePicture"
+        android:layout_margin="@dimen/fab_margin"
+        android:clickable="true"/>
+
+</android.support.design.widget.CoordinatorLayout>
+
+        <!--</LinearLayout>-->
+   <!-- </com.emilsjolander.components.StickyScrollViewItems.StickyScrollView>
+</LinearLayout>-->
