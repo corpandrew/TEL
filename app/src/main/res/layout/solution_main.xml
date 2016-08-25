@@ -73,7 +73,7 @@
                     android:layout_marginRight="10dp"
                     android:adjustViewBounds="false"
                     android:contentDescription="@string/favorite_picture"
-                    android:layout_marginBottom="11dp" />
+                    android:layout_marginBottom="10dp" />
 
             </FrameLayout>
 
@@ -109,7 +109,8 @@
                     android:text="@string/history_amp_development"
                     android:textColor="@color/orange"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:gravity="top" />
 
                 <TextView
                     android:id="@+id/histAndDevText"

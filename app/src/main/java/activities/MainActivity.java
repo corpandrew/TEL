@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);//Top bar with the settings and search
         toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        tooolbarText = Html.fromHtml("tel " + "<i>/ All Solutions</i>");
+        tooolbarText = Html.fromHtml("<b>tel </b> / <i>All Solutions</i>");
         toolbar.setTitle(tooolbarText);
         //toolbar.setTextAppearance();//TODO make text smaller.
 
@@ -176,39 +176,39 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_all_solutions) {
             listView.setAdapter(new ListItemAdapter(this, 0, allSolutions, favoriteSharedPrefs));
-            tooolbarText = Html.fromHtml("tel " + "<i>/ All Solutions</i>");
+            tooolbarText = Html.fromHtml("<b>tel </b> / <i>All Solutions</i>");
             toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_favorites) {
             listView.setAdapter(sorting.getFavoritesList(this));
-            tooolbarText = Html.fromHtml("tel " + "<i>/ Favorites</i>");
+            tooolbarText = Html.fromHtml("<b>tel </b> / <i>Favorites</i>");
             toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_agriculture_tools) {
             listView.setAdapter(sorting.getSolutionList("agriculture,tools", this));
-            tooolbarText = Html.fromHtml("tel " + "<i>/ Agriculture & Tools</i>");
+            tooolbarText = Html.fromHtml("<b>tel </b> / <i>Agriculture & Tools</i>");
             toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_energy_cooking) {
             listView.setAdapter(sorting.getSolutionList("energy,cooking", this));
-            tooolbarText = Html.fromHtml("tel " + "<i>/ Energy & Cooking</i>");
+            tooolbarText = Html.fromHtml("<b>tel </b> / <i>Energy & Cooking</i>");
             toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_health_medical) {
             listView.setAdapter(sorting.getSolutionList("health,medical", this));
-            tooolbarText = Html.fromHtml("tel " + "<i>/ Health & Medical</i>");
+            tooolbarText = Html.fromHtml("<b>tel </b> / <i>Health & Medical</i>");
             toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_education_connectivity) {
             listView.setAdapter(sorting.getSolutionList("education", this));
-            tooolbarText = Html.fromHtml("tel " + "<i>/ Education Solutions</i>");
+            tooolbarText = Html.fromHtml("<b>tel </b> / <i>Education Solutions</i>");
             toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_housing_transport) {
             listView.setAdapter(sorting.getSolutionList("housing", this));
-            tooolbarText = Html.fromHtml("tel " + "<i>/ Housing</i>");
+            tooolbarText = Html.fromHtml("<b>tel </b> / <i>Housing</i>");
             toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_water_sanitation) {
             listView.setAdapter(sorting.getSolutionList("water", this));
-            tooolbarText = Html.fromHtml("tel " + "<i>/ Water & Sanitation</i>");
+            tooolbarText = Html.fromHtml("<b>tel </b> / <i>Water & Sanitation</i>");
             toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_additional) {
             listView.setAdapter(sorting.getSolutionList("other", this));
-            tooolbarText = Html.fromHtml("tel " + "<i>/ Other Solutions</i>");
+            tooolbarText = Html.fromHtml("<b>tel </b> / <i>Other Solutions</i>");
             toolbar.setTitle(tooolbarText);
         }
 

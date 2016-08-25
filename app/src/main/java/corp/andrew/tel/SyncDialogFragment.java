@@ -18,7 +18,7 @@ public class SyncDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setMessage("Would you like to sync the json file?")
+        builder.setMessage("Are you sure? Checking for updates uses data.")
                 .setPositiveButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
