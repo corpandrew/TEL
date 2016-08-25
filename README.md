@@ -14,3 +14,6 @@
 12. Commenting and documenting.
 13. Efficiency
 14. Make Interfaces
+15. Click image to pop out
+16. tel button to bring to the tel page
+17. searching then hitting back, OnBackPressed() Fix
