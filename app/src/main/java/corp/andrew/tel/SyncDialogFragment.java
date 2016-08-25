@@ -10,7 +10,7 @@ import android.os.Bundle;
 import activities.LoadScreenActivity;
 
 /**
- * Created by corpa on 8/4/2016.
+ * Created by corpa on Aug 20, 2016
  */
 public class SyncDialogFragment extends DialogFragment {
 
@@ -27,7 +27,7 @@ public class SyncDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(getActivity(), LoadScreenActivity.class);
-                intent.putExtra("sync", true);//true
+                intent.putExtra("sync", true);
                 startActivity(intent);
             }
         });

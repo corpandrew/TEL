@@ -13,6 +13,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity
     private EditText editSearch;
     private ListView listView;
     private ListItemAdapter listItemAdapter;
+    private Toolbar toolbar;
+    private Spanned tooolbarText;
 
     private int lastScrollIndex;
 
@@ -63,7 +67,12 @@ public class MainActivity extends AppCompatActivity
         if (getSupportActionBar() != null)
             getSupportActionBar().hide();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);//Top bar with the settings and search
+        toolbar = (Toolbar) findViewById(R.id.toolbar);//Top bar with the settings and search
+        toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        tooolbarText = Html.fromHtml("tel " + "<i>/ All Solutions</i>");
+        toolbar.setTitle(tooolbarText);
+        //toolbar.setTextAppearance();//TODO make text smaller.
+
         setSupportActionBar(toolbar);
 
         Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_sync_white_24px);
@@ -91,7 +100,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Solution s = (Solution) listView.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(), "Name = " + allSolutions.get(position).getName(), Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(view.getContext(), SolutionActivity.class);
                 i.putExtra("solution", s);
                 i.putExtra("position", position);
@@ -159,7 +167,6 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -169,22 +176,40 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_all_solutions) {
             listView.setAdapter(new ListItemAdapter(this, 0, allSolutions, favoriteSharedPrefs));
+            tooolbarText = Html.fromHtml("tel " + "<i>/ All Solutions</i>");
+            toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_favorites) {
             listView.setAdapter(sorting.getFavoritesList(this));
+            tooolbarText = Html.fromHtml("tel " + "<i>/ Favorites</i>");
+            toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_agriculture_tools) {
             listView.setAdapter(sorting.getSolutionList("agriculture,tools", this));
+            tooolbarText = Html.fromHtml("tel " + "<i>/ Agriculture & Tools</i>");
+            toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_energy_cooking) {
             listView.setAdapter(sorting.getSolutionList("energy,cooking", this));
+            tooolbarText = Html.fromHtml("tel " + "<i>/ Energy & Cooking</i>");
+            toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_health_medical) {
             listView.setAdapter(sorting.getSolutionList("health,medical", this));
+            tooolbarText = Html.fromHtml("tel " + "<i>/ Health & Medical</i>");
+            toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_education_connectivity) {
             listView.setAdapter(sorting.getSolutionList("education", this));
+            tooolbarText = Html.fromHtml("tel " + "<i>/ Education Solutions</i>");
+            toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_housing_transport) {
             listView.setAdapter(sorting.getSolutionList("housing", this));
+            tooolbarText = Html.fromHtml("tel " + "<i>/ Housing</i>");
+            toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_water_sanitation) {
             listView.setAdapter(sorting.getSolutionList("water", this));
+            tooolbarText = Html.fromHtml("tel " + "<i>/ Water & Sanitation</i>");
+            toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_additional) {
             listView.setAdapter(sorting.getSolutionList("other", this));
+            tooolbarText = Html.fromHtml("tel " + "<i>/ Other Solutions</i>");
+            toolbar.setTitle(tooolbarText);
         }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

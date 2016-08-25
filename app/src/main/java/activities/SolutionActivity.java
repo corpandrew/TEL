@@ -47,9 +47,6 @@ public class SolutionActivity extends AppCompatActivity implements NavigationVie
 
         showActionBar();
 
-//        Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_sync_white_24px);
-//        toolbar.setOverflowIcon(drawable);
-
         final ImageView solutionImage = (ImageView) findViewById(R.id.solutionImage);
         favoritePicture = (ImageView) findViewById(R.id.favoritePicture);
         final TextView solutionName = (TextView) findViewById(R.id.solutionName);
@@ -233,24 +230,4 @@ public class SolutionActivity extends AppCompatActivity implements NavigationVie
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_back) {
-            return true;
-        } else if (id == R.id.action_email) {
-            return true;
-        } else if (id == R.id.action_call) {
-            return true;
-        } else if (id == R.id.action_website) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

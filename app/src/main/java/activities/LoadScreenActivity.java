@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ProgressBar;
 
@@ -23,44 +24,105 @@ import corp.andrew.tel.R;
 public class LoadScreenActivity extends AppCompatActivity {
 
     private static final String downloadString = "http://www.techxlab.org/pages.json";
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
+    private static final int REQUEST_PERMISSIONS = 1;
+    private static String[] PERMISSIONS = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CALL_PHONE
     };
 
-    public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have read or write permission
-        int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        int readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
-
-        if (writePermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
-        }
-    }
+    private String version = "file.json";
+    private boolean sync = false;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        verifyStoragePermissions(this);
 
-        boolean sync = getIntent().getBooleanExtra("sync", false);
-        String version = "file.json";
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            //get sync from intent
+            sync = bundle.getBoolean("sync");
+        }
 
+        /*if(!sync) {
+            //if sync is false then we need to request permissions... only other way to get here
+            if(checkPermissions(this))
+                requestNeededPermissions(this);
+        } else {
+            //start syncing the new page
+            startDownloadTask(sync,version);
+        }*/
+        startDownloadTask(sync, version);
+    }
+
+    public boolean checkPermissions(Activity activity) {
+        for (String permission : PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Requests the permissions needed from the user
+     *
+     * @param activity
+     */
+    public void requestNeededPermissions(Activity activity) {
+        // Check if we have read or write permission
+        int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int callPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE);
+
+        if (writePermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED || callPermission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS,
+                    REQUEST_PERMISSIONS
+            );
+        }
+    }
+
+    /**
+     * If the user denies the permissions needed, it asks again, overriden from super class
+     *
+     * @param requestCode  - REQUEST_PERMISSIONS
+     * @param permissions  - array of permissions
+     * @param grantResults - array of results
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSIONS:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //Permission Was Granted
+
+                    startDownloadTask(sync, version);
+                } else {
+                    //Permission Was Not Granted
+                    requestNeededPermissions(this);
+                }
+        }
+    }
+
+    /**
+     * Creates the new Download Async Task, unless the file is already downloaded
+     *
+     * @param sync
+     * @param version
+     */
+    private void startDownloadTask(boolean sync, String version) {
         SharedPreferences sharedPreferences = getSharedPreferences("favoritesFile", 0);
 
         if (sync || sharedPreferences.getBoolean("firstRun", true) || !(new File(Environment.getExternalStorageDirectory().toString() + "/" + version).exists())) {
             setContentView(R.layout.loading_screen);
 
             ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
+//TODO Check if connected to internet before attempting to download.
             DownloadFileTask downloadFileTask = new DownloadFileTask(this, progressBar);
             downloadFileTask.execute(version, downloadString);
         } else {
