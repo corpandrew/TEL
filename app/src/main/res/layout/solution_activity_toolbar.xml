@@ -48,8 +48,8 @@
         android:orientation="horizontal"
         android:paddingRight="2dp">
 
-        <ImageView
-            android:id="@+id/action_email"
+        <TextView
+            android:id="@+id/action_telWebsite"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_alignParentTop="true"
@@ -59,21 +59,23 @@
             android:orderInCategory="10"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:src="@drawable/ic_mail_outline_white_24px"
-            android:title="@string/action_email" />
+            android:text="tel"
+            android:textColor="@color/white"
+            android:textSize="22dp"
+            android:title="@string/action_telWebsite" />
 
         <ImageView
-            android:id="@+id/action_call"
+            android:id="@+id/action_email"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/action_email"
-            android:layout_toRightOf="@+id/action_email"
+            android:layout_toEndOf="@+id/action_telWebsite"
+            android:layout_toRightOf="@+id/action_telWebsite"
             android:orderInCategory="20"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:src="@drawable/ic_call_white_24px"
-            android:title="@string/action_call" />
+            android:src="@drawable/ic_mail_outline_white_24px"
+            android:title="@string/action_email" />
 
         <ImageView
             android:id="@+id/action_website"
@@ -81,8 +83,8 @@
             android:layout_height="fill_parent"
             android:layout_alignParentTop="true"
             android:layout_marginRight="5dp"
-            android:layout_toEndOf="@+id/action_call"
-            android:layout_toRightOf="@+id/action_call"
+            android:layout_toEndOf="@+id/action_email"
+            android:layout_toRightOf="@+id/action_email"
             android:orderInCategory="30"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"

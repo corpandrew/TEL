@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,9 +42,6 @@ public class SolutionActivity extends AppCompatActivity {
 
 
         Window window = getWindow();
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }*/
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(Color.parseColor("#25000000"));
@@ -77,8 +73,8 @@ public class SolutionActivity extends AppCompatActivity {
         final ImageView solutionImage = (ImageView) findViewById(R.id.solutionPicture);
 
         final ImageView backActionImageView = (ImageView) findViewById(R.id.action_back);
+        final TextView telWebsiteActionTextView = (TextView) findViewById(R.id.action_telWebsite);
         final ImageView emailActionImageView = (ImageView) findViewById(R.id.action_email);
-        final ImageView callActionImageView = (ImageView) findViewById(R.id.action_call);
         final ImageView websiteActionImageView = (ImageView) findViewById(R.id.action_website);
 
         final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
@@ -112,6 +108,17 @@ public class SolutionActivity extends AppCompatActivity {
             }
         });
 
+        telWebsiteActionTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String website = "http://www.techxlab.org" + solutionIntoClass.getHref();
+                Intent websiteIntent = new Intent(Intent.ACTION_VIEW); // it's not ACTION_SEND
+                websiteIntent.setData(Uri.parse(website)); // or just "mailto:" for blank
+                websiteIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
+                startActivity(Intent.createChooser(websiteIntent, "navigate to website"));
+            }
+        });
+
         emailActionImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,31 +135,16 @@ public class SolutionActivity extends AppCompatActivity {
             }
         });
 
-        callActionImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String phoneNumber = getPhoneNumber(solutionIntoClass.getContactTxt());
-                phoneNumber = "";
-                if (!phoneNumber.equals("")) {
-                    Intent phoneIntent = new Intent(Intent.ACTION_DIAL);
-                    phoneIntent.setData(Uri.parse("tel:" + phoneNumber));
-                    phoneIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(phoneIntent);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Not yet Implemented", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         websiteActionImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String website = getWebsite(solutionIntoClass.getAdditionalinfoTxt());
                 if (!website.equals("")) {
-                    Intent emailIntent = new Intent(Intent.ACTION_VIEW); // it's not ACTION_SEND
-                    emailIntent.setData(Uri.parse(website)); // or just "mailto:" for blank
-                    emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
-                    startActivity(Intent.createChooser(emailIntent, "Send Email Using: "));
+                    Intent websiteIntent = new Intent(Intent.ACTION_VIEW); // it's not ACTION_SEND
+                    websiteIntent.setData(Uri.parse(website)); // or just "mailto:" for blank
+                    websiteIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
+                    startActivity(Intent.createChooser(websiteIntent, "navigate to website"));
                 } else {
                     Toast.makeText(getApplicationContext(), "No Website Available", Toast.LENGTH_SHORT).show();
                 }

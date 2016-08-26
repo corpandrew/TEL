@@ -29,7 +29,7 @@
 
     <string name="action_back">Back</string>
     <string name="action_email">Email</string>
-    <string name="action_call">Call</string>
+    <string name="action_telWebsite">Solution Webpage</string>
     <string name="action_website">Navigate</string>
 
     <string name="loading_text">Practical solutions to problems of poverty. No internet required.</string>
