@@ -155,9 +155,9 @@ public class SolutionActivity extends AppCompatActivity implements NavigationVie
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         if (!sharedPreferences.getBoolean(solutionIntoClass.getName(), false)) {//if false set true
-            favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
+            favoritePicture.setImageResource(R.drawable.ic_favorite_white_24px);
         } else {
-            favoritePicture.setImageResource(R.drawable.ic_favorite_border_orange_24px);
+            favoritePicture.setImageResource(R.drawable.ic_favorite_border_white_24px);
         }
 
         System.out.println("Before Favorite: " + solutionIntoClass.getIsFavorite());
