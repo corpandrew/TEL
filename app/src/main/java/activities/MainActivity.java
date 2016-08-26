@@ -13,8 +13,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,10 +31,10 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import Fragments.SyncDialogFragment;
 import corp.andrew.tel.ListItemAdapter;
 import corp.andrew.tel.R;
 import corp.andrew.tel.Sorting;
-import Fragments.SyncDialogFragment;
 import json.Parsing;
 import json.Solution;
 
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity
     private EditText editSearch;
     private ListView listView;
     private ListItemAdapter listItemAdapter;
+    private ListItemAdapter tempListItemAdapter;//todo use this to fix eadoin bug
+
     private Toolbar toolbar;
     private Spanned tooolbarText;
 
@@ -55,14 +59,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        long startTime = System.nanoTime(); // For logging the time it takes to create the
+        long startTime = System.nanoTime(); // For logging the time it takes to create everything on the main activity
 
         activity = this;
         super.onCreate(savedInstanceState);
 
         favoriteSharedPrefs = getSharedPreferences("favoritesFile", 0);
 
-        setContentView(R.layout.activity_main); // set the layout to activity_main.xml
+        setContentView(R.layout.activity_main);
 
         if (getSupportActionBar() != null)
             getSupportActionBar().hide();
@@ -255,16 +259,31 @@ public class MainActivity extends AppCompatActivity
                 actionBar.setCustomView(R.layout.search_bar);
                 actionBar.setDisplayShowTitleEnabled(false);
 
-
                 editSearch = (EditText) actionBar.getCustomView().findViewById(R.id.editSearch);
             }
 
+            editSearch.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    doSearch(editSearch.getText().toString());
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
             editSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                        doSearch(v);
+                        doSearch(v.getText().toString());
                         return true;
                     }
                     return false;
@@ -282,10 +301,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void doSearch(TextView v) {
-
-        String text = v.getText().toString();
-
+    private void doSearch(String text) {
         Sorting sorting = new Sorting(allSolutions, favoriteSharedPrefs);
 
         final ListView listView = (ListView) findViewById(R.id.ListView);
@@ -302,7 +318,6 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
-
     }
 
     private void checkForUpdates() {

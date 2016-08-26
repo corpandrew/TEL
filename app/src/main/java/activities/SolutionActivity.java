@@ -5,15 +5,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +30,7 @@ import json.Solution;
  * Created by corpa on Aug 19, 2016
  */
 
-public class SolutionActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class SolutionActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     ImageView favoritePicture;
@@ -37,18 +40,26 @@ public class SolutionActivity extends AppCompatActivity implements NavigationVie
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        Window window = getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
         sharedPreferences = getSharedPreferences("favoritesFile", 0);
 
         solutionIntoClass = (Solution) getIntent().getExtras().getSerializable("solution");
 
         setContentView(R.layout.solution_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);//Top bar with the settings and search
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);//Top bar with the settings and search
         setSupportActionBar(toolbar);
 
         showActionBar();
-
-        final ImageView solutionImage = (ImageView) findViewById(R.id.solutionPicture);
         favoritePicture = (ImageView) findViewById(R.id.favoritePicture);
+
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
+
+        final TextView toolbarTitle = (TextView) findViewById(R.id.telTextView);
         final TextView solutionName = (TextView) findViewById(R.id.solutionName);
         final TextView solutionCompany = (TextView) findViewById(R.id.solutionCompany);
         final TextView txt = (TextView) findViewById(R.id.txt);
@@ -58,10 +69,14 @@ public class SolutionActivity extends AppCompatActivity implements NavigationVie
         final TextView additionalInformationText = (TextView) findViewById(R.id.addtionalInformationText);
         final TextView contactText = (TextView) findViewById(R.id.contactText);
 
+        final ImageView solutionImage = (ImageView) findViewById(R.id.solutionPicture);
+
         final ImageView backActionImageView = (ImageView) findViewById(R.id.action_back);
         final ImageView emailActionImageView = (ImageView) findViewById(R.id.action_email);
         final ImageView callActionImageView = (ImageView) findViewById(R.id.action_call);
         final ImageView websiteActionImageView = (ImageView) findViewById(R.id.action_website);
+
+        final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
         assert solutionIntoClass != null;
 
@@ -139,7 +154,6 @@ public class SolutionActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-
         solutionName.setText(solutionIntoClass.getName());
         solutionCompany.setText(solutionIntoClass.getContactName());
         txt.setText(solutionIntoClass.getTxt());
@@ -205,11 +219,6 @@ public class SolutionActivity extends AppCompatActivity implements NavigationVie
         } else {
             return "";
         }
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        return false;
     }
 
     private void showActionBar() {

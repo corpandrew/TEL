@@ -4,7 +4,6 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="navigation_one">All Solutions</string>
     <string name="navigation_two">Favorites</string>
     <string name="navigation_three">Settings</string>
@@ -17,7 +16,12 @@
     <string name="navigation_ten">Additional Solutions</string>
 
     <string name="action_sync">Sync Json</string>
-    <string name="sync_json_question">Would you like to sync the json file?</string>
+    <string name="sync_json_question">Are you sure you want to sync the json? Checking for updates uses data.</string>
+    <string name="not_connected">You are not connected to the internet!</string>
+
+    <string name="okay">Okay</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
 
     <string name="action_search">Search</string>
     <string name="action_filter">Filter</string>
@@ -37,5 +41,6 @@
     <string name="specifications">Specifications</string>
     <string name="additional_information">Additional Information</string>
     <string name="contact">Contact</string>
+
     <string name="tel_logo">Tel Logo</string>
 </resources>

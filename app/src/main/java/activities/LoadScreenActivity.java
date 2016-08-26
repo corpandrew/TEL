@@ -8,8 +8,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -52,18 +50,20 @@ public class LoadScreenActivity extends AppCompatActivity {
             sync = bundle.getBoolean("sync");
         }
 
-        if(!checkPermissions(this)){
-            requestNeededPermissions(this);
-            boolean hasWifi = checkWifiOnAndConnected();
-        } else {
-            if(checkWifiOnAndConnected())
-                startDownloadTask(sync,version);
-            else
-                new InternetDialogFragment().show(getFragmentManager(),"No Internet");
+        if (!hasPermissions(this)) {//if doesnt have permissions.
+            requestNeededPermissions(this);//request the permissions the app needs.
+//            boolean hasWifi = checkWifiOnAndConnected();
+        } else {//if has permissions
+            if (hasConnection()) { //check to see if it has wifi
+                startDownloadTask(sync, version); //if has connection start download activity
+            } else {
+
+                new InternetDialogFragment().show(getFragmentManager(), "No Internet");//if it doesnt start no internet fragment
+            }
         }
     }
 
-    public boolean checkPermissions(Activity activity) {
+    public boolean hasPermissions(Activity activity) {
         for (String permission : PERMISSIONS) {
             if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
                 return false;
@@ -74,6 +74,7 @@ public class LoadScreenActivity extends AppCompatActivity {
 
     /**
      * Requests the permissions needed from the user
+     *
      * @param activity
      */
     public void requestNeededPermissions(Activity activity) {
@@ -138,12 +139,12 @@ public class LoadScreenActivity extends AppCompatActivity {
         }
     }
 
-    private boolean checkWifiOnAndConnected() {
+    private boolean hasConnection() {//TODO MAKE IT RETURN IF YOU ARE ON DATA OR WIFI - RENAME getConnectionType
         ConnectivityManager internetService = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo networkInfo = internetService.getActiveNetworkInfo();
 
-        if(networkInfo == null)
+        if (networkInfo == null)
             return false;
 
         System.out.println("1: " + networkInfo.getDetailedState().toString());

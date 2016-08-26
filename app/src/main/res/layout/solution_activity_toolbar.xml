@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/solutionToolbar"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:layout_gravity="fill_horizontal">
@@ -8,44 +9,44 @@
         android:id="@+id/action_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/telTextView"
+        android:layout_alignTop="@+id/telTextView"
+        android:adjustViewBounds="false"
+        android:cropToPadding="true"
         android:orderInCategory="0"
+        android:paddingLeft="-5dp"
         android:paddingRight="10dp"
         android:src="@drawable/ic_chevron_left_white_24px"
-        android:title="@string/action_back"
-        android:adjustViewBounds="false"
-        android:layout_alignTop="@+id/telTextView"
-        android:layout_alignBottom="@+id/telTextView"
-        android:cropToPadding="true"
-        android:paddingLeft="-5dp" />
+        android:title="@string/action_back" />
 
     <TextView
         android:id="@+id/telTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="170dp"
-        android:text="tel"
-        android:textColor="#ffffff"
-        android:textSize="@dimen/abc_text_size_large_material"
-        android:textStyle="bold"
-        android:textIsSelectable="false"
-        android:singleLine="false"
         android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/action_back"
         android:layout_toLeftOf="@+id/linearLayout"
         android:layout_toRightOf="@+id/action_back"
-        android:layout_toEndOf="@+id/action_back" />
+        android:minWidth="170dp"
+        android:singleLine="false"
+        android:text=""
+        android:textColor="#ffffff"
+        android:textIsSelectable="false"
+        android:textSize="@dimen/abc_text_size_large_material"
+        android:textStyle="bold" />
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:paddingRight="2dp"
-        android:layout_alignParentBottom="false"
-        android:layout_alignTop="@+id/telTextView"
         android:layout_alignBottom="@+id/telTextView"
-        android:id="@+id/linearLayout">
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignTop="@+id/telTextView"
+        android:orientation="horizontal"
+        android:paddingRight="2dp">
 
         <ImageView
             android:id="@+id/action_email"
@@ -54,12 +55,12 @@
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/telTextView"
             android:layout_toRightOf="@+id/telTextView"
+            android:baselineAlignBottom="false"
             android:orderInCategory="10"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:src="@drawable/ic_mail_outline_white_24px"
-            android:title="@string/action_email"
-            android:baselineAlignBottom="false" />
+            android:title="@string/action_email" />
 
         <ImageView
             android:id="@+id/action_call"
@@ -79,14 +80,14 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_alignParentTop="true"
+            android:layout_marginRight="5dp"
             android:layout_toEndOf="@+id/action_call"
             android:layout_toRightOf="@+id/action_call"
             android:orderInCategory="30"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:src="@drawable/ic_language_white_24px"
-            android:title="@string/action_website"
-            android:layout_marginRight="5dp" />
+            android:title="@string/action_website" />
 
     </LinearLayout>
 

@@ -17,3 +17,4 @@
 15. Click image to pop out
 16. tel button to bring to the tel page
 17. searching then hitting back, OnBackPressed() Fix
+18. Searching on Text changed
