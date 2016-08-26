@@ -69,9 +69,9 @@ public class SolutionActivity extends AppCompatActivity implements NavigationVie
 
         //sets the picture of the favorite when you open the solution,.
         if (sharedPreferences.getBoolean(solutionIntoClass.getName(), false)) {
-            favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
+            favoritePicture.setImageResource(R.drawable.ic_favorite_white_24px);
         } else
-            favoritePicture.setImageResource(R.drawable.ic_favorite_border_orange_24px);
+            favoritePicture.setImageResource(R.drawable.ic_favorite_border_white_24px);
 
         //clicking the favorites button does this
         favoritePicture.setOnClickListener(new View.OnClickListener() {
@@ -155,9 +155,9 @@ public class SolutionActivity extends AppCompatActivity implements NavigationVie
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         if (!sharedPreferences.getBoolean(solutionIntoClass.getName(), false)) {//if false set true
-            favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
+            favoritePicture.setImageResource(R.drawable.ic_favorite_white_24px);
         } else {
-            favoritePicture.setImageResource(R.drawable.ic_favorite_border_orange_24px);
+            favoritePicture.setImageResource(R.drawable.ic_favorite_border_white_24px);
         }
 
         System.out.println("Before Favorite: " + solutionIntoClass.getIsFavorite());
