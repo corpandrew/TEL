@@ -13,20 +13,24 @@ import corp.andrew.tel.R;
 /**
  * Created by corpa on Aug 20, 2016
  */
-public class InternetDialogFragment extends DialogFragment {
+public class DataDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setMessage(R.string.not_connected)
-                .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.data_connected)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
-                        getActivity().startActivity(intent);
+
                     }
-                });
+                }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
         return builder.create();
     }
-
 }

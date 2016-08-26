@@ -42,6 +42,7 @@ public class SolutionActivity extends AppCompatActivity {
 
 
         Window window = getWindow();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }

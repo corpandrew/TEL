@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_all_solutions) {
             listView.setAdapter(new ListItemAdapter(this, 0, allSolutions, favoriteSharedPrefs));
-            tooolbarText = Html.fromHtml("<b>tel </b> / <i>All Solutions</i>");
+            tooolbarText = Html.fromHtml("<b>tel </b> / <i>All Solutions</i>");//todo Make strings for these
             toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_favorites) {
             listView.setAdapter(sorting.getFavoritesList(this));

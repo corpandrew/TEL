@@ -18,6 +18,7 @@
     <string name="action_sync">Sync Json</string>
     <string name="sync_json_question">Are you sure you want to sync the json? Checking for updates uses data.</string>
     <string name="not_connected">You are not connected to the internet!</string>
+    <string name="data_connected">Are you sure you want to download? This will use data.</string>
 
     <string name="okay">Okay</string>
     <string name="no">No</string>

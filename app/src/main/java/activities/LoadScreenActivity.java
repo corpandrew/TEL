@@ -14,10 +14,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.io.File;
 
-import Fragments.InternetDialogFragment;
+import Fragments.NoInternetDialogFragment;
 import corp.andrew.tel.DownloadFileTask;
 import corp.andrew.tel.R;
 
@@ -29,6 +30,11 @@ public class LoadScreenActivity extends AppCompatActivity {
 
     private static final String downloadString = "http://www.techxlab.org/pages.json";
     private static final int REQUEST_PERMISSIONS = 1;
+
+    private static final int NO_NETWORK_STATE = 0;
+    private static final int WIFI_STATE = 1;
+    private static final int MOBILE_DATA_STATE = 2;
+
     private static String[] PERMISSIONS = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -54,11 +60,14 @@ public class LoadScreenActivity extends AppCompatActivity {
             requestNeededPermissions(this);//request the permissions the app needs.
 //            boolean hasWifi = checkWifiOnAndConnected();
         } else {//if has permissions
-            if (hasConnection()) { //check to see if it has wifi
+            int connectionType = hasConnection();
+            if (connectionType == WIFI_STATE) { //check to see if it has wifi
+                startDownloadTask(sync, version); //if has connection start download activity
+            } else if (connectionType == MOBILE_DATA_STATE) {
+                //new DataDialogFragment().show(getFragmentManager(), "Are you sure you want to download using data?");//Todo fix this
                 startDownloadTask(sync, version); //if has connection start download activity
             } else {
-
-                new InternetDialogFragment().show(getFragmentManager(), "No Internet");//if it doesnt start no internet fragment
+                new NoInternetDialogFragment().show(getFragmentManager(), "No Internet can't download json.");//if it doesnt start no internet fragment
             }
         }
     }
@@ -123,7 +132,7 @@ public class LoadScreenActivity extends AppCompatActivity {
      * @param sync
      * @param version
      */
-    private void startDownloadTask(boolean sync, String version) {
+    public void startDownloadTask(boolean sync, String version) {
         SharedPreferences sharedPreferences = getSharedPreferences("favoritesFile", 0);
 
         if (sync || sharedPreferences.getBoolean("firstRun", true) || !(new File(Environment.getExternalStorageDirectory().toString() + "/" + version).exists())) {
@@ -139,21 +148,24 @@ public class LoadScreenActivity extends AppCompatActivity {
         }
     }
 
-    private boolean hasConnection() {//TODO MAKE IT RETURN IF YOU ARE ON DATA OR WIFI - RENAME getConnectionType
+    private int hasConnection() {//TODO MAKE IT RETURN IF YOU ARE ON DATA OR WIFI - RENAME getConnectionType
         ConnectivityManager internetService = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = internetService.getActiveNetworkInfo();
 
-        NetworkInfo networkInfo = internetService.getActiveNetworkInfo();
-
-        if (networkInfo == null)
-            return false;
-
-        System.out.println("1: " + networkInfo.getDetailedState().toString());
-        System.out.println("2: " + networkInfo.getExtraInfo());
-        System.out.println("3: " + networkInfo.getTypeName());
-        System.out.println("4: " + networkInfo.getSubtypeName());
-        System.out.println("5: " + networkInfo.isAvailable());
-
-        return networkInfo.isConnected();
+        if (activeNetwork != null) {
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
+                Toast.makeText(this, "Wifi", Toast.LENGTH_LONG).show();
+                return WIFI_STATE;
+            } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+                Toast.makeText(this, "Mobile 3G ", Toast.LENGTH_LONG).show();
+                return MOBILE_DATA_STATE;
+            } else {
+                return -1;//TODO Figure out why it would ever get here
+            }
+        } else {
+            Toast.makeText(this, "No Network ", Toast.LENGTH_LONG).show();
+            return NO_NETWORK_STATE;
+        }
     }
 
 }
