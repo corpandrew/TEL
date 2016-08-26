@@ -29,7 +29,7 @@
         android:layout_toRightOf="@+id/action_back"
         android:minWidth="170dp"
         android:singleLine="false"
-        android:text=""
+        android:text="tel"
         android:textColor="#ffffff"
         android:textIsSelectable="false"
         android:textSize="@dimen/abc_text_size_large_material"
