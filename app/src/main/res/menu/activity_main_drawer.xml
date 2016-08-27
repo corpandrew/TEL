@@ -4,42 +4,42 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_all_solutions"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_archive_black_24dp"
             android:title="@string/navigation_one" />
         <item
             android:id="@+id/nav_favorites"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_favorite_black_24dp"
             android:title="@string/navigation_two" />
     </group>
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_agriculture_tools"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_build_black_24dp"
             android:title="@string/navigation_four" />
         <item
             android:id="@+id/nav_energy_cooking"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_lightbulb_outline_black_24dp"
             android:title="@string/navigation_five" />
         <item
             android:id="@+id/nav_health_medical"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_local_hospital_black_24dp"
             android:title="@string/navigation_six" />
         <item
             android:id="@+id/nav_education_connectivity"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_school_black_24dp"
             android:title="@string/navigation_seven" />
         <item
             android:id="@+id/nav_housing_transport"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_directions_car_black_24dp"
             android:title="@string/navigation_eight" />
         <item
             android:id="@+id/nav_water_sanitation"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_local_drink_black_24dp"
             android:title="@string/navigation_nine" />
         <item
             android:id="@+id/nav_additional"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_local_grocery_store_black_24dp"
             android:title="@string/navigation_ten" />
     </group>
 
