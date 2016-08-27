@@ -17,6 +17,7 @@ public class DataDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setMessage(R.string.data_connected)

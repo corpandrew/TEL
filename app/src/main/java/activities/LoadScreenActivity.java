@@ -67,7 +67,7 @@ public class LoadScreenActivity extends AppCompatActivity {
                 //new DataDialogFragment().show(getFragmentManager(), "Are you sure you want to download using data?");//Todo fix this
                 startDownloadTask(sync, version); //if has connection start download activity
             } else {
-                new NoInternetDialogFragment().show(getFragmentManager(), "No Internet can't download json.");//if it doesnt start no internet fragment
+                new NoInternetDialogFragment().show(getFragmentManager(), "No Internet, can't download json.");//if it doesnt start no internet fragment
             }
         }
     }

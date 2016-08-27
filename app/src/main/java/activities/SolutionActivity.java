@@ -1,5 +1,6 @@
 package activities;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import Fragments.ImagePopOutFragment;
 import corp.andrew.tel.R;
 import json.Solution;
 
@@ -35,11 +37,12 @@ public class SolutionActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     ImageView favoritePicture;
     Solution solutionIntoClass;
+    FragmentTransaction ft;
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         Window window = getWindow();
 
@@ -71,6 +74,7 @@ public class SolutionActivity extends AppCompatActivity {
         final TextView contactText = (TextView) findViewById(R.id.contactText);
 
         final ImageView solutionImage = (ImageView) findViewById(R.id.solutionPicture);
+        final ImageView gradient = (ImageView) findViewById(R.id.gradient);
 
         final ImageView backActionImageView = (ImageView) findViewById(R.id.action_back);
         final TextView telWebsiteActionTextView = (TextView) findViewById(R.id.action_telWebsite);
@@ -105,6 +109,35 @@ public class SolutionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset >= -750) {
+                    if (!toolbarTitle.getText().equals(""))
+                        toolbarTitle.setText("");
+                } else if (verticalOffset <= -749) {
+                    if (!toolbarTitle.getText().equals(solutionIntoClass.getName()))
+                        toolbarTitle.setText(solutionIntoClass.getName());
+                }
+            }
+        });
+
+        gradient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("imagePath", solutionIntoClass.getPathToImage());
+
+                ImagePopOutFragment imagePopOut = new ImagePopOutFragment();
+                imagePopOut.setArguments(bundle);
+
+                imagePopOut.show(getSupportFragmentManager(), "imagePop");
+
             }
         });
 
@@ -154,7 +187,11 @@ public class SolutionActivity extends AppCompatActivity {
         solutionName.setText(solutionIntoClass.getName());
         solutionCompany.setText(solutionIntoClass.getContactName());
         txt.setText(solutionIntoClass.getTxt());
-        histAndDevText.setText(solutionIntoClass.getHistDevTxt());
+        if (histAndDevText.getText().equals("")) {
+            ((TextView) findViewById(R.id.historyanddevelopment)).setText("");
+        } else {
+            histAndDevText.setText(solutionIntoClass.getHistDevTxt());
+        }
         availabilityText.setText(solutionIntoClass.getAvailabilityTxt());
         specificationsText.setText(solutionIntoClass.getSpecificationsTxt());
         additionalInformationText.setText(solutionIntoClass.getAdditionalinfoTxt());
