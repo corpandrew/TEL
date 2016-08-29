@@ -4,7 +4,10 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -13,6 +16,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -48,7 +52,7 @@ public class SolutionActivity extends AppCompatActivity {
         Window window = getWindow();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(Color.parseColor("#25000000"));
+            window.setStatusBarColor(Color.parseColor("#00000000"));
         }
 
         sharedPreferences = getSharedPreferences("favoritesFile", 0);
@@ -103,6 +107,9 @@ public class SolutionActivity extends AppCompatActivity {
         assert solutionIntoClass != null;
 
         solutionImage.setImageDrawable(getDrawableImageFromPath(solutionIntoClass.getPathToImage()));
+        Bitmap bitmap = ((BitmapDrawable)solutionImage.getDrawable()).getBitmap();
+        Palette palette = new Palette.Builder(bitmap).generate();
+        solutionImage.setBackgroundColor(palette.getMutedColor(0xFFFF));
 
         //sets the picture of the favorite when you open the solution,.
         if (sharedPreferences.getBoolean(solutionIntoClass.getName(), false)) {
