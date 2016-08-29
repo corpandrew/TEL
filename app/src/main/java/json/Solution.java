@@ -51,8 +51,6 @@ public class Solution extends Activity implements SolutionInterface {
 
     private boolean isFavorite;
 
-    private List<String> stringList;
-
     public Solution(String hdr, String txt, String id, String name, List<String> category, List<String> tags, String image, String created, List<String> publish, String template, String href, String histDevHdr, String histDevTxt, String histDevHref, String availabilityHdr, String availabilityTxt, String availabilityHref, String specificationsHdr, String specificationsTxt, String specificationsHref, String additionalinfoHdr, String additionalinfoTxt, String additionalinfoHref, String contactHdr, String contactTxt, String contactHref, String contactName, String contactUrl, int referenceId, String pathToImage) {
         this.hdr = hdr;
         this.txt = txt;
@@ -102,7 +100,7 @@ public class Solution extends Activity implements SolutionInterface {
         }
         if (specificationsTxt != null) {
             if (specificationsTxt.endsWith("\n\n")) {
-                this.specificationsTxt = specificationsTxt.substring(0, specificationsTxt.length() - 1);
+                this.specificationsTxt = specificationsTxt.substring(0, specificationsTxt.length() - 2);
             }
         }
         if (additionalinfoTxt != null) {

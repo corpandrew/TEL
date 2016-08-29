@@ -10,6 +10,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -84,7 +85,7 @@ public class LoadScreenActivity extends AppCompatActivity {
     /**
      * Requests the permissions needed from the user
      *
-     * @param activity
+     * @param activity currentActivity being called on
      */
     public void requestNeededPermissions(Activity activity) {
         // Check if we have read or write permission
@@ -111,7 +112,7 @@ public class LoadScreenActivity extends AppCompatActivity {
      * @param grantResults - array of results
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST_PERMISSIONS:
                 if (grantResults.length > 0
@@ -129,8 +130,8 @@ public class LoadScreenActivity extends AppCompatActivity {
     /**
      * Creates the new Download Async Task, unless the file is already downloaded
      *
-     * @param sync
-     * @param version
+     * @param sync if it is because of the sync button or not
+     * @param version of the jsonFile from TEL
      */
     public void startDownloadTask(boolean sync, String version) {
         SharedPreferences sharedPreferences = getSharedPreferences("favoritesFile", 0);

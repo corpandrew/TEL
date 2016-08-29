@@ -31,8 +31,8 @@ public class Parsing {
     }
 
     /**
-     * Reads in the jsonFile to a string
-     * @return the string of the json file
+     * Reads in the jsonFile to a string from the environments folder
+     * @return contents of file string
      */
     private String loadJSON() {
 
@@ -56,6 +56,11 @@ public class Parsing {
         return json;
     }
 
+    /**
+     * Reads in the json file from the assets folder, not from environment.
+     *
+     * @return contents of file string
+     */
     private String loadJSONJared() {
 
         String json;
@@ -214,12 +219,12 @@ public class Parsing {
     /**
      * Gets the imageFile path if it exists in assets, if it doesn't returns the Coolbot image
      *
-     * @param imageFile
-     * @return imageFile or coolbot image
+     * @param imageFileName image file name, could be a jpeg or png or anything
+     * @return path to the file
      */
-    private String pathToDrawable(String imageFile) {
-        if ((imageFile != null) && assetExists(imageFile)) {
-            return imageFile;
+    private String pathToDrawable(String imageFileName) {
+        if ((imageFileName != null) && assetExists(imageFileName)) {
+            return imageFileName;
         } else {
             return "ast/e41sag8-coolbot-image-v2.jpg";
         }
@@ -227,7 +232,7 @@ public class Parsing {
 
     /**
      * Checks to see if the file is in the assets folder
-     * @param pathInAssetsDir
+     * @param pathInAssetsDir path to check exists, from assets folder
      * @return true if exists else false
      */
     private boolean assetExists(String pathInAssetsDir) {

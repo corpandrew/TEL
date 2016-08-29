@@ -9,7 +9,7 @@
 7. Hyperlinks // No More
 8. Interactive Emails // Done - Corp
 9. Phone numbers // No More
-10. Handling syncing json/first boot/ internet bugs.
+10. Handling syncing json/first boot/ internet bugs. //Done for now - Corp
 11. Download Images if wanted. - Checkbox on Syncing Dialog Maybe? "[] Download Images"
 12. Commenting and documenting.
 13. Efficiency
@@ -18,3 +18,4 @@
 16. tel button to bring to the tel page // Done - Corp
 17. searching then hitting back, OnBackPressed() Fix //Done - Corp
 18. Searching on Text changed // Done - Corp
+19. Spacing in SolutionActivity //Done - Jared and Corp

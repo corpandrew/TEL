@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,11 +47,11 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
         View view = inflater.inflate(R.layout.list_item, null);
 
         TextView solutionName = (TextView) view.findViewById(R.id.solutionName);
-        solutionName.setTextColor(parent.getResources().getColor(R.color.black));
+        solutionName.setTextColor(ContextCompat.getColor(context, R.color.black));
         solutionName.setText(viewSolution.getName());
 
         TextView solutionCompany = (TextView) view.findViewById(R.id.solutionCompany);
-        solutionCompany.setTextColor(parent.getResources().getColor(R.color.black));
+        solutionCompany.setTextColor(ContextCompat.getColor(context, R.color.black));
         solutionCompany.setText(viewSolution.getContactName());
 
         ImageView solutionPicture = (ImageView) view.findViewById(R.id.solutionPicture);
@@ -92,7 +93,7 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
         });
 
         if (i % 2 == 0) {
-            view.setBackgroundColor(parent.getResources().getColor(R.color.grey));
+            view.setBackgroundColor(ContextCompat.getColor(context, R.color.grey));
         }
 
         i++;

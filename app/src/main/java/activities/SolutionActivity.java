@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -13,7 +12,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
@@ -98,8 +96,6 @@ public class SolutionActivity extends AppCompatActivity {
         final TextView telWebsiteActionTextView = (TextView) findViewById(R.id.action_telWebsite);
         final ImageView emailActionImageView = (ImageView) findViewById(R.id.action_email);
         final ImageView websiteActionImageView = (ImageView) findViewById(R.id.action_website);
-
-        final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
         final String website = getWebsite(solutionIntoClass.getAdditionalinfoTxt());
         final String email = getEmail(solutionIntoClass.getContactTxt());
@@ -293,12 +289,6 @@ public class SolutionActivity extends AppCompatActivity {
         } else {
             return "";
         }
-    }
-
-    private String getPhoneNumber(String contactText) {
-
-
-        return "";
     }
 
     private String getWebsite(String additionalInformation) {//refine this and make better
