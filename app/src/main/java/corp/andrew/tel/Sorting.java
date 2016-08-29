@@ -2,6 +2,7 @@ package corp.andrew.tel;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v4.app.FragmentManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,10 +18,12 @@ public class Sorting implements Serializable {
 
     List<Solution> allsolutionList;
     SharedPreferences sharedPreferences;
+    FragmentManager fragmentManager;
 
-    public Sorting(List<Solution> allsolutionList, SharedPreferences sharedPreferences) {
+    public Sorting(List<Solution> allsolutionList, SharedPreferences sharedPreferences, FragmentManager fragmentManager) {
         this.allsolutionList = allsolutionList;
         this.sharedPreferences = sharedPreferences;
+        this.fragmentManager = fragmentManager;
     }
 
     public ListItemAdapter getSolutionList(String categories, Context context) {
@@ -35,7 +38,7 @@ public class Sorting implements Serializable {
                 }
             }
         }
-        return new ListItemAdapter(context, 0, newSolutionList, sharedPreferences);
+        return new ListItemAdapter(context, 0, newSolutionList, sharedPreferences, fragmentManager);
     }
 
     public ListItemAdapter getFavoritesList(Context context) {
@@ -46,7 +49,7 @@ public class Sorting implements Serializable {
                 newSolutionList.add(s);
             }
         }
-        return new ListItemAdapter(context, 0, newSolutionList, sharedPreferences);
+        return new ListItemAdapter(context, 0, newSolutionList, sharedPreferences, fragmentManager);
     }
 
     public ListItemAdapter getSearchedEntries(Context context, String text) {
@@ -63,7 +66,7 @@ public class Sorting implements Serializable {
             if (solutionName.contains(text.toLowerCase()) || companyName.contains(text.toLowerCase()) || solutionText.contains(text))
                 newSolutionsList.add(s);
         }
-        return new ListItemAdapter(context, 0, newSolutionsList, sharedPreferences);
+        return new ListItemAdapter(context, 0, newSolutionsList, sharedPreferences, fragmentManager);
     }
 
 }

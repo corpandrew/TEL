@@ -177,12 +177,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        Sorting sorting = new Sorting(allSolutions, favoriteSharedPrefs);
+        Sorting sorting = new Sorting(allSolutions, favoriteSharedPrefs, getSupportFragmentManager());
         int id = item.getItemId();
         final ListView listView = (ListView) findViewById(R.id.ListView);
 
         if (id == R.id.nav_all_solutions) {
-            currentListItemAdapter = new ListItemAdapter(this, 0, allSolutions, favoriteSharedPrefs);
+            currentListItemAdapter = new ListItemAdapter(this, 0, allSolutions, favoriteSharedPrefs, getSupportFragmentManager());
             listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>All Solutions</i>");//todo Make strings for these
             toolbar.setTitle(tooolbarText);
@@ -316,7 +316,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void doSearch(String text) {
-        Sorting sorting = new Sorting(allSolutions, favoriteSharedPrefs);
+        Sorting sorting = new Sorting(allSolutions, favoriteSharedPrefs, getSupportFragmentManager());
 
         final ListView listView = (ListView) findViewById(R.id.ListView);
         currentListItemAdapter = sorting.getSearchedEntries(getApplicationContext(), text);

@@ -98,6 +98,7 @@ public class SolutionActivity extends AppCompatActivity {
         final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
         final String website = getWebsite(solutionIntoClass.getAdditionalinfoTxt());
+        final String email = getEmail(solutionIntoClass.getContactTxt());
 
         assert solutionIntoClass != null;
 
@@ -171,7 +172,6 @@ public class SolutionActivity extends AppCompatActivity {
         emailActionImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = getEmail(solutionIntoClass.getContactTxt());
                 if (!email.equals("")) {
                     Intent emailIntent = new Intent(Intent.ACTION_SENDTO); // it's not ACTION_SEND
                     emailIntent.setType("text/plain");
@@ -233,7 +233,11 @@ public class SolutionActivity extends AppCompatActivity {
             textViewLayout.removeView(contactHeader);
             textViewLayout.removeView(contactText);
         } else {
-            contactText.setText(solutionIntoClass.getContactTxt());
+            if (solutionIntoClass.getContactTxt().contains("mailto:")) {
+                contactText.setText(solutionIntoClass.getContactTxt().replace("[" + email + "](mailto:" + email + ")", email));
+            } else {
+                contactText.setText(solutionIntoClass.getContactTxt());
+            }
         }
         if (solutionIntoClass.getSpecificationsTxt() == null) {
             specificationsText.setText("");
