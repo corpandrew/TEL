@@ -87,32 +87,32 @@ public class Solution extends Activity implements SolutionInterface {
 
         if (txt != null) {
             if (txt.endsWith("\n\n")) {
-                this.txt = txt.substring(0, txt.length() - 2);
+                this.txt = txt.substring(0, txt.length() - 1);
             }
         }
         if (histDevTxt != null) {
             if (histDevTxt.endsWith("\n\n")) {
-                this.histDevTxt = histDevTxt.substring(0, histDevTxt.length() - 2);
+                this.histDevTxt = histDevTxt.substring(0, histDevTxt.length() - 1);
             }
         }
         if (availabilityTxt != null) {
             if (availabilityTxt.endsWith("\n\n")) {
-                this.availabilityTxt = availabilityTxt.substring(0, availabilityTxt.length() - 3);//todo find a more efficient way
+                this.availabilityTxt = availabilityTxt.substring(0, availabilityTxt.length() - 2);//todo find a more efficient way
             }
         }
         if (specificationsTxt != null) {
             if (specificationsTxt.endsWith("\n\n")) {
-                this.specificationsTxt = specificationsTxt.substring(0, specificationsTxt.length() - 2);
+                this.specificationsTxt = specificationsTxt.substring(0, specificationsTxt.length() - 1);
             }
         }
         if (additionalinfoTxt != null) {
             if (additionalinfoTxt.endsWith("\n\n")) {
-                this.additionalinfoTxt = additionalinfoTxt.substring(0, additionalinfoTxt.length() - 4);
+                this.additionalinfoTxt = additionalinfoTxt.substring(0, additionalinfoTxt.length() - 3);
             }
         }
         if (contactTxt != null) {
             if (contactTxt.endsWith("\\n\\n")) {
-                this.contactTxt = contactTxt.substring(0, contactTxt.length() - 2);
+                this.contactTxt = contactTxt.substring(0, contactTxt.length() - 1);
             }
         }
     }

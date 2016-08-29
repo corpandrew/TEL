@@ -111,6 +111,8 @@ public class SolutionActivity extends AppCompatActivity {
         Palette palette = new Palette.Builder(bitmap).generate();
         solutionImage.setBackgroundColor(palette.getMutedColor(0xFFFF));
 
+        toolbarTitle.setText(solutionIntoClass.getName());
+
         //sets the picture of the favorite when you open the solution,.
         if (sharedPreferences.getBoolean(solutionIntoClass.getName(), false)) {
             favoritePicture.setImageResource(R.drawable.ic_favorite_white_24px);
@@ -140,13 +142,8 @@ public class SolutionActivity extends AppCompatActivity {
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (verticalOffset >= -750) {
-                    if (!toolbarTitle.getText().equals(""))
-                        toolbarTitle.setText("");
-                } else if (verticalOffset <= -749) {
-                    if (!toolbarTitle.getText().equals(solutionIntoClass.getName()))
-                        toolbarTitle.setText(solutionIntoClass.getName());
-                }
+                    float transparency = (float)verticalOffset/-250;
+                    toolbarTitle.setAlpha(-1.25f+transparency);
             }
         });
 
