@@ -49,9 +49,9 @@ public class MainActivity extends AppCompatActivity
     private boolean isSearchOpened = false;
     private EditText editSearch;
     private ListView listView;
-    private ListItemAdapter listItemAdapter;
+    private ListItemAdapter currentListItemAdapter;
     private ListItemAdapter tempListItemAdapter;//todo use this to fix eadoin bug
-
+    private NavigationView navigationView;
     private Toolbar toolbar;
     private Spanned tooolbarText;
 
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity
             getSupportActionBar().hide();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);//Top bar with the settings and search
-        toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        toolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
         tooolbarText = Html.fromHtml("<b>tel </b> / <i>All Solutions</i>");
         toolbar.setTitle(tooolbarText);
         //toolbar.setTextAppearance();//TODO make text smaller.
@@ -88,17 +88,14 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         Parsing parsing = new Parsing(this);// creates the parsing object
 
         allSolutions = parsing.parseJson();
 
-        listItemAdapter = new ListItemAdapter(this, 0, allSolutions, favoriteSharedPrefs);
-
         listView = (ListView) findViewById(R.id.ListView);
-        listView.setAdapter(listItemAdapter);
         // When the list is clicked
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -110,6 +107,8 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
+
+        onNavigationItemSelected(navigationView.getMenu().getItem(0));
 
         long endTime = System.nanoTime();
 
@@ -126,6 +125,10 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else if (isSearchOpened) {
             handleMenuSearch();
+            tooolbarText = Html.fromHtml("<b>tel </b> / <i>Searched Solutions</i>");
+            toolbar.setTitle(tooolbarText);
+        } else {
+            onNavigationItemSelected(navigationView.getMenu().getItem(0));
         }
     }
 
@@ -138,7 +141,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
-        listView.setAdapter(new ListItemAdapter(getApplicationContext(), 0, allSolutions, favoriteSharedPrefs));
+        listView.setAdapter(tempListItemAdapter);
         listView.setSelection(lastScrollIndex);
     }
 
@@ -179,42 +182,53 @@ public class MainActivity extends AppCompatActivity
         final ListView listView = (ListView) findViewById(R.id.ListView);
 
         if (id == R.id.nav_all_solutions) {
-            listView.setAdapter(new ListItemAdapter(this, 0, allSolutions, favoriteSharedPrefs));
+            currentListItemAdapter = new ListItemAdapter(this, 0, allSolutions, favoriteSharedPrefs);
+            listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>All Solutions</i>");//todo Make strings for these
             toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_favorites) {
-            listView.setAdapter(sorting.getFavoritesList(this));
+            currentListItemAdapter = sorting.getFavoritesList(this);
+            listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>Favorites</i>");
             toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_agriculture_tools) {
-            listView.setAdapter(sorting.getSolutionList("agriculture,tools", this));
+            currentListItemAdapter = sorting.getSolutionList("agriculture,tools", this);
+            listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>Agriculture & Tools</i>");
             toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_energy_cooking) {
-            listView.setAdapter(sorting.getSolutionList("energy,cooking", this));
+            currentListItemAdapter = sorting.getSolutionList("energy,cooking", this);
+            listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>Energy & Cooking</i>");
             toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_health_medical) {
-            listView.setAdapter(sorting.getSolutionList("health,medical", this));
+            currentListItemAdapter = sorting.getSolutionList("health,medical", this);
+            listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>Health & Medical</i>");
             toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_education_connectivity) {
-            listView.setAdapter(sorting.getSolutionList("education", this));
+            currentListItemAdapter = sorting.getSolutionList("education", this);
+            listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>Education Solutions</i>");
             toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_housing_transport) {
-            listView.setAdapter(sorting.getSolutionList("housing", this));
+            currentListItemAdapter = sorting.getSolutionList("housing", this);
+            listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>Housing</i>");
             toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_water_sanitation) {
-            listView.setAdapter(sorting.getSolutionList("water", this));
+            currentListItemAdapter = sorting.getSolutionList("water", this);
+            listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>Water & Sanitation</i>");
             toolbar.setTitle(tooolbarText);
         } else if (id == R.id.nav_additional) {
-            listView.setAdapter(sorting.getSolutionList("other", this));
+            currentListItemAdapter = sorting.getSolutionList("other", this);
+            listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>Other Solutions</i>");
             toolbar.setTitle(tooolbarText);
         }
+
+        tempListItemAdapter = currentListItemAdapter;
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -250,7 +264,7 @@ public class MainActivity extends AppCompatActivity
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(editSearch.getWindowToken(), 0);
 
-            mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_action_search));
+            mSearchAction.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_action_search));//todo check works
 
             isSearchOpened = false;
         } else {
@@ -295,7 +309,7 @@ public class MainActivity extends AppCompatActivity
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(editSearch, InputMethodManager.SHOW_IMPLICIT);
 
-            mSearchAction.setIcon(getResources().getDrawable(R.drawable.ic_action_search));
+            mSearchAction.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_action_search));
 
             isSearchOpened = true;
         }
@@ -305,7 +319,8 @@ public class MainActivity extends AppCompatActivity
         Sorting sorting = new Sorting(allSolutions, favoriteSharedPrefs);
 
         final ListView listView = (ListView) findViewById(R.id.ListView);
-        listView.setAdapter(sorting.getSearchedEntries(getApplicationContext(), text));
+        currentListItemAdapter = sorting.getSearchedEntries(getApplicationContext(), text);
+        listView.setAdapter(currentListItemAdapter);
 
         // When the list is clicked
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -318,6 +333,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
+        tempListItemAdapter = currentListItemAdapter;
     }
 
     private void checkForUpdates() {

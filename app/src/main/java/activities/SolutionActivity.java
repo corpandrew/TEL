@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,15 +64,28 @@ public class SolutionActivity extends AppCompatActivity {
 
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
 
+        final LinearLayout textViewLayout = (LinearLayout) findViewById(R.id.textViewLayout);
+
         final TextView toolbarTitle = (TextView) findViewById(R.id.telTextView);
         final TextView solutionName = (TextView) findViewById(R.id.solutionName);
         final TextView solutionCompany = (TextView) findViewById(R.id.solutionCompany);
+
         final TextView txt = (TextView) findViewById(R.id.txt);
+
         final TextView histAndDevText = (TextView) findViewById(R.id.histAndDevText);
+        final TextView histAndDevHeader = (TextView) findViewById(R.id.historyanddevelopment);
+
         final TextView availabilityText = (TextView) findViewById(R.id.availabilityText);
+        final TextView availabilityHeader = (TextView) findViewById(R.id.availability);
+
         final TextView specificationsText = (TextView) findViewById(R.id.specificationsText);
+        final TextView specificationsHeader = (TextView) findViewById(R.id.specifications);
+
         final TextView additionalInformationText = (TextView) findViewById(R.id.addtionalInformationText);
+        final TextView additionalInformationHeader = (TextView) findViewById(R.id.additionalinformation);
+
         final TextView contactText = (TextView) findViewById(R.id.contactText);
+        final TextView contactHeader = (TextView) findViewById(R.id.contact);
 
         final ImageView solutionImage = (ImageView) findViewById(R.id.solutionPicture);
         final ImageView gradient = (ImageView) findViewById(R.id.gradient);
@@ -82,6 +96,8 @@ public class SolutionActivity extends AppCompatActivity {
         final ImageView websiteActionImageView = (ImageView) findViewById(R.id.action_website);
 
         final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+
+        final String website = getWebsite(solutionIntoClass.getAdditionalinfoTxt());
 
         assert solutionIntoClass != null;
 
@@ -172,7 +188,6 @@ public class SolutionActivity extends AppCompatActivity {
         websiteActionImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String website = getWebsite(solutionIntoClass.getAdditionalinfoTxt());
                 if (!website.equals("")) {
                     Intent websiteIntent = new Intent(Intent.ACTION_VIEW); // it's not ACTION_SEND
                     websiteIntent.setData(Uri.parse(website)); // or just "mailto:" for blank
@@ -187,15 +202,46 @@ public class SolutionActivity extends AppCompatActivity {
         solutionName.setText(solutionIntoClass.getName());
         solutionCompany.setText(solutionIntoClass.getContactName());
         txt.setText(solutionIntoClass.getTxt());
-        if (histAndDevText.getText().equals("")) {
-            ((TextView) findViewById(R.id.historyanddevelopment)).setText("");
+
+        if (solutionIntoClass.getHistDevTxt() == null) {
+            histAndDevText.setText("");
+            textViewLayout.removeView(histAndDevHeader);//todo find a more efficient way
+            textViewLayout.removeView(histAndDevText);
         } else {
             histAndDevText.setText(solutionIntoClass.getHistDevTxt());
         }
-        availabilityText.setText(solutionIntoClass.getAvailabilityTxt());
-        specificationsText.setText(solutionIntoClass.getSpecificationsTxt());
-        additionalInformationText.setText(solutionIntoClass.getAdditionalinfoTxt());
-        contactText.setText(solutionIntoClass.getContactTxt());
+        if (solutionIntoClass.getAdditionalinfoTxt() == null) {
+            additionalInformationText.setText("");
+            textViewLayout.removeView(additionalInformationHeader);
+            textViewLayout.removeView(additionalInformationText);
+        } else {
+            if (solutionIntoClass.getAdditionalinfoTxt().contains("[Website]") || solutionIntoClass.getAdditionalinfoTxt().contains("[Product page]") || solutionIntoClass.getAdditionalinfoTxt().contains("Documentation")) {
+                additionalInformationText.setText(R.string.more_info_on_site);
+            } else {
+                additionalInformationText.setText(solutionIntoClass.getAdditionalinfoTxt());
+            }
+        }
+        if (solutionIntoClass.getAvailabilityTxt() == null) {
+            availabilityText.setText("");
+            textViewLayout.removeView(availabilityHeader);
+            textViewLayout.removeView(availabilityText);
+        } else {
+            availabilityText.setText(solutionIntoClass.getAvailabilityTxt());
+        }
+        if (solutionIntoClass.getContactTxt() == null) {
+            contactText.setText("");
+            textViewLayout.removeView(contactHeader);
+            textViewLayout.removeView(contactText);
+        } else {
+            contactText.setText(solutionIntoClass.getContactTxt());
+        }
+        if (solutionIntoClass.getSpecificationsTxt() == null) {
+            specificationsText.setText("");
+            textViewLayout.removeView(specificationsHeader);
+            textViewLayout.removeView(specificationsText);
+        } else {
+            specificationsText.setText(solutionIntoClass.getSpecificationsTxt());
+        }
     }
 
     private void changeFavorite(final String name, boolean favorite) {
