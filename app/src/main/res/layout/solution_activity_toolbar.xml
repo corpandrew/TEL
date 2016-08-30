@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/solutionToolbar"
-    android:layout_width="fill_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_gravity="fill_horizontal">
 
@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/telTextView"
-        android:layout_width="225dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/action_back"
@@ -33,7 +33,9 @@
         android:textColor="#ffffff"
         android:textIsSelectable="false"
         android:textSize="@dimen/abc_text_size_large_material"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_alignParentEnd="false"
+        android:layout_toStartOf="@+id/linearLayout" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
