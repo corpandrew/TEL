@@ -16,9 +16,9 @@
     <string name="navigation_ten">Additional Solutions</string>
 
     <string name="action_sync">Sync Json</string>
-    <string name="sync_json_question">Are you sure you want to sync the json? Checking for updates uses data.</string>
+    <string name="sync_json_question">Are you sure you want to update the database? Checking for updates requires an internet connection and may result in charges when not on WiFi.</string>
     <string name="not_connected">You are not connected to the internet!</string>
-    <string name="data_connected">Are you sure you want to download? This will use data.</string>
+    <string name="data_connected">Are you sure you want to download the database? Downloading the database while roaming may result in charges.</string>
 
     <string name="okay">Okay</string>
     <string name="no">No</string>
@@ -44,5 +44,5 @@
     <string name="contact">Contact</string>
 
     <string name="tel_logo">Tel Logo</string>
-    <string name="more_info_on_site">More Information about this product can be found on the site. \n</string>
+    <string name="more_info_on_site">Additional Information about this solution can be found on the tel website. May incur data charges.\n</string>
 </resources>

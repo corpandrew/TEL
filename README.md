@@ -10,7 +10,7 @@
 8. Interactive Emails // Done - Corp
 9. Phone numbers // No More
 10. Handling syncing json/first boot/ internet bugs. //Done for now - Corp
-11. Download Images if wanted. - Checkbox on Syncing Dialog Maybe? "[] Download Images"
+11. Download Images if wanted. - Checkbox on Syncing Dialog Maybe? "[] Download Images"// TODO
 12. Commenting and documenting.
 13. Efficiency
 14. Make Interfaces

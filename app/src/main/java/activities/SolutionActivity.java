@@ -175,7 +175,7 @@ public class SolutionActivity extends AppCompatActivity {
                 if (!email.equals("")) {
                     Intent emailIntent = new Intent(Intent.ACTION_SENDTO); // it's not ACTION_SEND
                     emailIntent.setType("text/plain");
-                    emailIntent.setData(Uri.parse("mailto:" + email)); // or just "mailto:" for blank
+                    emailIntent.setData(Uri.parse("mailto:" + email + "?cc=" + "notifications@techxlab.org"));
                     emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
                     startActivity(Intent.createChooser(emailIntent, "Send Email Using: "));
                 } else {
