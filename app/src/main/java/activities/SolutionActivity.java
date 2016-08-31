@@ -91,6 +91,7 @@ public class SolutionActivity extends AppCompatActivity {
 
         final ImageView solutionImage = (ImageView) findViewById(R.id.solutionPicture);
         final ImageView gradient = (ImageView) findViewById(R.id.gradient);
+        final ImageView gradient2 = (ImageView) findViewById(R.id.gradient2);
 
         final ImageView backActionImageView = (ImageView) findViewById(R.id.action_back);
         final TextView telWebsiteActionTextView = (TextView) findViewById(R.id.action_telWebsite);
@@ -105,7 +106,7 @@ public class SolutionActivity extends AppCompatActivity {
         solutionImage.setImageDrawable(getDrawableImageFromPath(solutionIntoClass.getPathToImage()));
         Bitmap bitmap = ((BitmapDrawable)solutionImage.getDrawable()).getBitmap();
         Palette palette = new Palette.Builder(bitmap).generate();
-        solutionImage.setBackgroundColor(palette.getMutedColor(0xFFFF));
+        solutionImage.setBackgroundColor(palette.getMutedColor(Color.parseColor("#ffffff")));
 
         toolbarTitle.setText(solutionIntoClass.getName());
 
