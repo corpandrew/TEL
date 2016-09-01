@@ -9,9 +9,10 @@
         android:id="@+id/editSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:textCursorDrawable="@drawable/white_cursor"
         android:backgroundTint="@color/white"
-        android:imeOptions="actionSearch" />
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:minWidth="200dp"
+        android:textCursorDrawable="@drawable/white_cursor" />
 
 </LinearLayout>

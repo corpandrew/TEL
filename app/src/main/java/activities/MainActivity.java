@@ -274,6 +274,11 @@ public class MainActivity extends AppCompatActivity
                 actionBar.setDisplayShowTitleEnabled(false);
 
                 editSearch = (EditText) actionBar.getCustomView().findViewById(R.id.editSearch);
+
+                editSearch.requestFocus();
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(editSearch, InputMethodManager.SHOW_IMPLICIT);
             }
 
             editSearch.addTextChangedListener(new TextWatcher() {
