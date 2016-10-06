@@ -27,7 +27,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity
     private EditText editSearch;
     private ListView listView;
     private ListItemAdapter currentListItemAdapter;
-    private ListItemAdapter tempListItemAdapter;//todo use this to fix eadoin bug
+    private ListItemAdapter tempListItemAdapter;
     private NavigationView navigationView;
     private Toolbar toolbar;
     private Spanned tooolbarText;
@@ -114,7 +113,18 @@ public class MainActivity extends AppCompatActivity
 
         long timeTaken = (endTime - startTime);
         double seconds = (double) timeTaken / 1000000000.0;
-        Toast.makeText(this, "It took: " + seconds, Toast.LENGTH_LONG).show();
+    }
+
+    private int getCheckedItem(NavigationView navigationView) {
+        Menu menu = navigationView.getMenu();
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            if (item.isChecked()) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     @Override
@@ -127,8 +137,10 @@ public class MainActivity extends AppCompatActivity
             handleMenuSearch();
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>Searched Solutions</i>");
             toolbar.setTitle(tooolbarText);
+        } else if (getCheckedItem(navigationView) == 0 || getCheckedItem(navigationView) == -1) {
+            finish();//todo still a littly buggy
         } else {
-            onNavigationItemSelected(navigationView.getMenu().getItem(0));
+            onNavigationItemSelected(navigationView.getMenu().getItem(1));
         }
     }
 
@@ -226,6 +238,9 @@ public class MainActivity extends AppCompatActivity
             listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>Other Solutions</i>");
             toolbar.setTitle(tooolbarText);
+        } else if (id == R.id.nav_about_us) {
+            Intent i = new Intent(this, AboutUsActivity.class);
+            startActivity(i);
         }
 
         tempListItemAdapter = currentListItemAdapter;
@@ -234,7 +249,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Solution s = (Solution) listView.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(), "Name = " + s.getName(), Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(view.getContext(), SolutionActivity.class);
                 i.putExtra("solution", s);
                 startActivity(i);

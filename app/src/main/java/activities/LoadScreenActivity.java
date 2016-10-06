@@ -155,10 +155,8 @@ public class LoadScreenActivity extends AppCompatActivity {
 
         if (activeNetwork != null) {
             if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
-                Toast.makeText(this, "Wifi", Toast.LENGTH_LONG).show();
                 return WIFI_STATE;
             } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
-                Toast.makeText(this, "Mobile 3G ", Toast.LENGTH_LONG).show();
                 return MOBILE_DATA_STATE;
             } else {
                 return -1;//TODO Figure out why it would ever get here

@@ -1,6 +1,5 @@
 package activities;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,7 +39,6 @@ public class SolutionActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     ImageView favoritePicture;
     Solution solutionIntoClass;
-    FragmentTransaction ft;
 
 
     @Override
@@ -91,7 +89,6 @@ public class SolutionActivity extends AppCompatActivity {
 
         final ImageView solutionImage = (ImageView) findViewById(R.id.solutionPicture);
         final ImageView gradient = (ImageView) findViewById(R.id.gradient);
-        final ImageView gradient2 = (ImageView) findViewById(R.id.gradient2);
 
         final ImageView backActionImageView = (ImageView) findViewById(R.id.action_back);
         final TextView telWebsiteActionTextView = (TextView) findViewById(R.id.action_telWebsite);

@@ -9,7 +9,7 @@ import android.app.Activity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Solution extends Activity implements SolutionInterface {
+public class Solution implements SolutionInterface {
 
     private int referenceId;
 

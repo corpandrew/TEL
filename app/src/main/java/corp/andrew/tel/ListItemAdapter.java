@@ -62,9 +62,10 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
         final Solution viewSolution = getItem(position);
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.list_item, null);
 
             holder = new ViewHolder();
+
+            convertView = inflater.inflate(R.layout.list_item, null);
 
             holder.solutionName = (TextView) convertView.findViewById(R.id.solutionName);
 
@@ -89,7 +90,9 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
 
         final String pathToImage = viewSolution.getPathToImage();
         holder.solutionPicture.setImageDrawable(getDrawableImageFromPath(pathToImage));
-        //new DrawableTask(position,holder,pathToImage, context); TODO MAKE THIS WORK, LESS WORK ON UI THREAD
+
+        //DrawableTask drawableTask = new DrawableTask(position,holder,pathToImage, context);
+        //drawableTask.doInBackground();
 
         holder.solutionPicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +135,7 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
         return convertView;
     }
 
-    private static class DrawableTask extends AsyncTask<String, Integer, Drawable> {
+    private static class DrawableTask extends AsyncTask<String, Integer, Drawable> {//Todo use this task to make loading time faster.
         private int mPosition;
         private ViewHolder holder;
         private String pathToImage;
