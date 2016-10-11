@@ -1,0 +1,10 @@
+language: android
+android:
+  components:
+    - tools # to get the new `repository-11.xml`
+    - platform-tools
+    - build-tools-24.0.2
+    - android-24
+
+script:
+   - ./gradlew build connectedCheck
