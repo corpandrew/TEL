@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     // Storage Permissions variables
-    public static MainActivity activity;
+    public MainActivity activity;
     public List<Solution> allSolutions;
     public SharedPreferences favoriteSharedPrefs;
     private MenuItem mSearchAction;

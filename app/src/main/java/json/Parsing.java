@@ -22,7 +22,7 @@ import activities.MainActivity;
  * Created by corpa on Aug 19, 2016
  */
 public class Parsing {
-    InputStream inputStream = null;
+    private InputStream inputStream = null;
     private String version = "file.json"; //TODO Get version from website
     private AssetManager assetManager;
 

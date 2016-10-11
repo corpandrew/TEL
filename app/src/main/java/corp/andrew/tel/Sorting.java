@@ -16,9 +16,9 @@ import json.Solution;
 
 public class Sorting implements Serializable {
 
-    List<Solution> allsolutionList;
-    SharedPreferences sharedPreferences;
-    FragmentManager fragmentManager;
+    private List<Solution> allsolutionList;
+    private SharedPreferences sharedPreferences;
+    private FragmentManager fragmentManager;
 
     public Sorting(List<Solution> allsolutionList, SharedPreferences sharedPreferences, FragmentManager fragmentManager) {
         this.allsolutionList = allsolutionList;

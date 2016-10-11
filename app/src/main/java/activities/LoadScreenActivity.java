@@ -15,7 +15,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.io.File;
 
@@ -39,7 +38,6 @@ public class LoadScreenActivity extends AppCompatActivity {
     private static String[] PERMISSIONS = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CALL_PHONE,
             Manifest.permission.ACCESS_NETWORK_STATE
     };
 
@@ -91,10 +89,9 @@ public class LoadScreenActivity extends AppCompatActivity {
         // Check if we have read or write permission
         int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
-        int callPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE);
         int wifiPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_NETWORK_STATE);
 
-        if (writePermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED || callPermission != PackageManager.PERMISSION_GRANTED || wifiPermission != PackageManager.PERMISSION_GRANTED) {
+        if (writePermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED || wifiPermission != PackageManager.PERMISSION_GRANTED) {
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(
                     activity,
@@ -149,7 +146,7 @@ public class LoadScreenActivity extends AppCompatActivity {
         }
     }
 
-    private int hasConnection() {//TODO MAKE IT RETURN IF YOU ARE ON DATA OR WIFI - RENAME getConnectionType
+    private int hasConnection() {
         ConnectivityManager internetService = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = internetService.getActiveNetworkInfo();
 
@@ -159,10 +156,9 @@ public class LoadScreenActivity extends AppCompatActivity {
             } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
                 return MOBILE_DATA_STATE;
             } else {
-                return -1;//TODO Figure out why it would ever get here
+                return -1;
             }
         } else {
-            Toast.makeText(this, "No Network ", Toast.LENGTH_LONG).show();
             return NO_NETWORK_STATE;
         }
     }

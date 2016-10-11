@@ -20,11 +20,12 @@ import activities.MainActivity;
 /**
  * Created by corpa on Aug 19, 2016
  */
+
 public class DownloadFileTask extends AsyncTask<String, Integer, String> {
 
-    LoadScreenActivity activity;
-    ProgressBar progressBar;
-    SharedPreferences sharedPreferences;
+    private LoadScreenActivity activity;
+    private ProgressBar progressBar;
+    private SharedPreferences sharedPreferences;
 
     public DownloadFileTask(LoadScreenActivity activity, ProgressBar progressBar) {
         this.activity = activity;

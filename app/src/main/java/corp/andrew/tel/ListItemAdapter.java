@@ -26,8 +26,7 @@ import json.Solution;
 
 public class ListItemAdapter extends ArrayAdapter<Solution> {
 
-    int i = 0;
-    SharedPreferences.Editor editor;
+    private int i = 0;
     private LayoutInflater inflater;
     private SharedPreferences prefs;
     private Context context;
@@ -38,12 +37,11 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.context = context;
         this.prefs = prefs;
-        editor = prefs.edit();
         this.fragmentManager = fragmentManager;
     }
 
     private void addFavorite(String name, boolean favorite) {
-        editor.putBoolean(name, favorite).apply();
+        prefs.edit().putBoolean(name, favorite).apply();
     }
 
     private Drawable getDrawableImageFromPath(String imagePath) {
@@ -79,6 +77,8 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
+        assert viewSolution != null;
 
         holder.position = position;
 
@@ -168,9 +168,9 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
     }
 
     private static class ViewHolder {
-        public TextView solutionName, solutionCompany;
-        public ImageView solutionPicture, favoritePicture;
-        public int position;
+        TextView solutionName, solutionCompany;
+        ImageView solutionPicture, favoritePicture;
+        int position;
     }
 
 }
