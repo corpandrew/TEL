@@ -24,6 +24,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.flurry.android.FlurryAgent;
+
 import java.io.IOException;
 
 import Fragments.ImagePopOutFragment;
@@ -95,7 +97,11 @@ public class SolutionActivity extends AppCompatActivity {
         final ImageView emailActionImageView = (ImageView) findViewById(R.id.action_email);
         final ImageView websiteActionImageView = (ImageView) findViewById(R.id.action_website);
 
-        final String website = getWebsite(solutionIntoClass.getAdditionalinfoTxt());
+//        final String website = getWebsite(solutionIntoClass.getAdditionalinfoTxt());
+        String website = solutionIntoClass.getAdditionalinfoProductURL();
+        if(website == null){
+            website = "";
+        }
         final String email = getEmail(solutionIntoClass.getContactTxt());
 
         assert solutionIntoClass != null;
@@ -119,9 +125,13 @@ public class SolutionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!sharedPreferences.getBoolean(solutionIntoClass.getName(), false)) {
                     changeFavorite(solutionIntoClass.getName(), false);
+//                    FlurryAgent.logEvent("INSIDE FAVORITE FALSE, " + solutionIntoClass.getName());
                 } else {
                     changeFavorite(solutionIntoClass.getName(), true);
+//                    FlurryAgent.logEvent("INSIDE FAVORITE TRUE, " + solutionIntoClass.getName());
                 }
+
+
             }
         });
 
@@ -159,11 +169,11 @@ public class SolutionActivity extends AppCompatActivity {
         telWebsiteActionTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String website = "http://www.techxlab.org" + solutionIntoClass.getHref();
+                String telWebsite = "http://www.techxlab.org" + solutionIntoClass.getHref();
                 Intent websiteIntent = new Intent(Intent.ACTION_VIEW); // it's not ACTION_SEND
-                websiteIntent.setData(Uri.parse(website)); // or just "mailto:" for blank
+                websiteIntent.setData(Uri.parse(telWebsite)); // or just "mailto:" for blank
                 websiteIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
-                startActivity(Intent.createChooser(websiteIntent, "navigate to website"));
+                startActivity(Intent.createChooser(websiteIntent, "Navigate to the TEL Website"));
             }
         });
 
@@ -183,14 +193,15 @@ public class SolutionActivity extends AppCompatActivity {
         });
 
 
+        final String finalWebsite = website;
         websiteActionImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!website.equals("")) {
+                if (!finalWebsite.isEmpty()) {
                     Intent websiteIntent = new Intent(Intent.ACTION_VIEW); // it's not ACTION_SEND
-                    websiteIntent.setData(Uri.parse(website)); // or just "mailto:" for blank
+                    websiteIntent.setData(Uri.parse(finalWebsite)); // or just "mailto:" for blank
                     websiteIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
-                    startActivity(Intent.createChooser(websiteIntent, "navigate to website"));
+                    startActivity(Intent.createChooser(websiteIntent, "Navigate To The Product Website"));
                 } else {
                     Toast.makeText(getApplicationContext(), "No Website Available", Toast.LENGTH_SHORT).show();
                 }
@@ -256,14 +267,10 @@ public class SolutionActivity extends AppCompatActivity {
             favoritePicture.setImageResource(R.drawable.ic_favorite_border_white_24px);
         }
 
-        System.out.println("Before Favorite: " + solutionIntoClass.getIsFavorite());
-
         solutionIntoClass.setFavorite(!favorite);
         editor.putBoolean(name, !favorite);
         // Commit the edits!
         editor.apply();
-
-        System.out.println("After Favorite: " + solutionIntoClass.getIsFavorite());
     }
 
     @Override

@@ -14,6 +14,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.flurry.android.FlurryAgent;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -26,7 +28,7 @@ import json.Solution;
 
 public class ListItemAdapter extends ArrayAdapter<Solution> {
 
-    private int i = 0;
+    private int i;
     private LayoutInflater inflater;
     private SharedPreferences prefs;
     private Context context;
@@ -38,6 +40,7 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
         this.context = context;
         this.prefs = prefs;
         this.fragmentManager = fragmentManager;
+        i = 0;
     }
 
     private void addFavorite(String name, boolean favorite) {
@@ -123,11 +126,12 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
                     holder.favoritePicture.setImageResource(R.drawable.ic_favorite_border_orange_24px);
                     addFavorite(viewSolution.getName(), false);
                 }
+//                FlurryAgent.logEvent("OUTSIDE Favorite, " + viewSolution.getName());
             }
         });
 
         if (i % 2 == 0) {
-            convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.grey));
+//            convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.grey));
         }
 
         i++;

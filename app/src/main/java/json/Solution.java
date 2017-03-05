@@ -42,6 +42,7 @@ public class Solution implements SolutionInterface {
     private String additionalinfoHdr;
     private String additionalinfoTxt;
     private String additionalinfoHref;
+    private String additionalinfoProductURL;
 
     private String contactHdr;
     private String contactTxt;
@@ -51,7 +52,7 @@ public class Solution implements SolutionInterface {
 
     private boolean isFavorite;
 
-    public Solution(String hdr, String txt, String id, String name, List<String> category, List<String> tags, String image, String created, List<String> publish, String template, String href, String histDevHdr, String histDevTxt, String histDevHref, String availabilityHdr, String availabilityTxt, String availabilityHref, String specificationsHdr, String specificationsTxt, String specificationsHref, String additionalinfoHdr, String additionalinfoTxt, String additionalinfoHref, String contactHdr, String contactTxt, String contactHref, String contactName, String contactUrl, int referenceId, String pathToImage) {
+    public Solution(String hdr, String txt, String id, String name, List<String> category, List<String> tags, String image, String created, List<String> publish, String template, String href, String histDevHdr, String histDevTxt, String histDevHref, String availabilityHdr, String availabilityTxt, String availabilityHref, String specificationsHdr, String specificationsTxt, String specificationsHref, String additionalinfoHdr, String additionalinfoTxt, String additionalinfoHref, String additionalinfoProductURL, String contactHdr, String contactTxt, String contactHref, String contactName, String contactUrl, int referenceId, String pathToImage) {
         this.hdr = hdr;
         this.txt = txt;
         this.id = id;
@@ -75,6 +76,7 @@ public class Solution implements SolutionInterface {
         this.additionalinfoHdr = additionalinfoHdr;
         this.additionalinfoTxt = additionalinfoTxt;
         this.additionalinfoHref = additionalinfoHref;
+        this.additionalinfoProductURL = additionalinfoProductURL;
         this.contactHdr = contactHdr;
         this.contactTxt = contactTxt;
         this.contactHref = contactHref;
@@ -105,7 +107,7 @@ public class Solution implements SolutionInterface {
         }
         if (additionalinfoTxt != null) {
             if (additionalinfoTxt.endsWith("\n\n")) {
-                this.additionalinfoTxt = additionalinfoTxt.substring(0, additionalinfoTxt.length() - 3);
+                this.additionalinfoTxt = additionalinfoTxt.substring(0, additionalinfoTxt.length() - 2);
             }
         }
         if (contactTxt != null) {
@@ -202,6 +204,10 @@ public class Solution implements SolutionInterface {
 
     public String getAdditionalinfoHref() {
         return additionalinfoHref;
+    }
+
+    public String getAdditionalinfoProductURL() {
+        return additionalinfoProductURL;
     }
 
     public String getContactHdr() {

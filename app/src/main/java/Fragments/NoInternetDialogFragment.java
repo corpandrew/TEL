@@ -20,7 +20,7 @@ public class NoInternetDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setMessage(R.string.not_connected)
-                .setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.iknow, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         getActivity().startActivity(intent);

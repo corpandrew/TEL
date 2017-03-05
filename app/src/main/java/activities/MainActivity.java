@@ -28,6 +28,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.flurry.android.FlurryAgent;
+
 import java.util.List;
 
 import Fragments.SyncDialogFragment;
@@ -59,6 +61,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         long startTime = System.nanoTime(); // For logging the time it takes to create everything on the main activity
+
+//        FlurryAgent.init(this,"Q963TJRGRQC7DNTH9NHX");
 
         activity = this;
         super.onCreate(savedInstanceState);

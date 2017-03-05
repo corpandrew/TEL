@@ -3,6 +3,7 @@ package Fragments;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,13 +25,20 @@ public class ImagePopOutFragment extends DialogFragment {
 
         View v = inflater.inflate(R.layout.image_pop_out, container, false); //just return the  view ;
 
-        ImageView imageView = (ImageView) v.findViewById(R.id.solutionImagePopOut);
+        final ImageView imageView = (ImageView) v.findViewById(R.id.solutionImagePopOut);
 
         String path = getArguments().getString("imagePath");
 
         imageDrawable = getDrawableImageFromPath(path);
 
         imageView.setImageDrawable(imageDrawable);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
 
         /*BitmapDrawable bd = (BitmapDrawable) imageDrawable;
         int height = bd.getBitmap().getHeight();

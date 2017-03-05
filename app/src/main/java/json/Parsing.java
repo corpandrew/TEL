@@ -32,6 +32,7 @@ public class Parsing {
 
     /**
      * Reads in the jsonFile to a string from the environments folder
+     *
      * @return contents of file string
      */
     private String loadJSON() {
@@ -66,7 +67,7 @@ public class Parsing {
         String json;
 
         try {
-            InputStream is = assetManager.open("pages.json");
+            InputStream is = assetManager.open("newformat.json");
 
             Log.v("Testing", "File opened");
             int size = is.available();
@@ -85,6 +86,7 @@ public class Parsing {
 
     /**
      * Parses the jsonString to Usable Solutions.
+     *
      * @return A list of all the solutions in the jsonFile
      */
     public List<Solution> parseJson() {
@@ -93,7 +95,7 @@ public class Parsing {
 
         try {
             JSONObject obj = new JSONObject(loadJSON());
-            //JSONObject obj = new JSONObject(loadJSONJared());
+//            JSONObject obj = new JSONObject(loadJSONJared());
             JSONArray solutionsArray = obj.getJSONArray("Solutions");
 
             for (int i = 0; i < solutionsArray.length(); i++) {
@@ -183,12 +185,15 @@ public class Parsing {
                 String additionalinformation_hdr_value = null;
                 String additionalinformation_txt_value = null;
                 String additionalinformation_href_value = null;
+                String additionalinformation_producturl = null;
 
                 if (jo_inside.has("#additional-information")) {
                     JSONObject additionalInfo = jo_inside.getJSONObject("#additional-information");
                     additionalinformation_hdr_value = additionalInfo.getString("_hdr");
                     additionalinformation_txt_value = additionalInfo.getString("_txt");
                     additionalinformation_href_value = additionalInfo.getString("_href");
+                    if(additionalInfo.has("producturl"))
+                        additionalinformation_producturl = additionalInfo.getString("producturl");
                 }
 
                 JSONObject contact = jo_inside.getJSONObject("#contact");
@@ -204,7 +209,7 @@ public class Parsing {
                     contact_url_value = contact.getString("url");
                 String contact_href_value = contact.getString("_href");
 
-                Solution solution = new Solution(_hdr_value, _txt_value, id_value, name_value, categories, tags, image_value, created_value, publish, template_value, _href_value, historyanddevelopment_hdr_value, historyanddevelopment_txt_value, historyanddevelopment_href_value, availability_hdr_value, availability_txt_value, availability_href_value, specifications_hdr_value, specifications_txt_value, specifications_href_value, additionalinformation_hdr_value, additionalinformation_txt_value, additionalinformation_href_value, contact_hdr_value, contact_txt_value, contact_href_value, contact_name_value, contact_url_value, i, pathToDrawable(image_value));
+                Solution solution = new Solution(_hdr_value, _txt_value, id_value, name_value, categories, tags, image_value, created_value, publish, template_value, _href_value, historyanddevelopment_hdr_value, historyanddevelopment_txt_value, historyanddevelopment_href_value, availability_hdr_value, availability_txt_value, availability_href_value, specifications_hdr_value, specifications_txt_value, specifications_href_value, additionalinformation_hdr_value, additionalinformation_txt_value, additionalinformation_href_value, additionalinformation_producturl, contact_hdr_value, contact_txt_value, contact_href_value, contact_name_value, contact_url_value, i, pathToDrawable(image_value));
 
                 if (solution.getPublish().contains("tel"))
                     solutionList.add(solution);
@@ -226,12 +231,13 @@ public class Parsing {
         if ((imageFileName != null) && assetExists(imageFileName)) {
             return imageFileName;
         } else {
-            return "ast/e41sag8-coolbot-image-v2.jpg";
+            return "ast/tel_no_picture.png";
         }
     }
 
     /**
      * Checks to see if the file is in the assets folder
+     *
      * @param pathInAssetsDir path to check exists, from assets folder
      * @return true if exists else false
      */
