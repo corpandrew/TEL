@@ -16,7 +16,7 @@ public class AboutUsActivity extends AppCompatActivity {
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.about_us);
@@ -25,7 +25,7 @@ public class AboutUsActivity extends AppCompatActivity {
 
         emailTextView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO); // it's not ACTION_SEND
                 emailIntent.setType("text/plain");
                 emailIntent.setData(Uri.parse("mailto:contact@techxlab.org"));

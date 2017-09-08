@@ -133,7 +133,7 @@ public class LoadScreenActivity extends AppCompatActivity {
      * @param sync if it is because of the sync button or not
      * @param version of the jsonFile from TEL
      */
-    public void startDownloadTask(boolean sync, String version) {
+    public void startDownloadTask(final boolean sync, String version) {
         SharedPreferences sharedPreferences = getSharedPreferences("favoritesFile", 0);
 
         if (sync || sharedPreferences.getBoolean("firstRun", true) || !(new File(Environment.getExternalStorageDirectory().toString() + "/" + version).exists())) {

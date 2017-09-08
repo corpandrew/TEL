@@ -25,7 +25,7 @@ public class Developer {
         return developerName;
     }
 
-    public void setPersonName(String developerName) {
+    public void setPersonName(final String developerName) {
         this.developerName = developerName;
     }
 
@@ -41,7 +41,7 @@ public class Developer {
         return developerPicture;
     }
 
-    public void setPersonPicture(Drawable developerPicture) {
+    public void setPersonPicture(final Drawable developerPicture) {
         this.developerPicture = developerPicture;
     }
 
@@ -57,7 +57,7 @@ public class Developer {
         return developerTitle;
     }
 
-    public void setTitle(String developerTitle) {
+    public void setTitle(final String developerTitle) {
         this.developerTitle = developerTitle;
     }
 }

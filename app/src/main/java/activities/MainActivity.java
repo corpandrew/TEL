@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity
     private int lastScrollIndex;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
 //        long startTime = System.nanoTime(); // For logging the time it takes to create everything on the main activity
 
 //        FlurryAgent.init(this,"Q963TJRGRQC7DNTH9NHX");
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_toolbar, menu);
         return true;

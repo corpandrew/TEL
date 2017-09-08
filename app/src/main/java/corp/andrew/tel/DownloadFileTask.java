@@ -34,7 +34,7 @@ public class DownloadFileTask extends AsyncTask<String, Integer, String> {
     }
 
     @Override
-    protected String doInBackground(String... f_url) {
+    protected String doInBackground(final String... f_url) {
         int count;
         try {
             String root = Environment.getExternalStorageDirectory().toString();

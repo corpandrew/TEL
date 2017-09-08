@@ -32,7 +32,7 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
     private Context context;
     private FragmentManager fragmentManager;
 
-    public ListItemAdapter(Context context, int resourceId, List<Solution> list, SharedPreferences prefs, FragmentManager fragmentManager) {
+    public ListItemAdapter(final Context context, int resourceId, List<Solution> list, SharedPreferences prefs, FragmentManager fragmentManager) {
         super(context, resourceId, list);
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.context = context;
@@ -56,7 +56,7 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
     }
 
     public View getView(int position, View convertView,
-                        ViewGroup parent) {
+                        final ViewGroup parent) {
         final ViewHolder holder;
         final Solution viewSolution = getItem(position);
 
