@@ -1,5 +1,7 @@
 # TEL
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4536e25b24064a1bbb116d1b7fb4f3a2)](https://www.codacy.com/app/corpa/TEL?utm_source=github.com&utm_medium=referral&utm_content=corpandrew/TEL&utm_campaign=badger)
+
 1. GridView - Shirshak TODO
 2. Get the pictures to load // Done - Corp
 3. Advanced Search - Jared TODO
