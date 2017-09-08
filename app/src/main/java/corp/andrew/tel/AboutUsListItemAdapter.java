@@ -65,9 +65,9 @@ public class AboutUsListItemAdapter extends ArrayAdapter<Developer> {
     }
 
     private static class ViewHolder {
-        ImageView picture;
-        TextView name, title, schoolName, bio;
-        int position;
+        private ImageView picture;
+        private TextView name, title, schoolName, bio;
+        private int position;
     }
 
 

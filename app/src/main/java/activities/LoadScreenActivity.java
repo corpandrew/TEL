@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 
 import java.io.File;
 
-import Fragments.NoInternetDialogFragment;
+import fragments.NoInternetDialogFragment;
 import corp.andrew.tel.DownloadFileTask;
 import corp.andrew.tel.R;
 
@@ -121,6 +121,9 @@ public class LoadScreenActivity extends AppCompatActivity {
                     //Permission Was Not Granted
                     requestNeededPermissions(this);
                 }
+                break;
+            default:
+                break;
         }
     }
 

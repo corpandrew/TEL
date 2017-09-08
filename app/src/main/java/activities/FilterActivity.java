@@ -23,7 +23,7 @@ public class FilterActivity extends AppCompatActivity {
 
         final ArrayList<String> checkedItems = new ArrayList<>();
 
-        final Sorting solutionIntoClass = (Sorting) getIntent().getExtras().getSerializable("sorting");
+//        final Sorting solutionIntoClass = (Sorting) getIntent().getExtras().getSerializable("sorting");
 
         final CheckBox radioButton = (CheckBox) findViewById(R.id.radio);
         final Button searchButton = (Button) findViewById(R.id.search_button);

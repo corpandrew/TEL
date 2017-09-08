@@ -28,11 +28,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.flurry.android.FlurryAgent;
-
 import java.util.List;
 
-import Fragments.SyncDialogFragment;
+import fragments.SyncDialogFragment;
 import corp.andrew.tel.ListItemAdapter;
 import corp.andrew.tel.R;
 import corp.andrew.tel.Sorting;
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        long startTime = System.nanoTime(); // For logging the time it takes to create everything on the main activity
+//        long startTime = System.nanoTime(); // For logging the time it takes to create everything on the main activity
 
 //        FlurryAgent.init(this,"Q963TJRGRQC7DNTH9NHX");
 
@@ -113,10 +111,10 @@ public class MainActivity extends AppCompatActivity
 
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
 
-        long endTime = System.nanoTime();
+//        long endTime = System.nanoTime();
 
-        long timeTaken = (endTime - startTime);
-        double seconds = (double) timeTaken / 1000000000.0;
+//        long timeTaken = (endTime - startTime);
+//        double seconds = (double) timeTaken / 1000000000.0;
     }
 
     private int getCheckedItem(NavigationView navigationView) {
@@ -302,7 +300,7 @@ public class MainActivity extends AppCompatActivity
             editSearch.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                    //not needed
                 }
 
                 @Override
@@ -312,7 +310,7 @@ public class MainActivity extends AppCompatActivity
 
                 @Override
                 public void afterTextChanged(Editable s) {
-
+                    //not needed
                 }
             });
             editSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {

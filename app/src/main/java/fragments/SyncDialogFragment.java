@@ -1,4 +1,4 @@
-package Fragments;
+package fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -22,7 +22,7 @@ public class SyncDialogFragment extends DialogFragment {
         builder.setMessage(R.string.sync_json_question)
                 .setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
+                        //TODO does nothing as of now, need to handle
                     }
                 }).setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override

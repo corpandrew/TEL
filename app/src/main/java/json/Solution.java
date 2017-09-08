@@ -4,8 +4,6 @@ package json;
  * Created by corpa on Aug 19, 2016
  */
 
-import android.app.Activity;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,35 +83,26 @@ public class Solution implements SolutionInterface {
         this.referenceId = referenceId;
         this.pathToImage = pathToImage;
 
-        if (txt != null) {
-            if (txt.endsWith("\n\n")) {
-                this.txt = txt.substring(0, txt.length() - 1);
-            }
+        if (txt != null && txt.endsWith("\n\n")) {
+            this.txt = txt.substring(0, txt.length() - 1);
         }
-        if (histDevTxt != null) {
-            if (histDevTxt.endsWith("\n\n")) {
-                this.histDevTxt = histDevTxt.substring(0, histDevTxt.length() - 1);
-            }
+        if (histDevTxt != null && histDevTxt.endsWith("\n\n")) {
+            this.histDevTxt = histDevTxt.substring(0, histDevTxt.length() - 1);
         }
-        if (availabilityTxt != null) {
-            if (availabilityTxt.endsWith("\n\n")) {
-                this.availabilityTxt = availabilityTxt.substring(0, availabilityTxt.length() - 2);//todo find a more efficient way
-            }
+
+        if (availabilityTxt != null && availabilityTxt.endsWith("\n\n")) {
+            this.availabilityTxt = availabilityTxt.substring(0, availabilityTxt.length() - 2);//todo find a more efficient way
         }
-        if (specificationsTxt != null) {
-            if (specificationsTxt.endsWith("\n\n")) {
-                this.specificationsTxt = specificationsTxt.substring(0, specificationsTxt.length() - 2);
-            }
+
+        if (specificationsTxt != null && specificationsTxt.endsWith("\n\n")) {
+            this.specificationsTxt = specificationsTxt.substring(0, specificationsTxt.length() - 2);
         }
-        if (additionalinfoTxt != null) {
-            if (additionalinfoTxt.endsWith("\n\n")) {
-                this.additionalinfoTxt = additionalinfoTxt.substring(0, additionalinfoTxt.length() - 2);
-            }
+
+        if (additionalinfoTxt != null && additionalinfoTxt.endsWith("\n\n")) {
+            this.additionalinfoTxt = additionalinfoTxt.substring(0, additionalinfoTxt.length() - 2);
         }
-        if (contactTxt != null) {
-            if (contactTxt.endsWith("\\n\\n")) {
-                this.contactTxt = contactTxt.substring(0, contactTxt.length() - 1);
-            }
+        if (contactTxt != null && contactTxt.endsWith("\\n\\n")) {
+            this.contactTxt = contactTxt.substring(0, contactTxt.length() - 1);
         }
     }
 

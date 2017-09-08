@@ -14,12 +14,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.flurry.android.FlurryAgent;
-
 import java.io.IOException;
 import java.util.List;
 
-import Fragments.ImagePopOutFragment;
+import fragments.ImagePopOutFragment;
 import json.Solution;
 
 /**
@@ -130,9 +128,9 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
             }
         });
 
-        if (i % 2 == 0) {
+//        if (i % 2 == 0) {
 //            convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.grey));
-        }
+//        }
 
         i++;
 
@@ -172,9 +170,9 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
     }
 
     private static class ViewHolder {
-        TextView solutionName, solutionCompany;
-        ImageView solutionPicture, favoritePicture;
-        int position;
+        private TextView solutionName, solutionCompany;
+        private ImageView solutionPicture, favoritePicture;
+        private int position;
     }
 
 }

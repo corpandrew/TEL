@@ -24,11 +24,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.flurry.android.FlurryAgent;
-
 import java.io.IOException;
 
-import Fragments.ImagePopOutFragment;
+import fragments.ImagePopOutFragment;
 import corp.andrew.tel.R;
 import json.Solution;
 
@@ -38,10 +36,9 @@ import json.Solution;
 
 public class SolutionActivity extends AppCompatActivity {
 
-    SharedPreferences sharedPreferences;
-    ImageView favoritePicture;
-    Solution solutionIntoClass;
-
+    private SharedPreferences sharedPreferences;
+    private ImageView favoritePicture;
+    private Solution solutionIntoClass;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -180,7 +177,7 @@ public class SolutionActivity extends AppCompatActivity {
         emailActionImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!email.equals("")) {
+                if (!"".equals(email)) {
                     Intent emailIntent = new Intent(Intent.ACTION_SENDTO); // it's not ACTION_SEND
                     emailIntent.setType("text/plain");
                     emailIntent.setData(Uri.parse("mailto:" + email + "?cc=" + "notifications@techxlab.org"));
@@ -296,13 +293,13 @@ public class SolutionActivity extends AppCompatActivity {
         }
     }
 
-    private String getWebsite(String additionalInformation) {//refine this and make better
-        if (additionalInformation.contains("http")) {
-            return additionalInformation.substring(additionalInformation.indexOf("(") + 1, additionalInformation.indexOf(")"));
-        } else {
-            return "";
-        }
-    }
+//    private String getWebsite(String additionalInformation) {//refine this and make better
+//        if (additionalInformation.contains("http")) {
+//            return additionalInformation.substring(additionalInformation.indexOf("(") + 1, additionalInformation.indexOf(")"));
+//        } else {
+//            return "";
+//        }
+//    }
 
     private void showActionBar() {
         LayoutInflater inflator = (LayoutInflater) this

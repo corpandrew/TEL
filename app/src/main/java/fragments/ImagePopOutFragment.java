@@ -1,9 +1,8 @@
-package Fragments;
+package fragments;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ import corp.andrew.tel.R;
  * Created by corpa on Aug 27, 2016
  */
 public class ImagePopOutFragment extends DialogFragment {
-    Drawable imageDrawable;
+    private Drawable imageDrawable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

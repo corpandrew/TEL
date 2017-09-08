@@ -1,4 +1,4 @@
-package Fragments;
+package fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -23,7 +23,7 @@ public class DataDialogFragment extends DialogFragment {
         builder.setMessage(R.string.data_connected)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
+                    // TODO does nothing as of now, need to handle.
                     }
                 }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             @Override

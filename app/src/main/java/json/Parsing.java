@@ -22,7 +22,6 @@ import activities.MainActivity;
  * Created by corpa on Aug 19, 2016
  */
 public class Parsing {
-    private InputStream inputStream = null;
     private String version = "file.json"; //TODO Get version from website
     private AssetManager assetManager;
 
@@ -47,7 +46,7 @@ public class Parsing {
             int size = is.available();
             byte[] buffer = new byte[size];
 
-            int read = is.read(buffer);
+//            is.read(buffer);
             is.close();
             json = new String(buffer, "UTF-8");
         } catch (IOException ex) {
@@ -57,31 +56,31 @@ public class Parsing {
         return json;
     }
 
-    /**
-     * Reads in the json file from the assets folder, not from environment.
-     *
-     * @return contents of file string
-     */
-    private String loadJSONJared() {
-
-        String json;
-
-        try {
-            InputStream is = assetManager.open("newformat.json");
-
-            Log.v("Testing", "File opened");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-
-            int read = is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
+//    /**
+//     * Reads in the json file from the assets folder, not from environment.
+//     *
+//     * @return contents of file string
+//     */
+//    private String loadJSONJared() {
+//
+//        String json;
+//
+//        try {
+//            InputStream is = assetManager.open("newformat.json");
+//
+//            Log.v("Testing", "File opened");
+//            int size = is.available();
+//            byte[] buffer = new byte[size];
+//
+////            int read = is.read(buffer);
+//            is.close();
+//            json = new String(buffer, "UTF-8");
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//            return null;
+//        }
+//        return json;
+//    }
 
 
     /**
@@ -192,7 +191,7 @@ public class Parsing {
                     additionalinformation_hdr_value = additionalInfo.getString("_hdr");
                     additionalinformation_txt_value = additionalInfo.getString("_txt");
                     additionalinformation_href_value = additionalInfo.getString("_href");
-                    if(additionalInfo.has("producturl"))
+                    if (additionalInfo.has("producturl"))
                         additionalinformation_producturl = additionalInfo.getString("producturl");
                 }
 
@@ -242,9 +241,11 @@ public class Parsing {
      * @return true if exists else false
      */
     private boolean assetExists(String pathInAssetsDir) {
+        InputStream inputStream = null;
+
         try {
             inputStream = assetManager.open(pathInAssetsDir);
-            if (null != inputStream) {
+            if (inputStream != null) {
                 return true;
             }
         } catch (IOException e) {

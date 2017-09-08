@@ -54,7 +54,9 @@ public class Sorting implements Serializable {
 
     public ListItemAdapter getSearchedEntries(Context context, String text) {
         List<Solution> newSolutionsList = new ArrayList<>();
-        String solutionName, companyName, solutionText;
+        String solutionName;
+        String companyName;
+        String solutionText;
         for (Solution s : allsolutionList) {
             solutionName = s.getName().toLowerCase();
             if (s.getContactName() != null)
