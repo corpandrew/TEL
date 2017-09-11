@@ -4,6 +4,8 @@ import android.content.res.AssetManager;
 import android.os.Environment;
 import android.util.Log;
 
+import com.google.common.io.Files;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,11 +14,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import activities.MainActivity;
+import corp.andrew.tel.activities.MainActivity;
 
 /**
  * Created by corpa on Aug 19, 2016
@@ -36,23 +39,15 @@ public class Parsing {
      */
     private String loadJSON() {
 
-        String json;
+        String json = null;
         final File file = new File(Environment.getExternalStorageDirectory().getAbsoluteFile() + "/" + version);
 
         try {
-            FileInputStream is = new FileInputStream(file);
-
-            Log.v("Testing", "File opened");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-
-//            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
+            json = Files.toString(file, Charset.defaultCharset());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
         return json;
     }
 

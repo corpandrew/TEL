@@ -15,9 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
-import fragments.ImagePopOutFragment;
+import corp.andrew.tel.analytics.AnalyticsHelper;
+import corp.andrew.tel.fragments.ImagePopOutFragment;
 import json.Solution;
 
 /**
@@ -26,7 +28,6 @@ import json.Solution;
 
 public class ListItemAdapter extends ArrayAdapter<Solution> {
 
-    private int i;
     private LayoutInflater inflater;
     private SharedPreferences prefs;
     private Context context;
@@ -38,7 +39,6 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
         this.context = context;
         this.prefs = prefs;
         this.fragmentManager = fragmentManager;
-        i = 0;
     }
 
     private void addFavorite(String name, boolean favorite) {
@@ -101,8 +101,13 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
                 Bundle bundle = new Bundle();
                 bundle.putString("imagePath", pathToImage);
 
+                HashMap<String, String> imageParams = new HashMap<>(1);
+
                 ImagePopOutFragment imagePopOut = new ImagePopOutFragment();
                 imagePopOut.setArguments(bundle);
+                imageParams.put("solution_name", viewSolution.getName());
+
+                AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_IMAGE_LIST_ITEM, imageParams, false);
 
                 imagePopOut.show(fragmentManager, "imagePop");
             }
@@ -117,22 +122,24 @@ public class ListItemAdapter extends ArrayAdapter<Solution> {
         holder.favoritePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                HashMap<String, String> imageParams = new HashMap<>(2);
+                imageParams.put("solution_name", viewSolution.getName());
                 if (!prefs.getBoolean(viewSolution.getName(), false)) {
+                    imageParams.put("set_favorite", "true");
                     holder.favoritePicture.setImageResource(R.drawable.ic_favorite_orange_24px);
                     addFavorite(viewSolution.getName(), true);
-                } else {
+                    } else {
+                    imageParams.put("set_favorite", "false");
                     holder.favoritePicture.setImageResource(R.drawable.ic_favorite_border_orange_24px);
                     addFavorite(viewSolution.getName(), false);
                 }
-//                FlurryAgent.logEvent("OUTSIDE Favorite, " + viewSolution.getName());
+                AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_FAVORITE_LIST_ITEM, imageParams, false);
             }
         });
 
 //        if (i % 2 == 0) {
 //            convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.grey));
 //        }
-
-        i++;
 
         return convertView;
     }

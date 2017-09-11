@@ -6,12 +6,12 @@
 2. Get the pictures to load // Done - Corp
 3. Advanced Search - Jared TODO
 4. Favorites and save it locally // Done - Corp
-5. Download the json initially when the app is installed. // Done - Corp
+5. Download the corp.andrew.tel.json initially when the app is installed. // Done - Corp
 6. Design of course - Jared, Shirshak, Andrew if need help with implementation
 7. Hyperlinks // No More
 8. Interactive Emails // Done - Corp
 9. Phone numbers // No More
-10. Handling syncing json/first boot/ internet bugs. //Done for now - Corp
+10. Handling syncing corp.andrew.tel.json/first boot/ internet bugs. //Done for now - Corp
 11. Download Images if wanted. - Checkbox on Syncing Dialog Maybe? "[] Download Images"// TODO
 12. Commenting and documenting.
 13. Efficiency

@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="activities.LoadScreenActivity"
+            android:name="corp.andrew.tel.activities.LoadScreenActivity"
             android:label="@string/app_name_capital"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -22,9 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="activities.SolutionActivity" />
-        <activity android:name="activities.MainActivity" />
-        <activity android:name="activities.AboutUsActivity" />
+        <activity android:name="corp.andrew.tel.activities.SolutionActivity" />
+        <activity android:name="corp.andrew.tel.activities.MainActivity" />
+        <activity android:name="corp.andrew.tel.activities.AboutUsActivity" />
     </application>
 
 

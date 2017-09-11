@@ -1,4 +1,4 @@
-package fragments;
+package corp.andrew.tel.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,7 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
-import activities.MainActivity;
+import corp.andrew.tel.activities.MainActivity;
 import corp.andrew.tel.R;
 
 /**

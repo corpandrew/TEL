@@ -1,4 +1,4 @@
-package activities;
+package corp.andrew.tel.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +17,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,9 +29,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.flurry.android.FlurryAgent;
+
+import java.util.HashMap;
 import java.util.List;
 
-import fragments.SyncDialogFragment;
+import corp.andrew.tel.analytics.AnalyticsHelper;
+import corp.andrew.tel.fragments.SyncDialogFragment;
 import corp.andrew.tel.ListItemAdapter;
 import corp.andrew.tel.R;
 import corp.andrew.tel.Sorting;
@@ -40,10 +45,11 @@ import json.Solution;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    // Storage Permissions variables
-    public MainActivity activity;
-    public List<Solution> allSolutions;
-    public SharedPreferences favoriteSharedPrefs;
+    private final static String FLURRY_APIKEY = "Q963TJRGRQC7DNTH9NHX";
+    private final static String LOG_TAG = MainActivity.class.getSimpleName();
+
+    private List<Solution> allSolutions;
+    private SharedPreferences favoriteSharedPrefs;
     private MenuItem mSearchAction;
     private boolean isSearchOpened = false;
     private EditText editSearch;
@@ -58,19 +64,24 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-//        long startTime = System.nanoTime(); // For logging the time it takes to create everything on the main activity
 
-//        FlurryAgent.init(this,"Q963TJRGRQC7DNTH9NHX");
+        FlurryAgent.setLogEnabled(true);
+        FlurryAgent.setLogLevel(Log.INFO);
 
-        activity = this;
+        FlurryAgent.setVersionName("1.0");
+        FlurryAgent.init(this, FLURRY_APIKEY);
+
+        Log.i(LOG_TAG, "Initialized FLurry Agent");
+
         super.onCreate(savedInstanceState);
 
         favoriteSharedPrefs = getSharedPreferences("favoritesFile", 0);
 
         setContentView(R.layout.activity_main);
 
-        if (getSupportActionBar() != null)
+        if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
+        }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);//Top bar with the settings and search
         toolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
@@ -98,23 +109,25 @@ public class MainActivity extends AppCompatActivity
 
         listView = (ListView) findViewById(R.id.ListView);
         // When the list is clicked
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Solution s = (Solution) listView.getItemAtPosition(position);
-                Intent i = new Intent(view.getContext(), SolutionActivity.class);
-                i.putExtra("solution", s);
-                i.putExtra("position", position);
-                startActivity(i);
-            }
-        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Solution s = (Solution) listView.getItemAtPosition(position);
+//
+//                HashMap<String, String> listItemParams = new HashMap<>(2);
+//                listItemParams.put("solution_name", s.getName());
+//                listItemParams.put("is_favorite", s.getIsFavorite() ? "true" : "false");
+//                AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_LIST_ITEM, listItemParams, false);
+//
+//                Intent i = new Intent(view.getContext(), SolutionActivity.class);
+//                i.putExtra("solution", s);
+//                i.putExtra("position", position);
+//
+//                startActivity(i);
+//            }
+//        });
 
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
-
-//        long endTime = System.nanoTime();
-
-//        long timeTaken = (endTime - startTime);
-//        double seconds = (double) timeTaken / 1000000000.0;
     }
 
     private int getCheckedItem(NavigationView navigationView) {
@@ -155,6 +168,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
+        AnalyticsHelper.logPageViews();
         listView.setAdapter(tempListItemAdapter);
         listView.setSelection(lastScrollIndex);
     }
@@ -175,9 +189,11 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_sync) {
+            AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_SYNC, null, false);
             checkForUpdates();
             return true;
         } else if (id == R.id.action_search) {
+            AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_SEARCH, null, false);
             handleMenuSearch();
             return true;
         } /*else if (id == R.id.action_filter) {
@@ -194,6 +210,7 @@ public class MainActivity extends AppCompatActivity
         Sorting sorting = new Sorting(allSolutions, favoriteSharedPrefs, getSupportFragmentManager());
         int id = item.getItemId();
         final ListView listView = (ListView) findViewById(R.id.ListView);
+        HashMap<String, String> navbarParams = new HashMap<>(2);
 
         if (id == R.id.nav_all_solutions) {
             currentListItemAdapter = new ListItemAdapter(this, 0, allSolutions, favoriteSharedPrefs, getSupportFragmentManager());
@@ -205,45 +222,57 @@ public class MainActivity extends AppCompatActivity
             listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>Favorites</i>");
             toolbar.setTitle(tooolbarText);
+            navbarParams.put("nav_bar", "favorites");
         } else if (id == R.id.nav_agriculture_tools) {
             currentListItemAdapter = sorting.getSolutionList("agriculture,tools", this);
             listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>Agriculture & Tools</i>");
             toolbar.setTitle(tooolbarText);
+            navbarParams.put("nav_bar", "agriculture_tools");
         } else if (id == R.id.nav_energy_cooking) {
             currentListItemAdapter = sorting.getSolutionList("energy,cooking", this);
             listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>Energy & Cooking</i>");
             toolbar.setTitle(tooolbarText);
+            navbarParams.put("nav_bar", "energy_cooking");
         } else if (id == R.id.nav_health_medical) {
             currentListItemAdapter = sorting.getSolutionList("health,medical", this);
             listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>Health & Medical</i>");
             toolbar.setTitle(tooolbarText);
+            navbarParams.put("nav_bar", "health_medical");
         } else if (id == R.id.nav_education_connectivity) {
             currentListItemAdapter = sorting.getSolutionList("education", this);
             listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>Education Solutions</i>");
             toolbar.setTitle(tooolbarText);
+            navbarParams.put("nav_bar", "education");
         } else if (id == R.id.nav_housing_transport) {
             currentListItemAdapter = sorting.getSolutionList("housing", this);
             listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>Housing</i>");
             toolbar.setTitle(tooolbarText);
+            navbarParams.put("nav_bar", "housing");
         } else if (id == R.id.nav_water_sanitation) {
             currentListItemAdapter = sorting.getSolutionList("water", this);
             listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>Water & Sanitation</i>");
             toolbar.setTitle(tooolbarText);
+            navbarParams.put("nav_bar", "water_sanitation");
         } else if (id == R.id.nav_additional) {
             currentListItemAdapter = sorting.getSolutionList("other", this);
             listView.setAdapter(currentListItemAdapter);
             tooolbarText = Html.fromHtml("<b>tel </b> / <i>Other Solutions</i>");
             toolbar.setTitle(tooolbarText);
+            navbarParams.put("nav_bar", "other");
         } else if (id == R.id.nav_about_us) {
             Intent i = new Intent(this, AboutUsActivity.class);
+            navbarParams.put("nav_bar", "about_us");
             startActivity(i);
         }
+
+        if(id != R.id.nav_all_solutions)
+            AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_NAV_BAR_ITEM, navbarParams, false);
 
         tempListItemAdapter = currentListItemAdapter;
 
@@ -251,6 +280,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Solution s = (Solution) listView.getItemAtPosition(position);
+                HashMap<String, String> listItemParams = new HashMap<>(2);
+                listItemParams.put("solution_name", s.getName());
+                listItemParams.put("is_favorite", s.getIsFavorite() ? "true" : "false");
+                AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_LIST_ITEM, listItemParams, false);
+
                 Intent i = new Intent(view.getContext(), SolutionActivity.class);
                 i.putExtra("solution", s);
                 startActivity(i);

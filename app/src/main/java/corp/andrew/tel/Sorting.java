@@ -59,14 +59,16 @@ public class Sorting implements Serializable {
         String solutionText;
         for (Solution s : allsolutionList) {
             solutionName = s.getName().toLowerCase();
-            if (s.getContactName() != null)
+            if (s.getContactName() != null) {
                 companyName = s.getContactName().toLowerCase();
-            else
+            }else {
                 companyName = "";
+            }
             solutionText = s.getTxt();
 
-            if (solutionName.contains(text.toLowerCase()) || companyName.contains(text.toLowerCase()) || solutionText.contains(text))
+            if (solutionName.contains(text.toLowerCase()) || companyName.contains(text.toLowerCase()) || solutionText.contains(text)) {
                 newSolutionsList.add(s);
+            }
         }
         return new ListItemAdapter(context, 0, newSolutionsList, sharedPreferences, fragmentManager);
     }

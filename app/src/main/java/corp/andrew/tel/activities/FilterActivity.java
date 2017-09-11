@@ -1,4 +1,4 @@
-package activities;
+package corp.andrew.tel.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +10,6 @@ import android.widget.CheckBox;
 import java.util.ArrayList;
 
 import corp.andrew.tel.R;
-import corp.andrew.tel.Sorting;
 
 /**
  * Created by corpa on Aug 19, 2016
@@ -42,8 +41,9 @@ public class FilterActivity extends AppCompatActivity {
                 //get all the filters and apply them to the current listitems.
                 //then close the activity and show them
 
-                if (radioButton.isChecked())
+                if (radioButton.isChecked()) {
                     checkedItems.add("");
+                }
             }
         });
 

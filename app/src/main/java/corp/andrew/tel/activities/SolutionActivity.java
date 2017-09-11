@@ -1,4 +1,4 @@
-package activities;
+package corp.andrew.tel.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -25,8 +26,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.HashMap;
 
-import fragments.ImagePopOutFragment;
+import corp.andrew.tel.analytics.AnalyticsHelper;
+import corp.andrew.tel.fragments.ImagePopOutFragment;
 import corp.andrew.tel.R;
 import json.Solution;
 
@@ -39,6 +42,8 @@ public class SolutionActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private ImageView favoritePicture;
     private Solution solutionIntoClass;
+
+    public static final String LOG_TAG = SolutionActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -113,8 +118,9 @@ public class SolutionActivity extends AppCompatActivity {
         //sets the picture of the favorite when you open the solution,.
         if (sharedPreferences.getBoolean(solutionIntoClass.getName(), false)) {
             favoritePicture.setImageResource(R.drawable.ic_favorite_white_24px);
-        } else
+        } else {
             favoritePicture.setImageResource(R.drawable.ic_favorite_border_white_24px);
+        }
 
         //clicking the favorites button does this
         favoritePicture.setOnClickListener(new View.OnClickListener() {
@@ -122,10 +128,8 @@ public class SolutionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!sharedPreferences.getBoolean(solutionIntoClass.getName(), false)) {
                     changeFavorite(solutionIntoClass.getName(), false);
-//                    FlurryAgent.logEvent("INSIDE FAVORITE FALSE, " + solutionIntoClass.getName());
                 } else {
                     changeFavorite(solutionIntoClass.getName(), true);
-//                    FlurryAgent.logEvent("INSIDE FAVORITE TRUE, " + solutionIntoClass.getName());
                 }
 
 
@@ -158,6 +162,12 @@ public class SolutionActivity extends AppCompatActivity {
                 ImagePopOutFragment imagePopOut = new ImagePopOutFragment();
                 imagePopOut.setArguments(bundle);
 
+
+                HashMap<String, String> imageParams = new HashMap<>(1);
+//                imageParams.put("image_name", solutionIntoClass.getPathToImage());
+                imageParams.put("solution_name", solutionIntoClass.getName());
+
+                AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_SOLUTION_IMAGE, imageParams, false);
                 imagePopOut.show(getSupportFragmentManager(), "imagePop");
 
             }
@@ -167,9 +177,15 @@ public class SolutionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String telWebsite = "http://www.techxlab.org" + solutionIntoClass.getHref();
+
+                HashMap<String, String> telSite = new HashMap<>(2);
+                telSite.put("site", telWebsite);
+                telSite.put("solution_name", solutionIntoClass.getName());
+
                 Intent websiteIntent = new Intent(Intent.ACTION_VIEW); // it's not ACTION_SEND
                 websiteIntent.setData(Uri.parse(telWebsite)); // or just "mailto:" for blank
                 websiteIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
+                AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_TEL_SITE, telSite, false);
                 startActivity(Intent.createChooser(websiteIntent, "Navigate to the TEL Website"));
             }
         });
@@ -178,10 +194,17 @@ public class SolutionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!"".equals(email)) {
+
+                    HashMap<String, String> emailParams = new HashMap<>(2);
+                    emailParams.put("email", email);
+                    emailParams.put("solution_name", solutionIntoClass.getName());
+
                     Intent emailIntent = new Intent(Intent.ACTION_SENDTO); // it's not ACTION_SEND
                     emailIntent.setType("text/plain");
                     emailIntent.setData(Uri.parse("mailto:" + email + "?cc=" + "notifications@techxlab.org"));
                     emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
+
+                    AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_EMAIL, emailParams, false);
                     startActivity(Intent.createChooser(emailIntent, "Send Email Using: "));
                 } else {
                     Toast.makeText(getApplicationContext(), "No Email Available", Toast.LENGTH_SHORT).show();
@@ -195,9 +218,15 @@ public class SolutionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!finalWebsite.isEmpty()) {
+
+                    HashMap<String, String> websiteParams = new HashMap<>(2);
+                    websiteParams.put("website", finalWebsite);
+                    websiteParams.put("solution_name", solutionIntoClass.getName());
+
                     Intent websiteIntent = new Intent(Intent.ACTION_VIEW); // it's not ACTION_SEND
                     websiteIntent.setData(Uri.parse(finalWebsite)); // or just "mailto:" for blank
                     websiteIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
+                    AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_PRODUCT_SITE, websiteParams, false);
                     startActivity(Intent.createChooser(websiteIntent, "Navigate To The Product Website"));
                 } else {
                     Toast.makeText(getApplicationContext(), "No Website Available", Toast.LENGTH_SHORT).show();
@@ -254,25 +283,38 @@ public class SolutionActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        AnalyticsHelper.logPageViews();
+        Log.i(LOG_TAG, "Logging page views");
+    }
+
     private void changeFavorite(final String name, boolean favorite) {
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        HashMap<String, String> favoriteParams = new HashMap<>(2);
+
+        if(solutionIntoClass != null) {
+            favoriteParams.put("solution_name", solutionIntoClass.getName());
+        }
 
         if (!sharedPreferences.getBoolean(solutionIntoClass.getName(), false)) {//if false set true
             favoritePicture.setImageResource(R.drawable.ic_favorite_white_24px);
+            favoriteParams.put("set_favorite", "true");
         } else {
             favoritePicture.setImageResource(R.drawable.ic_favorite_border_white_24px);
+            favoriteParams.put("set_favorite", "false");
         }
+
+
+        AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_SOLUTION_FAVORITE, favoriteParams, false);
 
         solutionIntoClass.setFavorite(!favorite);
         editor.putBoolean(name, !favorite);
         // Commit the edits!
         editor.apply();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
     }
 
     private Drawable getDrawableImageFromPath(String imagePath) {
@@ -287,7 +329,7 @@ public class SolutionActivity extends AppCompatActivity {
 
     private String getEmail(String contactText) {
         if (contactText.contains("[") && contactText.contains("]")) {
-            return contactText.substring(contactText.indexOf("[") + 1, contactText.indexOf("]"));
+            return contactText.substring(contactText.indexOf('[') + 1, contactText.indexOf(']'));
         } else {
             return "";
         }

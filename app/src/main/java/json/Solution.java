@@ -83,22 +83,24 @@ public class Solution implements SolutionInterface {
         this.referenceId = referenceId;
         this.pathToImage = pathToImage;
 
-        if (txt != null && txt.endsWith("\n\n")) {
+        String twoNewLines = "\n\n";
+
+        if (txt != null && txt.endsWith(twoNewLines)) {
             this.txt = txt.substring(0, txt.length() - 1);
         }
-        if (histDevTxt != null && histDevTxt.endsWith("\n\n")) {
+        if (histDevTxt != null && histDevTxt.endsWith(twoNewLines)) {
             this.histDevTxt = histDevTxt.substring(0, histDevTxt.length() - 1);
         }
 
-        if (availabilityTxt != null && availabilityTxt.endsWith("\n\n")) {
+        if (availabilityTxt != null && availabilityTxt.endsWith(twoNewLines)) {
             this.availabilityTxt = availabilityTxt.substring(0, availabilityTxt.length() - 2);//todo find a more efficient way
         }
 
-        if (specificationsTxt != null && specificationsTxt.endsWith("\n\n")) {
+        if (specificationsTxt != null && specificationsTxt.endsWith(twoNewLines)) {
             this.specificationsTxt = specificationsTxt.substring(0, specificationsTxt.length() - 2);
         }
 
-        if (additionalinfoTxt != null && additionalinfoTxt.endsWith("\n\n")) {
+        if (additionalinfoTxt != null && additionalinfoTxt.endsWith(twoNewLines)) {
             this.additionalinfoTxt = additionalinfoTxt.substring(0, additionalinfoTxt.length() - 2);
         }
         if (contactTxt != null && contactTxt.endsWith("\\n\\n")) {

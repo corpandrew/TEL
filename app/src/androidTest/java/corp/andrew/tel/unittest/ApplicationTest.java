@@ -2,7 +2,7 @@ package corp.andrew.tel.unittest;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-import activities.MainActivity;
+import corp.andrew.tel.activities.MainActivity;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>

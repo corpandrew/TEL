@@ -1,4 +1,4 @@
-package fragments;
+package corp.andrew.tel.fragments;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -16,7 +16,6 @@ import corp.andrew.tel.R;
  * Created by corpa on Aug 27, 2016
  */
 public class ImagePopOutFragment extends DialogFragment {
-    private Drawable imageDrawable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,7 +27,7 @@ public class ImagePopOutFragment extends DialogFragment {
 
         String path = getArguments().getString("imagePath");
 
-        imageDrawable = getDrawableImageFromPath(path);
+        Drawable imageDrawable = getDrawableImageFromPath(path);
 
         imageView.setImageDrawable(imageDrawable);
 
@@ -48,11 +47,6 @@ public class ImagePopOutFragment extends DialogFragment {
         imageView.requestLayout();*/
 
         return v;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     private Drawable getDrawableImageFromPath(String imagePath) {

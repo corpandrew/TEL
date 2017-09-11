@@ -14,8 +14,8 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import activities.LoadScreenActivity;
-import activities.MainActivity;
+import corp.andrew.tel.activities.LoadScreenActivity;
+import corp.andrew.tel.activities.MainActivity;
 
 /**
  * Created by corpa on Aug 19, 2016

@@ -1,4 +1,4 @@
-package activities;
+package corp.andrew.tel.activities;
 
 import android.Manifest;
 import android.app.Activity;
@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 
 import java.io.File;
 
-import fragments.NoInternetDialogFragment;
+import corp.andrew.tel.fragments.NoInternetDialogFragment;
 import corp.andrew.tel.DownloadFileTask;
 import corp.andrew.tel.R;
 
@@ -66,7 +66,7 @@ public class LoadScreenActivity extends AppCompatActivity {
                 //new DataDialogFragment().show(getFragmentManager(), "Are you sure you want to download using data?");//Todo fix this
                 startDownloadTask(sync, version); //if has connection start download activity
             } else {
-                new NoInternetDialogFragment().show(getFragmentManager(), "No Internet, can't download json.");//if it doesnt start no internet fragment
+                new NoInternetDialogFragment().show(getFragmentManager(), "No Internet, can't download corp.andrew.tel.json.");//if it doesnt start no internet fragment
             }
         }
     }

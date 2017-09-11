@@ -1,4 +1,4 @@
-package activities;
+package corp.andrew.tel.activities;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -33,10 +33,5 @@ public class AboutUsActivity extends AppCompatActivity {
                 startActivity(Intent.createChooser(emailIntent, "Send Email Using: "));
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
     }
 }
