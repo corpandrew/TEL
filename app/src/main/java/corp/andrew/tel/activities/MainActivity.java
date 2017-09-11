@@ -45,7 +45,7 @@ import json.Solution;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private final static String FLURRY_APIKEY = "Q963TJRGRQC7DNTH9NHX";
+    private final static String FLURRY_APIKEY = "GG4KQ8WHGGV2KV32N7QR";
     private final static String LOG_TAG = MainActivity.class.getSimpleName();
 
     private List<Solution> allSolutions;
