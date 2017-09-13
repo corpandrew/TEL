@@ -28,7 +28,7 @@ import corp.andrew.tel.R;
 
 public class LoadScreenActivity extends AppCompatActivity {
 
-    private static final String downloadString = "http://www.techxlab.org/pages.json";
+    private static final String downloadString = "https://www.techxlab.org/pages.json";
     private static final int REQUEST_PERMISSIONS = 1;
 
     private static final int NO_NETWORK_STATE = 0;

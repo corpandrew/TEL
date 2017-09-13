@@ -14,6 +14,11 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 import corp.andrew.tel.activities.LoadScreenActivity;
 import corp.andrew.tel.activities.MainActivity;
 
@@ -40,6 +45,29 @@ public class DownloadFileTask extends AsyncTask<String, Integer, String> {
             String root = Environment.getExternalStorageDirectory().toString();
 
             System.out.println("Downloading");
+
+            TrustManager[] trustAllCerts = new TrustManager[]{
+                    new X509TrustManager() {
+                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                            return null;
+                        }
+                        public void checkClientTrusted(
+                                java.security.cert.X509Certificate[] certs, String authType) {
+                        }
+                        public void checkServerTrusted(
+                                java.security.cert.X509Certificate[] certs, String authType) {
+                        }
+                    }
+            };
+
+// Activate the new trust manager
+            try {
+                SSLContext sc = SSLContext.getInstance("SSL");
+                sc.init(null, trustAllCerts, new java.security.SecureRandom());
+                HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            } catch (Exception e) {
+            }
+
             URL url = new URL(f_url[1]);
 
             URLConnection conection = url.openConnection();
@@ -88,7 +116,6 @@ public class DownloadFileTask extends AsyncTask<String, Integer, String> {
         super.onPostExecute(result);
         System.out.println("Downloaded");
         sharedPreferences.edit().putBoolean("firstRun", false).apply();
-
         Intent intent = new Intent(activity, MainActivity.class);
         activity.startActivity(intent);
     }

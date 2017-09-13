@@ -32,6 +32,7 @@ import corp.andrew.tel.analytics.AnalyticsHelper;
 import corp.andrew.tel.fragments.ImagePopOutFragment;
 import corp.andrew.tel.R;
 import json.Solution;
+import json.SolutionNew;
 
 /**
  * Created by corpa on Aug 19, 2016
@@ -101,7 +102,7 @@ public class SolutionActivity extends AppCompatActivity {
 
 //        final String website = getWebsite(solutionIntoClass.getAdditionalinfoTxt());
         String website = solutionIntoClass.getAdditionalinfoProductURL();
-        if(website == null){
+        if (website == null) {
             website = "";
         }
         final String email = getEmail(solutionIntoClass.getContactTxt());
@@ -109,7 +110,7 @@ public class SolutionActivity extends AppCompatActivity {
         assert solutionIntoClass != null;
 
         solutionImage.setImageDrawable(getDrawableImageFromPath(solutionIntoClass.getPathToImage()));
-        Bitmap bitmap = ((BitmapDrawable)solutionImage.getDrawable()).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) solutionImage.getDrawable()).getBitmap();
         Palette palette = new Palette.Builder(bitmap).generate();
         solutionImage.setBackgroundColor(palette.getMutedColor(Color.parseColor("#ffffff")));
 
@@ -131,8 +132,6 @@ public class SolutionActivity extends AppCompatActivity {
                 } else {
                     changeFavorite(solutionIntoClass.getName(), true);
                 }
-
-
             }
         });
 
@@ -147,8 +146,8 @@ public class SolutionActivity extends AppCompatActivity {
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                    float transparency = (float)verticalOffset/-250;
-                    toolbarTitle.setAlpha(-1.25f+transparency);
+                float transparency = (float) verticalOffset / -250;
+                toolbarTitle.setAlpha(-1.25f + transparency);
             }
         });
 
@@ -162,13 +161,12 @@ public class SolutionActivity extends AppCompatActivity {
                 ImagePopOutFragment imagePopOut = new ImagePopOutFragment();
                 imagePopOut.setArguments(bundle);
 
-
                 HashMap<String, String> imageParams = new HashMap<>(1);
 //                imageParams.put("image_name", solutionIntoClass.getPathToImage());
                 imageParams.put("solution_name", solutionIntoClass.getName());
 
-                AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_SOLUTION_IMAGE, imageParams, false);
                 imagePopOut.show(getSupportFragmentManager(), "imagePop");
+                AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_SOLUTION_IMAGE, imageParams, false);
 
             }
         });
@@ -296,7 +294,7 @@ public class SolutionActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         HashMap<String, String> favoriteParams = new HashMap<>(2);
 
-        if(solutionIntoClass != null) {
+        if (solutionIntoClass != null) {
             favoriteParams.put("solution_name", solutionIntoClass.getName());
         }
 

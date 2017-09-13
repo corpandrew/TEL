@@ -41,6 +41,7 @@ import corp.andrew.tel.R;
 import corp.andrew.tel.Sorting;
 import json.Parsing;
 import json.Solution;
+import json.SolutionNew;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -106,6 +107,7 @@ public class MainActivity extends AppCompatActivity
         Parsing parsing = new Parsing(this);// creates the parsing object
 
         allSolutions = parsing.parseJson();
+        System.out.println(allSolutions);
 
         listView = (ListView) findViewById(R.id.ListView);
         // When the list is clicked
@@ -128,6 +130,8 @@ public class MainActivity extends AppCompatActivity
 //        });
 
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
+
+//        listView.setFastScrollEnabled(false);
     }
 
     private int getCheckedItem(NavigationView navigationView) {
@@ -270,7 +274,6 @@ public class MainActivity extends AppCompatActivity
             navbarParams.put("nav_bar", "about_us");
             startActivity(i);
         }
-
         if(id != R.id.nav_all_solutions)
             AnalyticsHelper.logEvent(AnalyticsHelper.EVENT_NAV_BAR_ITEM, navbarParams, false);
 
@@ -381,7 +384,7 @@ public class MainActivity extends AppCompatActivity
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Solution s = (Solution) listView.getItemAtPosition(position);
+                SolutionNew s = (SolutionNew) listView.getItemAtPosition(position);
                 Intent i = new Intent(view.getContext(), SolutionActivity.class);
                 i.putExtra("solution", s);
                 startActivity(i);

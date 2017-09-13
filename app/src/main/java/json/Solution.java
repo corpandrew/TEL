@@ -7,7 +7,7 @@ package json;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Solution implements SolutionInterface {
+public class Solution implements SolutionInterface{
 
     private int referenceId;
 

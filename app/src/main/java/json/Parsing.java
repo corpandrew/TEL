@@ -4,7 +4,16 @@ import android.content.res.AssetManager;
 import android.os.Environment;
 import android.util.Log;
 
+import com.google.common.base.Strings;
 import com.google.common.io.Files;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,6 +23,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +34,7 @@ import corp.andrew.tel.activities.MainActivity;
 /**
  * Created by corpa on Aug 19, 2016
  */
-public class Parsing {
+public class Parsing{
     private String version = "file.json"; //TODO Get version from website
     private AssetManager assetManager;
 
@@ -215,6 +225,15 @@ public class Parsing {
         return solutionList;
     }
 
+    public ArrayList<SolutionNew> parseJsonNew() {
+//        Gson g = new Gson();
+        String jsonFromFile = loadJSON();
+        System.out.println(jsonFromFile);
+        GsonBuilder b = new GsonBuilder();
+        b.registerTypeAdapter(SolutionNew.class, new Deserializer());
+        return b.create().fromJson(jsonFromFile, SolutionObj.class).getSolutions();
+    }
+
     /**
      * Gets the imageFile path if it exists in assets, if it doesn't returns the Coolbot image
      *
@@ -259,5 +278,6 @@ public class Parsing {
     public String getVersion() {
         return version;
     }
+
 
 }

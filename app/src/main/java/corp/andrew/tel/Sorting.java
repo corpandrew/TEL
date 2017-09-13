@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import json.Solution;
+import json.SolutionNew;
 
 /**
  * Created by corpa on Aug 19, 2016

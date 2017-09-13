@@ -21,6 +21,7 @@ import java.util.List;
 import corp.andrew.tel.analytics.AnalyticsHelper;
 import corp.andrew.tel.fragments.ImagePopOutFragment;
 import json.Solution;
+import json.SolutionNew;
 
 /**
  * Created by corpa on Aug 21, 2016

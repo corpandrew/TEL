@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/orange</item>
+        <!--<item name="android:scrollbarTrackVertical">@drawable/scroll_track</item>-->
+        <!--<item name="android:scrollbarThumbVertical">@drawable/scrollbar</item>-->
         <item name="android:fastScrollThumbDrawable">@drawable/scrollbar</item>
     </style>
 
