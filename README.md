@@ -1,7 +1,6 @@
 # TEL
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/4536e25b24064a1bbb116d1b7fb4f3a2)](https://www.codacy.com/app/corpa/TEL?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=corpandrew/TEL&amp;utm_campaign=Badge_Grade)
-[![Build Status](https://travis-ci.org/corpandrew/TEL.svg?branch=master)](https://travis-ci.org/corpandrew/TEL)
 
 1. Advanced Search - Jared TODO
 2. Design of course - Jared, Shirshak, Andrew if need help with implementation
